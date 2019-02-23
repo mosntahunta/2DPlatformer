@@ -224,7 +224,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 346686157}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: a9083fbeff8b3734194290d76953e94e, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -243,6 +243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9c0341707b4f0d4a95762b7d0ec49af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  horizontalSpeed: 5
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
