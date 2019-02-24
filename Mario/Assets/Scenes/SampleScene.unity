@@ -160,8 +160,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_LinearDrag: 0.2
+  m_AngularDrag: 0
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -244,7 +244,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9c0341707b4f0d4a95762b7d0ec49af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  horizontalSpeed: 5
+  runSpeed: 5
+  acceleration: 10
+  drag: 2
+  epsilon: 1
 --- !u!95 &346686163
 Animator:
   serializedVersion: 3

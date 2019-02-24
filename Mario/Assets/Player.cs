@@ -6,6 +6,9 @@ using UnityStandardAssets.CrossPlatformInput;
 public class Player : MonoBehaviour
 {
     [SerializeField] float runSpeed = 5.0f;
+    [SerializeField] float acceleration = 10.0f;
+    [SerializeField] float drag = 2.5f;
+    [SerializeField] float epsilon = 0.2f;
 
     Rigidbody2D myRigidBody2D;
     Animator animator;
@@ -23,34 +26,66 @@ public class Player : MonoBehaviour
     void Update()
     {
         Run();
-        FlipSprite();
+        //FlipSprite();
     }
 
     private void Run()
     {
-        float control_throw = CrossPlatformInputManager.GetAxis("Horizontal"); // -1 to 1
-        float horizontal_velocity = control_throw * runSpeed;
-        Vector2 player_velocity = new Vector2(horizontal_velocity, myRigidBody2D.velocity.y);
-        myRigidBody2D.velocity = player_velocity;
+        bool change_direction = false;
 
-        bool player_has_hspeed = Mathf.Abs(myRigidBody2D.velocity.x) > Mathf.Epsilon;
-        animator.SetBool("Running", player_has_hspeed);
+        // limit speed
+        if (Mathf.Abs(myRigidBody2D.velocity.x) > runSpeed)
+        {
+            myRigidBody2D.velocity = new Vector2(runSpeed * Mathf.Sign(myRigidBody2D.velocity.x), myRigidBody2D.velocity.y); ;
+        }
+
+        // input
+        float control_throw = CrossPlatformInputManager.GetAxis("Horizontal"); // -1 to 1
+        if (control_throw != 0.0f)
+        {
+            float direction = Mathf.Sign(control_throw);
+
+            if (direction != Mathf.Sign(myRigidBody2D.velocity.x))
+            {
+                change_direction = true;
+                myRigidBody2D.velocity = new Vector2(myRigidBody2D.velocity.x / 2, myRigidBody2D.velocity.y);
+            }
+
+            FlipSprite(direction);
+        }
+
+        // apply force or drag
+        if (control_throw != 0.0f)
+        {
+            myRigidBody2D.drag = 0;
+            float horizontal_force = control_throw * acceleration;
+            Vector2 force = new Vector2(horizontal_force, myRigidBody2D.velocity.y);
+            myRigidBody2D.AddForce(force);
+        }
+        else
+        {
+            myRigidBody2D.drag = drag;
+        }
+
+        // animation
+        if (change_direction)
+        {
+            animator.SetBool("Turning", control_throw != 0.0f);
+        }
+        else
+        {
+            bool player_has_hspeed = Mathf.Abs(myRigidBody2D.velocity.x) > epsilon || control_throw != 0.0f;
+            animator.SetBool("Turning", false);
+            animator.SetBool("Running", player_has_hspeed);
+            animator.speed = Mathf.Max(0.5f, 2 * Mathf.Abs(myRigidBody2D.velocity.x) / runSpeed);
+        }
     }
 
-    private void FlipSprite()
+    private void FlipSprite( float direction )
     {
-        // if the player is moving horizontally, reverse the scaling of the x-axis
+        scaleVector.x = direction;
+        scaleVector.y = 1f;
 
-        bool player_has_hspeed = Mathf.Abs(myRigidBody2D.velocity.x) > Mathf.Epsilon;
-
-        if (player_has_hspeed)
-        {
-            float direction = Mathf.Sign(myRigidBody2D.velocity.x);
-
-            scaleVector.x = direction;
-            scaleVector.y = 1f;
-
-            transform.localScale = scaleVector;
-        }
+        transform.localScale = scaleVector;
     }
 }
