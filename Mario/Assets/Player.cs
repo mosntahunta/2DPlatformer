@@ -7,12 +7,16 @@ public class Player : MonoBehaviour
 {
     [SerializeField] float runSpeed = 5.0f;
     [SerializeField] float acceleration = 10.0f;
+    [SerializeField] float jumpSpeed = 10.0f;
     [SerializeField] float drag = 2.5f;
     [SerializeField] float epsilon = 0.2f;
 
     Rigidbody2D myRigidBody2D;
     Animator animator;
     Vector2 scaleVector;
+    BoxCollider2D boxColliderCache;
+
+    private bool isFalling = false;
 
     // Start is called before the first frame update
     void Start()
@@ -20,13 +24,23 @@ public class Player : MonoBehaviour
         myRigidBody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         scaleVector = new Vector2(0f, 0f);
+        boxColliderCache = GetComponent<BoxCollider2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        Jump();
+        if (myRigidBody2D.velocity.y < -0.1)
+        {
+            isFalling = true;
+        }
+        else
+        {
+            isFalling = false;
+        }
+        
         Run();
-        //FlipSprite();
     }
 
     private void Run()
@@ -41,7 +55,9 @@ public class Player : MonoBehaviour
 
         // input
         float control_throw = CrossPlatformInputManager.GetAxis("Horizontal"); // -1 to 1
-        if (control_throw != 0.0f)
+        bool apply_movement = Mathf.Abs(control_throw) > 0.15f;
+
+        if (apply_movement)
         {
             float direction = Mathf.Sign(control_throw);
 
@@ -55,11 +71,11 @@ public class Player : MonoBehaviour
         }
 
         // apply force or drag
-        if (control_throw != 0.0f)
+        if (apply_movement)
         {
             myRigidBody2D.drag = 0;
             float horizontal_force = control_throw * acceleration;
-            Vector2 force = new Vector2(horizontal_force, myRigidBody2D.velocity.y);
+            Vector2 force = new Vector2(horizontal_force, 0.0f);
             myRigidBody2D.AddForce(force);
         }
         else
@@ -68,16 +84,36 @@ public class Player : MonoBehaviour
         }
 
         // animation
-        if (change_direction)
+        if (TouchingGround())
         {
-            animator.SetBool("Turning", control_throw != 0.0f);
+            if (change_direction)
+            {
+                animator.SetBool("Turning", apply_movement);
+            }
+            else
+            {
+                bool player_has_hspeed = Mathf.Abs(myRigidBody2D.velocity.x) > epsilon || control_throw != 0.0f;
+                animator.SetBool("Turning", false);
+                animator.SetBool("Running", player_has_hspeed);
+                animator.speed = Mathf.Max(0.5f, 2 * Mathf.Abs(myRigidBody2D.velocity.x) / runSpeed);
+            }
         }
-        else
+    }
+
+    private void Jump()
+    {
+        if (!TouchingGround()){ return;}
+
+        if (CrossPlatformInputManager.GetButtonDown("Jump"))
         {
-            bool player_has_hspeed = Mathf.Abs(myRigidBody2D.velocity.x) > epsilon || control_throw != 0.0f;
-            animator.SetBool("Turning", false);
-            animator.SetBool("Running", player_has_hspeed);
-            animator.speed = Mathf.Max(0.5f, 2 * Mathf.Abs(myRigidBody2D.velocity.x) / runSpeed);
+            animator.SetBool("Jumping", true);
+            Vector2 jump_velocity = new Vector2(myRigidBody2D.velocity.x, jumpSpeed);
+            myRigidBody2D.velocity = jump_velocity;
+        }
+
+        if (isFalling && TouchingGround())
+        {
+            animator.SetBool("Jumping", false);
         }
     }
 
@@ -87,5 +123,10 @@ public class Player : MonoBehaviour
         scaleVector.y = 1f;
 
         transform.localScale = scaleVector;
+    }
+
+    private bool TouchingGround()
+    {
+        return boxColliderCache.IsTouchingLayers(LayerMask.GetMask("Foreground"));
     }
 }
