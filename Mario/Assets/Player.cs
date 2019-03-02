@@ -102,13 +102,15 @@ public class Player : MonoBehaviour
 
     private void Jump()
     {
-        if (!TouchingGround()){ return;}
-
         if (CrossPlatformInputManager.GetButtonDown("Jump"))
         {
             animator.SetBool("Jumping", true);
-            Vector2 jump_velocity = new Vector2(myRigidBody2D.velocity.x, jumpSpeed);
-            myRigidBody2D.velocity = jump_velocity;
+
+            if (TouchingGround())
+            {
+                Vector2 jump_velocity = new Vector2(myRigidBody2D.velocity.x, jumpSpeed);
+                myRigidBody2D.velocity = jump_velocity;
+            }
         }
 
         if (isFalling && TouchingGround())
