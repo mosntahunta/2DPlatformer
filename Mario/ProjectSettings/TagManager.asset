@@ -15,7 +15,7 @@ TagManager:
   - 
   - Foreground
   - Player
-  - 
+  - Goomba
   - 
   - 
   - 
@@ -46,4 +46,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 3461548369
+    locked: 0
+  - name: Goomba
+    uniqueID: 3618672257
     locked: 0
