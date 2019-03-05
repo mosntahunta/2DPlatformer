@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
+using Cinemachine;
 
 public class Player : MonoBehaviour
 {
@@ -10,10 +11,17 @@ public class Player : MonoBehaviour
     [SerializeField] float jumpSpeed = 10.0f;
     [SerializeField] float drag = 2.5f;
     [SerializeField] float epsilon = 0.2f;
+    [SerializeField] Vector2 deathKick = new Vector2(0f, 10f);
+    [SerializeField] GameObject mainCamera; // todo - this is temporary, will be moved to the game session manager
 
+    // State
+    bool isAlive = true;
+
+    // References
     Rigidbody2D myRigidBody2D;
     Animator animator;
     Vector2 scaleVector;
+    CapsuleCollider2D capsuleColliderCache;
     BoxCollider2D boxColliderCache;
 
     private bool isFalling = false;
@@ -25,11 +33,14 @@ public class Player : MonoBehaviour
         animator = GetComponent<Animator>();
         scaleVector = new Vector2(0f, 0f);
         boxColliderCache = GetComponent<BoxCollider2D>();
+        capsuleColliderCache = GetComponent<CapsuleCollider2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!isAlive) { return; }
+
         Jump();
         if (myRigidBody2D.velocity.y < -0.1)
         {
@@ -41,6 +52,7 @@ public class Player : MonoBehaviour
         }
         
         Run();
+        Die();
     }
 
     private void Run()
@@ -116,6 +128,43 @@ public class Player : MonoBehaviour
         if (isFalling && TouchingGround())
         {
             animator.SetBool("Jumping", false);
+        }
+    }
+
+    private void Die()
+    {
+        if (capsuleColliderCache.IsTouchingLayers(LayerMask.GetMask("Enemy", "Hazard")))
+        {
+            // stop all other enemies' motion
+            // todo - this logic should go into the game controller class
+            foreach(GameObject gameObject in GameObject.FindGameObjectsWithTag("Enemy"))
+            {
+                Rigidbody2D rigidBody = gameObject.GetComponent<Rigidbody2D>();
+                if (rigidBody)
+                {
+                    rigidBody.velocity = Vector2.zero;
+                    rigidBody.angularVelocity = 0.0f;
+
+                    MonoBehaviour script = gameObject.GetComponent<MonoBehaviour>();
+                    script.enabled = false;
+
+                    Animator animator = gameObject.GetComponent<Animator>();
+                    foreach (AnimatorControllerParameter parameter in animator.parameters)
+                    {
+                        animator.SetBool(parameter.name, false);
+                    }
+                    animator.StopPlayback();
+                }
+            }
+            isAlive = false;
+            myRigidBody2D.velocity = deathKick;
+            animator.SetTrigger("Dying");
+            mainCamera.GetComponent<CinemachineBrain>().enabled = false;
+        }
+        else if (capsuleColliderCache.IsTouchingLayers(LayerMask.GetMask("Fall")))
+        {
+            isAlive = false;
+            mainCamera.GetComponent<CinemachineBrain>().enabled = false;
         }
     }
 
