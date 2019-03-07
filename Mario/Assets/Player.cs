@@ -158,7 +158,7 @@ public class Player : MonoBehaviour
             }
             isAlive = false;
             myRigidBody2D.velocity = deathKick;
-            animator.SetTrigger("Dying");
+            animator.SetBool("Dying", true);
             mainCamera.GetComponent<CinemachineBrain>().enabled = false;
         }
         else if (capsuleColliderCache.IsTouchingLayers(LayerMask.GetMask("Fall")))
