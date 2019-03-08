@@ -3141,11 +3141,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2420720149336614759, guid: f6fc08bf8c3e72f4785e3d23a2425e8c,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 3.0699997
-      objectReference: {fileID: 0}
     - target: {fileID: 2420720147979943720, guid: f6fc08bf8c3e72f4785e3d23a2425e8c,
         type: 3}
       propertyPath: m_ChildCameras.Array.size
@@ -3156,21 +3151,11 @@ PrefabInstance:
       propertyPath: m_AnimatedTarget
       value: 
       objectReference: {fileID: 1402157966}
-    - target: {fileID: 2420720148944974374, guid: f6fc08bf8c3e72f4785e3d23a2425e8c,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 3.0699997
-      objectReference: {fileID: 0}
     - target: {fileID: 2420720148944974377, guid: f6fc08bf8c3e72f4785e3d23a2425e8c,
         type: 3}
       propertyPath: m_Follow
       value: 
       objectReference: {fileID: 1402157971}
-    - target: {fileID: 2420720148685613749, guid: f6fc08bf8c3e72f4785e3d23a2425e8c,
-        type: 3}
-      propertyPath: m_ScreenY
-      value: 0.8
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f6fc08bf8c3e72f4785e3d23a2425e8c, type: 3}
 --- !u!1001 &3628596635779979580
