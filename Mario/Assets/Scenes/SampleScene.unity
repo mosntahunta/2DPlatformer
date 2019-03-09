@@ -127,6 +127,7 @@ GameObject:
   - component: {fileID: 614058017}
   - component: {fileID: 614058018}
   - component: {fileID: 614058019}
+  - component: {fileID: 614058020}
   m_Layer: 10
   m_Name: Goomba
   m_TagString: Enemy
@@ -264,8 +265,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0f49db1e5a449d4da31b7eae7cfcdf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  runSpeed: 2
-  initialDirection: -1
 --- !u!61 &614058019
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -292,6 +291,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.06664133, y: 0.59616804}
   m_EdgeRadius: 0
+--- !u!114 &614058020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 614058012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a8053b7b5678054fb48143d3d190867, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  horizontal_speed: 2
+  initialDirection: -1
 --- !u!1 &672416213 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2420720149336614756, guid: f6fc08bf8c3e72f4785e3d23a2425e8c,

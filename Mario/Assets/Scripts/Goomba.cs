@@ -4,61 +4,32 @@ using UnityEngine;
 
 public class Goomba : MonoBehaviour
 {
-    [SerializeField] float runSpeed = 5.0f;
-    [SerializeField] float initialDirection = -1.0f;
-
     // State
     bool isAlive = true;
 
     Rigidbody2D myRigidBody2D;
     Animator animator;
-    BoxCollider2D myBoxCollider2D;
     CapsuleCollider2D myCapsuleCollider2D;
     GameObject player;
+    Patrol patrol;
     
     void Start()
     {
         myRigidBody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        myBoxCollider2D = GetComponent<BoxCollider2D>();
         myCapsuleCollider2D = GetComponent<CapsuleCollider2D>();
         player = GameObject.FindGameObjectWithTag("Player");
-        transform.localScale = new Vector2(initialDirection, 1f);
-
-        if (player && myBoxCollider2D)
-        {
-            foreach (var collider in player.GetComponentsInChildren<Collider2D>())
-            {
-                Physics2D.IgnoreCollision(collider, myBoxCollider2D);
-            }
-        }
+        patrol = GetComponent<Patrol>();
     }
     
     void Update()
     {
         if (!isAlive) { return; }
-        Run();
+
+        patrol.Proceed();
     }
 
-    private void Run()
-    {
-        if (isFacingRight())
-        {
-            myRigidBody2D.velocity = new Vector2(runSpeed, myRigidBody2D.velocity.y);
-        }
-        else
-        {
-            myRigidBody2D.velocity = new Vector2(-runSpeed, myRigidBody2D.velocity.y);
-        }
-        animator.SetBool("Running", true);
-    }
-
-    void OnTriggerExit2D(Collider2D collider)
-    {
-        float direction = Mathf.Sign(myRigidBody2D.velocity.x);
-        transform.localScale = new Vector2(-direction, 1f);
-    }
-
+    // handle death when colliding with the player's feet
     void OnCollisionEnter2D(Collision2D collision)
     {
         isAlive = false;
@@ -71,10 +42,5 @@ public class Goomba : MonoBehaviour
             Physics2D.IgnoreCollision(collider, myCapsuleCollider2D);
         }
         Destroy(gameObject, 1);
-    }
-
-    bool isFacingRight()
-    {
-        return transform.localScale.x > 0;
     }
 }
