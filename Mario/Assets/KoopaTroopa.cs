@@ -5,7 +5,7 @@ using UnityEngine;
 public class KoopaTroopa : MonoBehaviour
 {
     // State
-    bool isAlive = true;
+    bool shell = false;
 
     Rigidbody2D myRigidBody2D;
     Animator animator;
@@ -24,7 +24,7 @@ public class KoopaTroopa : MonoBehaviour
 
     void Update()
     {
-        if (!isAlive) { return; }
+        if (shell) { return; }
 
         patrol.Proceed();
     }
@@ -32,15 +32,24 @@ public class KoopaTroopa : MonoBehaviour
     // handle death when colliding with the player's feet
     void OnCollisionEnter2D(Collision2D collision)
     {
-        //isAlive = false;
-        //Rigidbody2D player_rigidbody = player.GetComponent<Rigidbody2D>();
-        //player_rigidbody.velocity = new Vector2(player_rigidbody.velocity.x, 15.0f);
-        //myRigidBody2D.velocity = new Vector2(0.0f, 0.0f);
-        //animator.SetTrigger("Dying");
-        //foreach (var collider in player.GetComponentsInChildren<Collider2D>())
-        //{
-        //    Physics2D.IgnoreCollision(collider, myCapsuleCollider2D);
-        //}
-        //Destroy(gameObject, 1);
+        if (collision.gameObject.tag == "Player")
+        {
+            if (!shell)
+            {
+                Collider2D collider = collision.collider;
+
+                Vector3 contactPoint = collision.GetContact(0).point;
+                Vector3 center = collider.bounds.center;
+
+                if (contactPoint.y <= center.y)
+                {
+                    Rigidbody2D player_rigidbody = player.GetComponent<Rigidbody2D>();
+                    player_rigidbody.velocity = new Vector2(player_rigidbody.velocity.x, 15.0f);
+                    myRigidBody2D.velocity = new Vector2(0.0f, myRigidBody2D.velocity.y);
+                    animator.SetBool("Shell", true);
+                    shell = true;
+                }
+            }
+        }
     }
 }
