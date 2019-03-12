@@ -26,6 +26,7 @@ public class Goomba : MonoBehaviour
     {
         if (!isAlive) { return; }
 
+        animator.SetBool("Running", true);
         patrol.Proceed();
     }
 

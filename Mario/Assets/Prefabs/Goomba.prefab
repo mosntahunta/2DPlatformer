@@ -191,5 +191,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a8053b7b5678054fb48143d3d190867, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  horizontal_speed: 2
+  horizontalVelocity: 2
   initialDirection: -1

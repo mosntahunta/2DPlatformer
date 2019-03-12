@@ -16,8 +16,8 @@ using UnityEngine;
 /// 
 public class Patrol : MonoBehaviour
 {
-    [SerializeField] float horizontal_speed = 5.0f;
-    [SerializeField] float initialDirection = -1.0f;
+    [SerializeField] float horizontalSpeed = 5.0f;
+    [SerializeField] float direction = -1.0f;
 
     Rigidbody2D myRigidBody2D;
     Animator animator;
@@ -33,7 +33,7 @@ public class Patrol : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
 
         // set the initial direction of the game object
-        transform.localScale = new Vector2(initialDirection, 1f);
+        transform.localScale = new Vector2(direction, 1f);
 
         // ignore the obstacle detection for the player game object
         if (player && myBoxCollider2D)
@@ -45,28 +45,23 @@ public class Patrol : MonoBehaviour
         }
     }
 
+    public void SetVelocity(float direction, float horizontalSpeed)
+    {
+        this.direction = direction;
+        this.horizontalSpeed = horizontalSpeed;
+        transform.localScale = new Vector2(direction, 1f);
+    }
+
     // Begin applying velocity to the game object in a direction it is facing
     public void Proceed()
     {
-        if (isFacingRight())
-        {
-            myRigidBody2D.velocity = new Vector2(horizontal_speed, myRigidBody2D.velocity.y);
-        }
-        else
-        {
-            myRigidBody2D.velocity = new Vector2(-horizontal_speed, myRigidBody2D.velocity.y);
-        }
-        animator.SetBool("Running", true);
+        myRigidBody2D.velocity = new Vector2(direction * horizontalSpeed, myRigidBody2D.velocity.y);
     }
-
-    bool isFacingRight()
-    {
-        return transform.localScale.x > 0;
-    }
-
+    
     void OnTriggerExit2D(Collider2D collider)
     {
-        float direction = Mathf.Sign(myRigidBody2D.velocity.x);
-        transform.localScale = new Vector2(-direction, 1f);
+        // change direction
+        direction = -direction;
+        transform.localScale = new Vector2(direction, 1f);
     }
 }
