@@ -20,7 +20,6 @@ public class Patrol : MonoBehaviour
     [SerializeField] float direction = -1.0f;
 
     Rigidbody2D myRigidBody2D;
-    Animator animator;
     BoxCollider2D myBoxCollider2D;
     GameObject player;
 
@@ -28,7 +27,6 @@ public class Patrol : MonoBehaviour
     void Start()
     {
         myRigidBody2D = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
         myBoxCollider2D = GetComponent<BoxCollider2D>();
         player = GameObject.FindGameObjectWithTag("Player");
 

@@ -109,17 +109,19 @@ public class KoopaTroopa : MonoBehaviour
             if (state == State.IDLE || state == State.PATROL)
             {
                 Collider2D collider = collision.collider;
-
-                Vector3 contactPoint = collision.GetContact(0).point;
-                Vector3 center = collider.bounds.center;
-
-                if (contactPoint.y <= center.y)
+                if (collider.GetType() == typeof(BoxCollider2D))
                 {
-                    Rigidbody2D player_rigidbody = player.GetComponent<Rigidbody2D>();
-                    player_rigidbody.velocity = new Vector2(player_rigidbody.velocity.x, 15.0f);
-                    myRigidBody2D.velocity = new Vector2(0.0f, myRigidBody2D.velocity.y);
-                    
-                    state = State.SHELL_IDLE;
+                    Vector3 contactPoint = collision.GetContact(0).point;
+                    Vector3 center = collider.bounds.center;
+
+                    if (contactPoint.y <= center.y)
+                    {
+                        Rigidbody2D player_rigidbody = player.GetComponent<Rigidbody2D>();
+                        player_rigidbody.velocity = new Vector2(player_rigidbody.velocity.x, 15.0f);
+                        myRigidBody2D.velocity = new Vector2(0.0f, myRigidBody2D.velocity.y);
+
+                        state = State.SHELL_IDLE;
+                    }
                 }
             }
             else if (state == State.SHELL_IDLE)
