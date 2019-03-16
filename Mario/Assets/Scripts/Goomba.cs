@@ -33,23 +33,26 @@ public class Goomba : MonoBehaviour
     // handle death when colliding with the player's feet
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Collider2D player_collider = collision.collider;
-
-        Vector3 contactPoint = collision.GetContact(0).point;
-        Vector3 center = player_collider.bounds.center;
-
-        if (contactPoint.y <= center.y)
+        if (collision.gameObject.tag == player.gameObject.tag)
         {
-            isAlive = false;
-            Rigidbody2D player_rigidbody = player.GetComponent<Rigidbody2D>();
-            player_rigidbody.velocity = new Vector2(player_rigidbody.velocity.x, 15.0f);
-            myRigidBody2D.velocity = new Vector2(0.0f, 0.0f);
-            animator.SetTrigger("Dying");
-            foreach (var collider in player.GetComponentsInChildren<Collider2D>())
+            Collider2D player_collider = collision.collider;
+
+            Vector3 contactPoint = collision.GetContact(0).point;
+            Vector3 center = player_collider.bounds.center;
+
+            if (contactPoint.y <= center.y)
             {
-                Physics2D.IgnoreCollision(collider, myCapsuleCollider2D);
+                isAlive = false;
+                Rigidbody2D player_rigidbody = player.GetComponent<Rigidbody2D>();
+                player_rigidbody.velocity = new Vector2(player_rigidbody.velocity.x, 15.0f);
+                myRigidBody2D.velocity = new Vector2(0.0f, 0.0f);
+                animator.SetTrigger("Dying");
+                foreach (var collider in player.GetComponentsInChildren<Collider2D>())
+                {
+                    Physics2D.IgnoreCollision(collider, myCapsuleCollider2D);
+                }
+                Destroy(gameObject, 1);
             }
-            Destroy(gameObject, 1);
         }
     }
 }
