@@ -149,6 +149,8 @@ public class Player : MonoBehaviour
     {
         if (!isAlive) { return; }
 
+        //animator.SetLayerWeight(animator.GetLayerIndex("Adult Layer"), 1);
+
         NextState();
     }
 
