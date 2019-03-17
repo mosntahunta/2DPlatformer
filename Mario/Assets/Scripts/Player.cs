@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     
     // State
     bool isAlive = true;
+    float transformScale = 1.0f; // 1.0 for child, 2.0 for adult and fire
 
     // References
     Rigidbody2D myRigidBody2D;
@@ -23,9 +24,17 @@ public class Player : MonoBehaviour
     Vector2 scaleVector;
     CapsuleCollider2D capsuleColliderCache;
     BoxCollider2D boxColliderCache;
+    SpriteRenderer spriteRenderer;
+
+    public Type marioType;
+    public enum Type
+    {
+        CHILD,
+        ADULT,
+        FIRE
+    }
 
     public State state;
-
     public enum State
     {
         IDLE,
@@ -141,6 +150,7 @@ public class Player : MonoBehaviour
         scaleVector = new Vector2(0f, 0f);
         boxColliderCache = GetComponent<BoxCollider2D>();
         capsuleColliderCache = GetComponent<CapsuleCollider2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         state = State.IDLE;
     }
@@ -148,8 +158,6 @@ public class Player : MonoBehaviour
     void Update()
     {
         if (!isAlive) { return; }
-
-        //animator.SetLayerWeight(animator.GetLayerIndex("Adult Layer"), 1);
 
         NextState();
     }
@@ -249,8 +257,8 @@ public class Player : MonoBehaviour
 
     void FlipSprite( float direction )
     {
-        scaleVector.x = direction;
-        scaleVector.y = 1f;
+        scaleVector.x = direction * transformScale;
+        scaleVector.y = transformScale;
 
         transform.localScale = scaleVector;
     }
@@ -269,6 +277,28 @@ public class Player : MonoBehaviour
                 state = State.IDLE;
                 animator.SetBool("Jumping", false);
             }
+        }
+    }
+
+    void ChangeToAdult()
+    {
+        if (marioType != Type.ADULT)
+        {
+            marioType = Type.ADULT;
+            transformScale = 2f;
+            transform.localScale = new Vector2(transformScale, transformScale);
+            animator.SetLayerWeight(animator.GetLayerIndex("Adult Layer"), 1.0f);
+        }
+    }
+
+    void ChangeToChild()
+    {
+        if (marioType != Type.CHILD)
+        {
+            marioType = Type.CHILD;
+            transformScale = 1f;
+            transform.localScale = new Vector2(transformScale, transformScale);
+            animator.SetLayerWeight(animator.GetLayerIndex("Adult Layer"), 0.0f);
         }
     }
 }
