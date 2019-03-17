@@ -39,10 +39,10 @@ public class Goomba : MonoBehaviour
 
             if (player_collider.GetType() == typeof(BoxCollider2D))
             {
-                Vector3 contactPoint = collision.GetContact(0).point;
-                Vector3 center = player_collider.bounds.center;
+                Vector2 contactPoint = collision.GetContact(0).point;
+                Vector2 center = player_collider.bounds.center;
 
-                if (contactPoint.y <= center.y)
+                if (contactPoint.y < center.y)
                 {
                     isAlive = false;
                     Rigidbody2D player_rigidbody = player.GetComponent<Rigidbody2D>();

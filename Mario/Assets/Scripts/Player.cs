@@ -272,7 +272,7 @@ public class Player : MonoBehaviour
 
     bool TouchingGround()
     {
-        return boxColliderCache.IsTouchingLayers(LayerMask.GetMask("Foreground"));
+        return boxColliderCache.IsTouchingLayers(LayerMask.GetMask("Foreground")) || boxColliderCache.IsTouchingLayers(LayerMask.GetMask("Brick"));
     }
 
     void OnCollisionEnter2D(Collision2D collision)

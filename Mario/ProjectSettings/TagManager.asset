@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Item
+  - Brick
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - Hazard
   - Fall
   - Interactable
-  - 
+  - Brick
   - 
   - 
   - 
