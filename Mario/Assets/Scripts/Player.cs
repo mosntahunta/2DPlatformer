@@ -270,6 +270,20 @@ public class Player : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        if (collision.gameObject.CompareTag("Item"))
+        {
+            switch (collision.gameObject.name)
+            {
+                case "Mushroom":
+                    ChangeToAdult();
+                    break;
+                default:
+                    break;
+            }
+
+            Destroy(collision.gameObject);
+        }
+
         if (collision.otherCollider.GetType() == typeof(BoxCollider2D))
         {
             if (state == State.JUMP)
