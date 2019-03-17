@@ -246,7 +246,14 @@ public class Player : MonoBehaviour
     {
         if (capsuleColliderCache.IsTouchingLayers(LayerMask.GetMask("Enemy", "Hazard")))
         {
-            state = State.DEATH;
+            if (marioType == Type.ADULT || marioType == Type.FIRE)
+            {
+                ChangeToChild();
+            }
+            else
+            {
+                state = State.DEATH;
+            }
         }
         else if (capsuleColliderCache.IsTouchingLayers(LayerMask.GetMask("Fall")))
         {
