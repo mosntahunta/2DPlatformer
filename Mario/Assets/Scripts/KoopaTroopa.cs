@@ -157,7 +157,7 @@ public class KoopaTroopa : MonoBehaviour
             }
             else if (state == State.SHELL_IDLE)
             {
-                gameObject.layer = LayerMask.NameToLayer("Interactable");
+                gameObject.layer = LayerMask.NameToLayer("Friend");
             }
             
         }

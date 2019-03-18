@@ -277,9 +277,9 @@ public class Player : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Item"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Interactable"))
         {
-            switch (collision.gameObject.name)
+            switch (collision.gameObject.tag)
             {
                 case "Mushroom":
                     ChangeToAdult();

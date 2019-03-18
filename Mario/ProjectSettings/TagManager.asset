@@ -5,8 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
-  - Item
   - Brick
+  - Mushroom
+  - Item
   layers:
   - Default
   - TransparentFX
@@ -23,7 +24,7 @@ TagManager:
   - Fall
   - Interactable
   - Brick
-  - 
+  - Friend
   - 
   - 
   - 
@@ -47,12 +48,18 @@ TagManager:
   - name: Foreground
     uniqueID: 870362607
     locked: 0
+  - name: Interactable
+    uniqueID: 2057893801
+    locked: 0
+  - name: Hazard
+    uniqueID: 822884811
+    locked: 0
   - name: Enemy
     uniqueID: 3618672257
     locked: 0
   - name: Player
     uniqueID: 3461548369
     locked: 0
-  - name: Hazard
-    uniqueID: 822884811
+  - name: Brick
+    uniqueID: 2040273129
     locked: 0
