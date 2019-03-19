@@ -10,13 +10,14 @@ public class Brick : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
+            Player player = collision.gameObject.GetComponent<Player>();
             Vector2 contactPoint = collision.GetContact(0).point;
             Vector2 center = collision.collider.bounds.center;
 
             float minX = collision.collider.bounds.min.x;
             float maxX = collision.collider.bounds.max.x;
 
-            if (contactPoint.y > center.y && contactPoint.x > minX && contactPoint.x < maxX)
+            if (contactPoint.y > center.y && contactPoint.x > minX && contactPoint.x < maxX && player.marioType != Player.Type.CHILD)
             {
                 GameObject obj = Instantiate(destroyedBricks, transform.position, transform.rotation);
                 Destroy(gameObject);
