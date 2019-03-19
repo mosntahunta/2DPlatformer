@@ -203,7 +203,10 @@ public class Player : MonoBehaviour
                 myRigidBody2D.velocity = new Vector2(myRigidBody2D.velocity.x / 2, myRigidBody2D.velocity.y);
             }
 
-            FlipSprite(direction);
+            if (TouchingGround())
+            {
+                FlipSprite(direction);
+            }
         }
 
         // apply force or drag
