@@ -106,7 +106,7 @@ public class KoopaTroopa : MonoBehaviour
     {
         if (collision.gameObject.tag == player.gameObject.tag)
         {
-            if (state == State.IDLE || state == State.PATROL)
+            if (state != State.SHELL_IDLE)
             {
                 Collider2D collider = collision.collider;
                 if (collider.GetType() == typeof(BoxCollider2D))
@@ -130,7 +130,7 @@ public class KoopaTroopa : MonoBehaviour
 
                 Vector3 contactPoint = collision.GetContact(0).point;
                 Vector3 center = collider.bounds.center;
-                
+
                 if (contactPoint.x < center.x)
                 {
                     patrol.SetVelocity(1.0f, shellSpeed);
@@ -139,9 +139,13 @@ public class KoopaTroopa : MonoBehaviour
                 {
                     patrol.SetVelocity(-1.0f, shellSpeed);
                 }
-                
+
                 state = State.SHELL_PATROL;
             }
+        }
+        else if (state == State.SHELL_PATROL && collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            Destroy(collision.gameObject);
         }
     }
 
@@ -153,7 +157,7 @@ public class KoopaTroopa : MonoBehaviour
         {
             if (state == State.SHELL_PATROL)
             {
-                gameObject.layer = LayerMask.NameToLayer("Enemy");
+                gameObject.layer = LayerMask.NameToLayer("Hazard");
             }
             else if (state == State.SHELL_IDLE)
             {

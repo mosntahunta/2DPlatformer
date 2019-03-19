@@ -58,8 +58,11 @@ public class Patrol : MonoBehaviour
     
     void OnTriggerExit2D(Collider2D collider)
     {
-        // change direction
-        direction = -direction;
-        transform.localScale = new Vector2(direction, 1f);
+        if (collider.gameObject.layer == LayerMask.NameToLayer("Foreground"))
+        {
+            // change direction
+            direction = -direction;
+            transform.localScale = new Vector2(direction, 1f);
+        }
     }
 }
