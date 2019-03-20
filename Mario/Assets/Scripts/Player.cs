@@ -304,6 +304,17 @@ public class Player : MonoBehaviour
         }
     }
 
+    void ChangeToFire()
+    {
+        if (marioType != Type.FIRE)
+        {
+            marioType = Type.FIRE;
+            transformScale = (marioType == Type.ADULT) ? 1f : 2f;
+            transform.localScale = new Vector2(transformScale, transformScale);
+            animator.SetLayerWeight(animator.GetLayerIndex("Fire Layer"), 1.0f);
+        }
+    }
+
     void ChangeToAdult()
     {
         if (marioType != Type.ADULT)
