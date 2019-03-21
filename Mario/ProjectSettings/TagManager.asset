@@ -25,7 +25,7 @@ TagManager:
   - Interactable
   - Brick
   - Friend
-  - 
+  - Projectile
   - 
   - 
   - 
@@ -62,4 +62,7 @@ TagManager:
     locked: 0
   - name: Brick
     uniqueID: 2040273129
+    locked: 0
+  - name: Projectile
+    uniqueID: 1083393085
     locked: 0

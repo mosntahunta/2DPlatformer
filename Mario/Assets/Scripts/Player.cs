@@ -11,8 +11,12 @@ public class Player : MonoBehaviour
     [SerializeField] float jumpSpeed = 10.0f;
     [SerializeField] float drag = 2.5f;
     [SerializeField] float epsilon = 0.2f;
+    [SerializeField] float fireRate = 0.1f;
     [SerializeField] Vector2 deathKick = new Vector2(0f, 10f);
     [SerializeField] GameObject mainCamera; // todo - this is temporary, will be moved to the game session manager
+    [SerializeField] GameObject projectile;
+
+    private float nextFireTime = 0.0f;
     
     // State
     bool isAlive = true;
@@ -51,6 +55,7 @@ public class Player : MonoBehaviour
             CheckForJump();
             CheckForMovement();
             CheckForDeath();
+            LaunchProjectile();
         }
         yield return 0;
     }
@@ -62,6 +67,7 @@ public class Player : MonoBehaviour
             CheckForJump();
             CheckForMovement();
             CheckForDeath();
+            LaunchProjectile();
         }
         yield return 0;
     }
@@ -73,6 +79,7 @@ public class Player : MonoBehaviour
             CheckForJump();
             CheckForMovement();
             CheckForDeath();
+            LaunchProjectile();
         }
         yield return 0;
     }
@@ -83,6 +90,7 @@ public class Player : MonoBehaviour
         {
             CheckForMovement();
             CheckForDeath();
+            LaunchProjectile();
         }
         yield return 0;
     }
@@ -160,6 +168,17 @@ public class Player : MonoBehaviour
         if (!isAlive) { return; }
 
         NextState();
+    }
+
+    void LaunchProjectile()
+    {
+        if(marioType == Type.FIRE && CrossPlatformInputManager.GetButtonDown("Fire") && Time.time > nextFireTime)
+        {
+            nextFireTime = Time.time + fireRate;
+            GameObject fireball = Instantiate(projectile, transform.position, transform.rotation);
+            Rigidbody2D rb = fireball.GetComponent<Rigidbody2D>();
+            rb.AddForce(new Vector2(transform.localScale.x * 500.0f, -30.0f));
+        }
     }
 
     void CheckForJump()
@@ -285,7 +304,7 @@ public class Player : MonoBehaviour
             switch (collision.gameObject.tag)
             {
                 case "Mushroom":
-                    ChangeToAdult();
+                    ChangeToFire();
                     break;
                 default:
                     break;
