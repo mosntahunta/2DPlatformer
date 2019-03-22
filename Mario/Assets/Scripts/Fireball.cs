@@ -29,22 +29,19 @@ public class Fireball : MonoBehaviour
             collision.gameObject.layer == LayerMask.NameToLayer("Friend") ||
             collision.gameObject.layer == LayerMask.NameToLayer("Hazard"))
         {
+            // Destroy the game object that collides with the fireball
             Destroy(collision.gameObject);
             Impact();
         }
         else if (collision.gameObject.layer == LayerMask.NameToLayer("Foreground") ||
                  collision.gameObject.layer == LayerMask.NameToLayer("Brick"))
         {
-            // get the point of contact
+            // Reflect the fireball against the surface
             ContactPoint2D contact = collision.GetContact(0);
 
-            // reflect our old velocity off the contact point's normal vector
             Vector2 reflectedVelocity = Vector2.Reflect(previousVelocity, contact.normal);
-
-            // assign the reflected velocity back to the rigidbody
             myRigidBody2D.velocity = reflectedVelocity;
 
-            // rotate the object by the same amount we changed its velocity
             Quaternion rotation = Quaternion.FromToRotation(previousVelocity, reflectedVelocity);
             transform.rotation = rotation * transform.rotation;
 
