@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8816442631752410521}
   - component: {fileID: 8816442631752410525}
   - component: {fileID: 8816442631752410524}
-  - component: {fileID: 4004599250520775249}
+  - component: {fileID: 6715302966768739398}
   m_Layer: 16
   m_Name: Fireball
   m_TagString: Untagged
@@ -50,7 +50,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0
-  m_GravityScale: 0.1
+  m_GravityScale: 0.2
   m_Material: {fileID: 6200000, guid: a9083fbeff8b3734194290d76953e94e, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -135,10 +135,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ea24a8848c8390449a99a8963712d91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  topCollider: {fileID: 4004599250520775249}
-  bottomCollider: {fileID: 0}
---- !u!61 &4004599250520775249
-BoxCollider2D:
+--- !u!70 &6715302966768739398
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -150,16 +148,6 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.019937396, y: -0.008613646}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.3694656, y: 0.3767339}
-  m_EdgeRadius: 0
+  m_Offset: {x: 0.019424677, y: -0.019424915}
+  m_Size: {x: 0.3748746, y: 0.3748746}
+  m_Direction: 0

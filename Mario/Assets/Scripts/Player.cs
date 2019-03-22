@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     [SerializeField] float drag = 2.5f;
     [SerializeField] float epsilon = 0.2f;
     [SerializeField] float fireRate = 0.1f;
+    [SerializeField] float projectileSpeed = 10.0f;
     [SerializeField] Vector2 deathKick = new Vector2(0f, 10f);
     [SerializeField] GameObject mainCamera; // todo - this is temporary, will be moved to the game session manager
     [SerializeField] GameObject projectile;
@@ -177,7 +178,7 @@ public class Player : MonoBehaviour
             nextFireTime = Time.time + fireRate;
             GameObject fireball = Instantiate(projectile, transform.position, transform.rotation);
             Rigidbody2D rb = fireball.GetComponent<Rigidbody2D>();
-            rb.AddForce(new Vector2(transform.localScale.x * 500.0f, -30.0f));
+            rb.velocity = new Vector2(transform.localScale.x * projectileSpeed, 0.0f);
         }
     }
 
