@@ -25,22 +25,33 @@ public class Fireball : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        // get the point of contact
-        ContactPoint2D contact = collision.GetContact(0);
-
-        // reflect our old velocity off the contact point's normal vector
-        Vector2 reflectedVelocity = Vector2.Reflect(previousVelocity, contact.normal);
-        
-        // assign the reflected velocity back to the rigidbody
-        myRigidBody2D.velocity = reflectedVelocity;
-
-        // rotate the object by the same amount we changed its velocity
-        Quaternion rotation = Quaternion.FromToRotation(previousVelocity, reflectedVelocity);
-        transform.rotation = rotation * transform.rotation;
-        
-        if (Mathf.Sign(previousVelocity.x) != Mathf.Sign(reflectedVelocity.x))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy") ||
+            collision.gameObject.layer == LayerMask.NameToLayer("Friend") ||
+            collision.gameObject.layer == LayerMask.NameToLayer("Hazard"))
         {
+            Destroy(collision.gameObject);
             Impact();
+        }
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("Foreground") ||
+                 collision.gameObject.layer == LayerMask.NameToLayer("Brick"))
+        {
+            // get the point of contact
+            ContactPoint2D contact = collision.GetContact(0);
+
+            // reflect our old velocity off the contact point's normal vector
+            Vector2 reflectedVelocity = Vector2.Reflect(previousVelocity, contact.normal);
+
+            // assign the reflected velocity back to the rigidbody
+            myRigidBody2D.velocity = reflectedVelocity;
+
+            // rotate the object by the same amount we changed its velocity
+            Quaternion rotation = Quaternion.FromToRotation(previousVelocity, reflectedVelocity);
+            transform.rotation = rotation * transform.rotation;
+
+            if (Mathf.Sign(previousVelocity.x) != Mathf.Sign(reflectedVelocity.x))
+            {
+                Impact();
+            }
         }
     }
 
