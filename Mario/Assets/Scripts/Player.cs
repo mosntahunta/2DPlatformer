@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     [SerializeField] float projectileSpeed = 10.0f;
     [SerializeField] float transformTime = 1.0f;
     [SerializeField] float pushUpVelocity = 15.0f;
+    [SerializeField] float deathGravityScale = 0.8f;
     [SerializeField] Vector2 deathKick = new Vector2(0f, 10f);
     [SerializeField] GameObject mainCamera; // todo - this is temporary, will be moved to the game session manager
     [SerializeField] GameObject projectile;
@@ -105,10 +106,13 @@ public class Player : MonoBehaviour
         if (state == State.DEATH)
         {
             isAlive = false;
+            gameObject.layer = LayerMask.NameToLayer("PlayerDeath");
+            myRigidBody2D.gravityScale = deathGravityScale;
             myRigidBody2D.velocity = deathKick;
             animator.SetBool("Dying", true);
             mainCamera.GetComponent<CinemachineBrain>().enabled = false;
 
+            // either remove this or refactor it
             foreach (GameObject gameObject in GameObject.FindGameObjectsWithTag("Enemy"))
             {
                 Rigidbody2D rigidBody = gameObject.GetComponent<Rigidbody2D>();
