@@ -9,7 +9,6 @@ public class Goomba : MonoBehaviour
 
     Rigidbody2D myRigidBody2D;
     Animator animator;
-    CapsuleCollider2D myCapsuleCollider2D;
     GameObject player;
     Patrol patrol;
     
@@ -17,7 +16,6 @@ public class Goomba : MonoBehaviour
     {
         myRigidBody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        myCapsuleCollider2D = GetComponent<CapsuleCollider2D>();
         player = GameObject.FindGameObjectWithTag("Player");
         patrol = GetComponent<Patrol>();
     }
@@ -45,17 +43,18 @@ public class Goomba : MonoBehaviour
                 if (contactPoint.y < center.y)
                 {
                     isAlive = false;
-                    Rigidbody2D player_rigidbody = player.GetComponent<Rigidbody2D>();
-                    player_rigidbody.velocity = new Vector2(player_rigidbody.velocity.x, 15.0f);
-                    myRigidBody2D.velocity = new Vector2(0.0f, 0.0f);
-                    animator.SetTrigger("Dying");
-                    foreach (var collider in player.GetComponentsInChildren<Collider2D>())
-                    {
-                        Physics2D.IgnoreCollision(collider, myCapsuleCollider2D);
-                    }
-                    Destroy(gameObject, 1);
+                    player.GetComponent<Player>().PushUp();
+                    Death();
                 }
             }
         }
+    }
+
+    void Death()
+    {
+        myRigidBody2D.velocity = new Vector2(0.0f, 0.0f);
+        gameObject.layer = LayerMask.NameToLayer("EnemyDeath");
+        animator.SetTrigger("Dying");
+        Destroy(gameObject, 1);
     }
 }

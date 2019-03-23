@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     [SerializeField] float fireRate = 0.1f;
     [SerializeField] float projectileSpeed = 10.0f;
     [SerializeField] float transformTime = 1.0f;
+    [SerializeField] float pushUpVelocity = 15.0f;
     [SerializeField] Vector2 deathKick = new Vector2(0f, 10f);
     [SerializeField] GameObject mainCamera; // todo - this is temporary, will be moved to the game session manager
     [SerializeField] GameObject projectile;
@@ -48,6 +49,12 @@ public class Player : MonoBehaviour
         TURN,
         JUMP,
         DEATH
+    }
+
+    // called by other game object scripts to push the player up upon interaction
+    public void PushUp()
+    {
+        myRigidBody2D.velocity = new Vector2(myRigidBody2D.velocity.x, pushUpVelocity);
     }
 
     IEnumerator IdleState()
@@ -329,13 +336,10 @@ public class Player : MonoBehaviour
             mainCamera.GetComponent<CinemachineBrain>().enabled = false;
         }
 
-        if (collision.otherCollider.GetType() == typeof(BoxCollider2D))
+        if (collision.otherCollider.GetType() == typeof(BoxCollider2D) && state == State.JUMP)
         {
-            if (state == State.JUMP)
-            {
-                state = State.IDLE;
-                animator.SetBool("Jumping", false);
-            }
+            state = State.IDLE;
+            animator.SetBool("Jumping", false);
         }
     }
 
