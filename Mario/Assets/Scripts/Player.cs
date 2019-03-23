@@ -305,6 +305,9 @@ public class Player : MonoBehaviour
             switch (collision.gameObject.tag)
             {
                 case "Mushroom":
+                    ChangeToAdult();
+                    break;
+                case "Flower":
                     ChangeToFire();
                     break;
                 default:
@@ -337,7 +340,7 @@ public class Player : MonoBehaviour
 
     void ChangeToAdult()
     {
-        if (marioType != Type.ADULT)
+        if (marioType == Type.CHILD)
         {
             marioType = Type.ADULT;
             transformScale = 2f;

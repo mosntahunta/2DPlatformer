@@ -8,6 +8,7 @@ TagManager:
   - Brick
   - Mushroom
   - Item
+  - Flower
   layers:
   - Default
   - TransparentFX

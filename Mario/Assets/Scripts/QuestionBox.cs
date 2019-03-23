@@ -4,11 +4,20 @@ using UnityEngine;
 
 public class QuestionBox : MonoBehaviour
 {
-    [SerializeField] Mushroom mushroomPrefab; 
+    public float itemSpawnTime = 1.5f;
+    public Mushroom mushroomPrefab;
+    public Flower flowerPrefab;
+    public ItemType itemType;
+
     Animator animator;
     GameObject player;
-    
-    
+
+    public enum ItemType
+    {
+        MUSHROOM,
+        FLOWER
+    }
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -30,10 +39,26 @@ public class QuestionBox : MonoBehaviour
                 animator.SetBool("Dying", true);
 
                 SpriteRenderer renderer = GetComponent<SpriteRenderer>();
-                Mushroom mushroom = Instantiate(mushroomPrefab, transform.position, Quaternion.identity);
-                Vector2 destination = new Vector2(mushroom.transform.position.x, mushroom.transform.position.y + renderer.bounds.size.y);
-                IEnumerator coroutine = mushroom.SpawnToPosition(mushroom.transform, destination, 1.5f);
-                StartCoroutine(coroutine);
+
+                switch (itemType)
+                {
+                    case ItemType.MUSHROOM:
+                    {
+                        Mushroom mushroom = Instantiate(mushroomPrefab, transform.position, Quaternion.identity);
+                        Vector2 destination = new Vector2(mushroom.transform.position.x, mushroom.transform.position.y + renderer.bounds.size.y);
+                        IEnumerator coroutine = mushroom.SpawnToPosition(mushroom.transform, destination, itemSpawnTime);
+                        StartCoroutine(coroutine);
+                    }
+                    break;
+                    case ItemType.FLOWER:
+                    {
+                        Flower flower = Instantiate(flowerPrefab, transform.position, Quaternion.identity);
+                        Vector2 destination = new Vector2(flower.transform.position.x, flower.transform.position.y + renderer.bounds.size.y);
+                        IEnumerator coroutine = flower.SpawnToPosition(flower.transform, destination, itemSpawnTime);
+                        StartCoroutine(coroutine);
+                    }
+                    break;
+                }
             }
         }
     }

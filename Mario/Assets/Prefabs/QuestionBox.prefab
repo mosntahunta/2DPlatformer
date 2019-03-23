@@ -161,5 +161,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e17f5cbeb934de40bd7bdb4eddad4b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemSpawnTime: 1.5
   mushroomPrefab: {fileID: 2411275270591903566, guid: ffd8f46e2a35ef245815020fc3c4f2b9,
     type: 3}
+  flowerPrefab: {fileID: 4203624677061870862, guid: d78b501031b3df24192082047605ed3c,
+    type: 3}
+  itemType: 1
