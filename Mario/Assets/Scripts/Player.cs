@@ -183,15 +183,22 @@ public class Player : MonoBehaviour
     {
         if (CrossPlatformInputManager.GetButtonDown("Jump"))
         {
-            state = State.JUMP;
-            animator.SetBool("Running", false);
-            animator.SetBool("Turning", false);
-            animator.SetBool("Jumping", true);
+            Vector2 rayStart = new Vector2(transform.position.x, transform.position.y);
+            Vector2 rayEnd = new Vector2(rayStart.x, rayStart.y + capsuleColliderCache.size.y / 2 + 0.5f);
+            RaycastHit2D hit = Physics2D.Linecast(rayStart, rayEnd, LayerMask.GetMask("Brick", "Foreground"));
 
-            if (TouchingGround())
+            if (hit.collider == null)
             {
-                Vector2 jump_velocity = new Vector2(myRigidBody2D.velocity.x, jumpSpeed);
-                myRigidBody2D.velocity = jump_velocity;
+                state = State.JUMP;
+                animator.SetBool("Running", false);
+                animator.SetBool("Turning", false);
+                animator.SetBool("Jumping", true);
+
+                if (TouchingGround())
+                {
+                    Vector2 jump_velocity = new Vector2(myRigidBody2D.velocity.x, jumpSpeed);
+                    myRigidBody2D.velocity = jump_velocity;
+                }
             }
         }
     }
