@@ -157,7 +157,7 @@ public class KoopaTroopa : MonoBehaviour
         {
             if (state == State.SHELL_PATROL)
             {
-                gameObject.layer = LayerMask.NameToLayer("Hazard");
+                gameObject.layer = LayerMask.NameToLayer("Neutral");
             }
             else if (state == State.SHELL_IDLE)
             {

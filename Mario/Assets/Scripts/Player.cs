@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     [SerializeField] float epsilon = 0.2f;
     [SerializeField] float fireRate = 0.1f;
     [SerializeField] float projectileSpeed = 10.0f;
+    [SerializeField] float transformTime = 1.0f;
     [SerializeField] Vector2 deathKick = new Vector2(0f, 10f);
     [SerializeField] GameObject mainCamera; // todo - this is temporary, will be moved to the game session manager
     [SerializeField] GameObject projectile;
@@ -55,7 +56,6 @@ public class Player : MonoBehaviour
         {
             CheckForJump();
             CheckForMovement();
-            CheckForDeath();
             LaunchProjectile();
         }
         yield return 0;
@@ -67,7 +67,6 @@ public class Player : MonoBehaviour
         {
             CheckForJump();
             CheckForMovement();
-            CheckForDeath();
             LaunchProjectile();
         }
         yield return 0;
@@ -79,7 +78,6 @@ public class Player : MonoBehaviour
         {
             CheckForJump();
             CheckForMovement();
-            CheckForDeath();
             LaunchProjectile();
         }
         yield return 0;
@@ -90,7 +88,6 @@ public class Player : MonoBehaviour
         if (state == State.JUMP)
         {
             CheckForMovement();
-            CheckForDeath();
             LaunchProjectile();
         }
         yield return 0;
@@ -265,26 +262,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    void CheckForDeath()
-    {
-        if (capsuleColliderCache.IsTouchingLayers(LayerMask.GetMask("Enemy", "Hazard")))
-        {
-            if (marioType == Type.ADULT || marioType == Type.FIRE)
-            {
-                ChangeToChild();
-            }
-            else
-            {
-                state = State.DEATH;
-            }
-        }
-        else if (capsuleColliderCache.IsTouchingLayers(LayerMask.GetMask("Fall")))
-        {
-            isAlive = false;
-            mainCamera.GetComponent<CinemachineBrain>().enabled = false;
-        }
-    }
-
     void FlipSprite( float direction )
     {
         scaleVector.x = direction * transformScale;
@@ -300,7 +277,8 @@ public class Player : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Interactable"))
+        int targetLayer = collision.gameObject.layer;
+        if (targetLayer == LayerMask.NameToLayer("Interactable"))
         {
             switch (collision.gameObject.tag)
             {
@@ -313,8 +291,33 @@ public class Player : MonoBehaviour
                 default:
                     break;
             }
+            
+            StartCoroutine(Transforming());
 
             Destroy(collision.gameObject);
+        }
+        else if (targetLayer == LayerMask.NameToLayer("Enemy") || 
+                 targetLayer == LayerMask.NameToLayer("Hazard") || 
+                 targetLayer == LayerMask.NameToLayer("Neutral"))
+        {
+            Collider2D collider = collision.otherCollider;
+            if (collider.GetType() == typeof(CapsuleCollider2D))
+            {
+                if (marioType == Type.ADULT || marioType == Type.FIRE)
+                {
+                    ChangeToChild();
+                    StartCoroutine(Transforming());
+                }
+                else
+                {
+                    state = State.DEATH;
+                }
+            }
+        }
+        else if (targetLayer == LayerMask.NameToLayer("Fall"))
+        {
+            isAlive = false;
+            mainCamera.GetComponent<CinemachineBrain>().enabled = false;
         }
 
         if (collision.otherCollider.GetType() == typeof(BoxCollider2D))
@@ -325,6 +328,13 @@ public class Player : MonoBehaviour
                 animator.SetBool("Jumping", false);
             }
         }
+    }
+
+    IEnumerator Transforming()
+    {
+        gameObject.layer = LayerMask.NameToLayer("Untouchable");
+        yield return new WaitForSeconds(transformTime);
+        gameObject.layer = LayerMask.NameToLayer("Player");
     }
 
     void ChangeToFire()
