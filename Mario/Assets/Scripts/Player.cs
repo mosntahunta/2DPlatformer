@@ -107,8 +107,13 @@ public class Player : MonoBehaviour
         {
             isAlive = false;
             gameObject.layer = LayerMask.NameToLayer("PlayerDeath");
+
             myRigidBody2D.gravityScale = deathGravityScale;
             myRigidBody2D.velocity = deathKick;
+
+            animator.SetBool("Running", false);
+            animator.SetBool("Turning", false);
+            animator.SetBool("Jumping", false);
             animator.SetBool("Dying", true);
             mainCamera.GetComponent<CinemachineBrain>().enabled = false;
 
@@ -316,23 +321,17 @@ public class Player : MonoBehaviour
 
             Destroy(collision.gameObject);
         }
-        else if (targetLayer == LayerMask.NameToLayer("Enemy") || 
-                 targetLayer == LayerMask.NameToLayer("Hazard") || 
+        else if (targetLayer == LayerMask.NameToLayer("Enemy") ||
                  targetLayer == LayerMask.NameToLayer("Neutral"))
         {
-            Collider2D collider = collision.otherCollider;
-            if (collider.GetType() == typeof(CapsuleCollider2D))
+            if (collision.otherCollider.GetType() == typeof(CapsuleCollider2D))
             {
-                if (marioType == Type.ADULT || marioType == Type.FIRE)
-                {
-                    ChangeToChild();
-                    StartCoroutine(Transforming());
-                }
-                else
-                {
-                    state = State.DEATH;
-                }
+                PlayerIsHit();
             }
+        }
+        else if (targetLayer == LayerMask.NameToLayer("Hazard"))
+        {
+            PlayerIsHit();
         }
         else if (targetLayer == LayerMask.NameToLayer("Fall"))
         {
@@ -344,6 +343,19 @@ public class Player : MonoBehaviour
         {
             state = State.IDLE;
             animator.SetBool("Jumping", false);
+        }
+    }
+
+    void PlayerIsHit()
+    {
+        if (marioType == Type.ADULT || marioType == Type.FIRE)
+        {
+            ChangeToChild();
+            StartCoroutine(Transforming());
+        }
+        else
+        {
+            state = State.DEATH;
         }
     }
 
