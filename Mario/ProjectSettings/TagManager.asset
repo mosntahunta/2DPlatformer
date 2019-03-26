@@ -32,7 +32,7 @@ TagManager:
   - Neutral
   - EnemyDeath
   - PlayerDeath
-  - 
+  - LevelTrigger
   - 
   - 
   - 

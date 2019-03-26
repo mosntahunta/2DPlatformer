@@ -73,16 +73,16 @@ MonoBehaviour:
       m_RotationOrder: 4
   m_CustomBlends: {fileID: 0}
   m_ParentHash:
-  - m_Hash: 1580246484
-    m_ParentHash: 756556552
-  - m_Hash: -279661642
-    m_ParentHash: 756556552
-  - m_Hash: 697629711
-    m_ParentHash: 756556552
-  - m_Hash: 1275280227
-    m_ParentHash: 756556552
-  - m_Hash: 1072197069
-    m_ParentHash: 756556552
+  - m_Hash: 813809532
+    m_ParentHash: 183802958
+  - m_Hash: 880068289
+    m_ParentHash: 183802958
+  - m_Hash: -223049352
+    m_ParentHash: 183802958
+  - m_Hash: -1759293932
+    m_ParentHash: 183802958
+  - m_Hash: -410257651
+    m_ParentHash: 183802958
 --- !u!1 &2420720148685613744
 GameObject:
   m_ObjectHideFlags: 0
@@ -210,6 +210,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2420720148944974374}
   - component: {fileID: 2420720148944974377}
+  - component: {fileID: 412451836}
   m_Layer: 0
   m_Name: Virtual Camera
   m_TagString: Untagged
@@ -225,7 +226,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2420720148944974375}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.95, y: -0.12999964, z: -10.037109}
+  m_LocalPosition: {x: -4.27, y: -0.6799996, z: -10.037109}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2420720148685613747}
@@ -269,6 +270,23 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 2420720148685613747}
+--- !u!114 &412451836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2420720148944974375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2fba25a5cd15594e8f050a11e386c80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ConfineMode: 0
+  m_BoundingVolume: {fileID: 0}
+  m_BoundingShape2D: {fileID: 0}
+  m_ConfineScreenEdges: 1
+  m_Damping: 0
 --- !u!1 &2420720149336614756
 GameObject:
   m_ObjectHideFlags: 0
@@ -295,7 +313,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2420720149336614756}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.95, y: -0.12999964, z: -10.037109}
+  m_LocalPosition: {x: 5.2618356, y: 3.0117123, z: -10.037109}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2420720148687259986}
