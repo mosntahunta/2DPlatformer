@@ -7,6 +7,7 @@ public class QuestionBox : MonoBehaviour
     public float itemSpawnTime = 1.5f;
     public Mushroom mushroomPrefab;
     public Flower flowerPrefab;
+    public Coin coinPrefab;
     public ItemType itemType;
 
     Animator animator;
@@ -15,7 +16,8 @@ public class QuestionBox : MonoBehaviour
     public enum ItemType
     {
         MUSHROOM,
-        FLOWER
+        FLOWER,
+        COIN
     }
 
     void Start()
@@ -55,6 +57,14 @@ public class QuestionBox : MonoBehaviour
                         Flower flower = Instantiate(flowerPrefab, transform.position, Quaternion.identity);
                         Vector2 destination = new Vector2(flower.transform.position.x, flower.transform.position.y + renderer.bounds.size.y);
                         IEnumerator coroutine = flower.SpawnToPosition(flower.transform, destination, itemSpawnTime);
+                        StartCoroutine(coroutine);
+                    }
+                    break;
+                    case ItemType.COIN:
+                    {
+                        Coin coin = Instantiate(coinPrefab, transform.position, Quaternion.identity);
+                        Vector2 destination = new Vector2(coin.transform.position.x, coin.transform.position.y + 4 * renderer.bounds.size.y);
+                        IEnumerator coroutine = coin.SpawnToPosition(coin.transform, destination, itemSpawnTime / 6);
                         StartCoroutine(coroutine);
                     }
                     break;

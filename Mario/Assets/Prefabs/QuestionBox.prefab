@@ -117,7 +117,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2040273129
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 982298a415f65e04aaed575c73c0f7be, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -165,5 +165,7 @@ MonoBehaviour:
   mushroomPrefab: {fileID: 2411275270591903566, guid: ffd8f46e2a35ef245815020fc3c4f2b9,
     type: 3}
   flowerPrefab: {fileID: 4203624677061870862, guid: d78b501031b3df24192082047605ed3c,
+    type: 3}
+  coinPrefab: {fileID: 1360550906908445262, guid: a8112af4cc3309f4990064bdce1a797d,
     type: 3}
   itemType: 0
