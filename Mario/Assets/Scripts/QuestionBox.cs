@@ -63,9 +63,7 @@ public class QuestionBox : MonoBehaviour
                     case ItemType.COIN:
                     {
                         Coin coin = Instantiate(coinPrefab, transform.position, Quaternion.identity);
-                        Vector2 destination = new Vector2(coin.transform.position.x, coin.transform.position.y + 4 * renderer.bounds.size.y);
-                        IEnumerator coroutine = coin.SpawnToPosition(coin.transform, destination, itemSpawnTime / 6);
-                        StartCoroutine(coroutine);
+                        coin.KickUp(new Vector2(0f, 26f));
                     }
                     break;
                 }
