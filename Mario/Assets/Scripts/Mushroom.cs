@@ -30,12 +30,18 @@ public class Mushroom : MonoBehaviour
         float t = 0f;
         while (t < 1.0f)
         {
-            t += Time.deltaTime / timeToReachTarget;
-            transform.position = Vector2.Lerp(currentPos, destination, t);
-            yield return null;
+            if (transform != null)
+            {
+                t += Time.deltaTime / timeToReachTarget;
+                transform.position = Vector2.Lerp(currentPos, destination, t);
+                yield return null;
+            }
+            else
+            {
+                break;
+            }
         }
         
         spawned = true;
-        yield return null;
     }
 }
