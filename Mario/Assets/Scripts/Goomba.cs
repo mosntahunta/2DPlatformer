@@ -44,6 +44,9 @@ public class Goomba : MonoBehaviour
                 {
                     isAlive = false;
                     player.GetComponent<Player>().PushUp();
+
+                    GameControl.control.setScore(GameControl.control.getScore() + 100);
+
                     Death();
                 }
             }

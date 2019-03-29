@@ -32,7 +32,6 @@ public class Player : MonoBehaviour
     Vector2 scaleVector;
     CapsuleCollider2D capsuleColliderCache;
     BoxCollider2D boxColliderCache;
-    SpriteRenderer spriteRenderer;
 
     public Type marioType;
     public enum Type
@@ -172,7 +171,6 @@ public class Player : MonoBehaviour
         scaleVector = new Vector2(0f, 0f);
         boxColliderCache = GetComponent<BoxCollider2D>();
         capsuleColliderCache = GetComponent<CapsuleCollider2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
 
         boxColliderCache.edgeRadius = 0.01f;
 
@@ -316,7 +314,9 @@ public class Player : MonoBehaviour
                 default:
                     break;
             }
-            
+
+            GameControl.control.setScore(GameControl.control.getScore() + 1000);
+
             StartCoroutine(Transforming());
 
             Destroy(collision.gameObject);

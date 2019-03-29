@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using System;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
@@ -9,11 +10,16 @@ using System.IO;
 public class GameControl : MonoBehaviour
 {
     public static GameControl control;
+    public Text scoreText;
+    public Text coinsText;
+    public Text currentLevelText;
+    public Text timeText;
 
-    public int lives;
-    public int coins;
-    public int score;
-    public string currentLevel;
+    private int lives = 3;
+    private int coins = 0;
+    private int score = 0;
+    private int time = 360;
+    private string currentLevel = "WORLD\n1-1";
     
     void Awake()
     {
@@ -21,6 +27,12 @@ public class GameControl : MonoBehaviour
         {
             DontDestroyOnLoad(gameObject);
             control = this;
+
+            control.setLives(lives);
+            control.setCoins(coins);
+            control.setScore(score);
+            control.setTime(time);
+            control.setCurrentLevel(currentLevel);
         }
         else if (control != this)
         {
@@ -39,6 +51,64 @@ public class GameControl : MonoBehaviour
         file.Close();
     }
 
+    public void setLives(int lives)
+    {
+        this.lives = lives;
+    }
+
+    public int getLives()
+    {
+        return this.lives;
+    }
+
+    public void setCoins(int coins)
+    {
+        this.coins = coins;
+
+        coinsText.text = "\n" + "X" + coins.ToString();
+    }
+
+    public int getCoins()
+    {
+        return this.coins;
+    }
+
+    public void setScore(int score)
+    {
+        this.score = score;
+
+        scoreText.text = "MARIO" + "\n" + score.ToString();
+    }
+
+    public int getScore()
+    {
+        return this.score;
+    }
+
+    public void setTime(int time)
+    {
+        this.time = time;
+
+        timeText.text = "Time" + "\n" + time.ToString();
+    }
+
+    public int getTime()
+    {
+        return this.time;
+    }
+
+    public void setCurrentLevel(string currentLevel)
+    {
+        this.currentLevel = currentLevel;
+
+        currentLevelText.text = currentLevel.ToString();
+    }
+
+    public string getCurrentLevel()
+    {
+        return this.currentLevel;
+    }
+
     // load data from a saved file
     public void Load()
     {
@@ -49,10 +119,10 @@ public class GameControl : MonoBehaviour
             PlayerData data = (PlayerData)bf.Deserialize(file);
             file.Close();
 
-            lives = data.lives;
-            coins = data.coins;
-            score = data.score;
-            currentLevel = data.currentLevel;
+            setLives(data.lives);
+            setCoins(data.coins);
+            setScore(data.score);
+            setCurrentLevel(data.currentLevel);
         }
     }
 

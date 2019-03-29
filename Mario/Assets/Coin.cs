@@ -14,6 +14,13 @@ public class Coin : MonoBehaviour
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         rb.velocity = upVelocity;
 
+        int currentCoins = GameControl.control.getCoins();
+        if (currentCoins < 100)
+        {
+            GameControl.control.setCoins(currentCoins + 1);
+        }
+        GameControl.control.setScore(GameControl.control.getScore() + 200);
+
         Destroy(gameObject, 0.45f);
     }
 
