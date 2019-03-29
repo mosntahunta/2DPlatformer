@@ -63,7 +63,7 @@ public class QuestionBox : MonoBehaviour
                     case ItemType.COIN:
                     {
                         Coin coin = Instantiate(coinPrefab, transform.position, Quaternion.identity);
-                        coin.KickUp(new Vector2(0f, 26f));
+                        coin.KickUp(new Vector2(0f, 24f));
                     }
                     break;
                 }
