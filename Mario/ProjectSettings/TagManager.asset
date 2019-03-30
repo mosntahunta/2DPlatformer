@@ -9,6 +9,8 @@ TagManager:
   - Mushroom
   - Item
   - Flower
+  - UI
+  - Canvas
   layers:
   - Default
   - TransparentFX

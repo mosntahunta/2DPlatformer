@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     [SerializeField] float transformTime = 1.0f;
     [SerializeField] float pushUpVelocity = 15.0f;
     [SerializeField] float deathGravityScale = 0.8f;
+    [SerializeField] int itemScore = 1000;
     [SerializeField] Vector2 deathKick = new Vector2(0f, 10f);
     [SerializeField] GameObject mainCamera; // todo - this is temporary, will be moved to the game session manager
     [SerializeField] GameObject projectile;
@@ -315,7 +316,8 @@ public class Player : MonoBehaviour
                     break;
             }
 
-            GameControl.control.setScore(GameControl.control.getScore() + 1000);
+            GameControl.control.setScore(GameControl.control.getScore() + itemScore);
+            GameControl.control.DisplayScoreAtPosition(itemScore, transform.position);
 
             StartCoroutine(Transforming());
 

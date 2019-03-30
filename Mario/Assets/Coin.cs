@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
+    public int score = 200;
     private bool canBePickedUp = true;
 
     public void KickUp(Vector2 upVelocity)
@@ -19,7 +20,8 @@ public class Coin : MonoBehaviour
         {
             GameControl.control.setCoins(currentCoins + 1);
         }
-        GameControl.control.setScore(GameControl.control.getScore() + 200);
+        GameControl.control.setScore(GameControl.control.getScore() + score);
+        GameControl.control.DisplayScoreAtPosition(score, transform.position);
 
         Destroy(gameObject, 0.45f);
     }

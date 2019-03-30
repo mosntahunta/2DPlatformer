@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Goomba : MonoBehaviour
 {
+    public int deathScore = 100;
+
     // State
     bool isAlive = true;
 
@@ -45,8 +47,8 @@ public class Goomba : MonoBehaviour
                     isAlive = false;
                     player.GetComponent<Player>().PushUp();
 
-                    GameControl.control.setScore(GameControl.control.getScore() + 100);
-
+                    GameControl.control.setScore(GameControl.control.getScore() + deathScore);
+                    GameControl.control.DisplayScoreAtPosition(deathScore, transform.position);
                     Death();
                 }
             }
