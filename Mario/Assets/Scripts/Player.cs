@@ -285,6 +285,11 @@ public class Player : MonoBehaviour
                 animator.speed = Mathf.Max(0.5f, 2 * Mathf.Abs(myRigidBody2D.velocity.x) / runSpeed);
             }
         }
+        else
+        {
+            // maintain the previous sprite while falling without animating to new sprite
+            animator.speed = 0;
+        }
     }
 
     void FlipSprite( float direction )
