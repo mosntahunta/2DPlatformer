@@ -215,6 +215,7 @@ public class Player : MonoBehaviour
                 {
                     Vector2 jump_velocity = new Vector2(myRigidBody2D.velocity.x, jumpSpeed);
                     myRigidBody2D.velocity = jump_velocity;
+                    myRigidBody2D.drag = 0;
                 }
             }
         }
@@ -263,8 +264,8 @@ public class Player : MonoBehaviour
             if (state != State.JUMP)
             {
                 state = State.IDLE;
+                myRigidBody2D.drag = drag;
             }
-            myRigidBody2D.drag = drag;
         }
 
         // animation

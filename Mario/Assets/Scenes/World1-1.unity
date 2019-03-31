@@ -4418,32 +4418,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3628596635975408627, guid: 38f2f5ff8d83c6b458c975424daba5b7,
-        type: 3}
-      propertyPath: m_GravityScale
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3628596635975408622, guid: 38f2f5ff8d83c6b458c975424daba5b7,
         type: 3}
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 672416213}
-    - target: {fileID: 3628596635975408622, guid: 38f2f5ff8d83c6b458c975424daba5b7,
-        type: 3}
-      propertyPath: projectile
-      value: 
-      objectReference: {fileID: 8816442631752410522, guid: 4a024426ede36fe46bf5cb052e2b33fb,
-        type: 3}
-    - target: {fileID: 3628596635975408622, guid: 38f2f5ff8d83c6b458c975424daba5b7,
-        type: 3}
-      propertyPath: fireRate
-      value: 0.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 3628596635975408616, guid: 38f2f5ff8d83c6b458c975424daba5b7,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38f2f5ff8d83c6b458c975424daba5b7, type: 3}
 --- !u!1001 &4423964085503362094
@@ -4458,6 +4437,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 4423964086073236315, guid: e9eb8e8009fd85c42bd9e51cb5cf09d6,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 672416215}
     - target: {fileID: 4423964086073236312, guid: e9eb8e8009fd85c42bd9e51cb5cf09d6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4563,11 +4547,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4423964086073236315, guid: e9eb8e8009fd85c42bd9e51cb5cf09d6,
-        type: 3}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 672416215}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9eb8e8009fd85c42bd9e51cb5cf09d6, type: 3}
 --- !u!1001 &9046817684833238889

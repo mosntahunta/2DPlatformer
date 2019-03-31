@@ -151,7 +151,6 @@ public class GameControl : MonoBehaviour
             {
                 t += Time.deltaTime / scoreTextAnimationTime;
                 rectTransform.localPosition = Vector2.Lerp(currentPosition, destination, t);
-                print(rectTransform.localPosition.y);
                 yield return null;
             }
             else
