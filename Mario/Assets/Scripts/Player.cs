@@ -285,7 +285,7 @@ public class Player : MonoBehaviour
                 animator.speed = Mathf.Max(0.5f, 1.5f * Mathf.Abs(myRigidBody2D.velocity.x) / runSpeed);
             }
         }
-        else
+        else if (state != State.JUMP)
         {
             // maintain the previous sprite while falling without animating to new sprite
             animator.speed = 0;

@@ -4423,16 +4423,6 @@ PrefabInstance:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 672416213}
-    - target: {fileID: 3628596635975408622, guid: 38f2f5ff8d83c6b458c975424daba5b7,
-        type: 3}
-      propertyPath: pushUpVelocity
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 3628596635975408622, guid: 38f2f5ff8d83c6b458c975424daba5b7,
-        type: 3}
-      propertyPath: runSpeed
-      value: 5.5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38f2f5ff8d83c6b458c975424daba5b7, type: 3}
 --- !u!1001 &4423964085503362094
