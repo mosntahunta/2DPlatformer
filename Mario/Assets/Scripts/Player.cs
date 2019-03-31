@@ -173,7 +173,7 @@ public class Player : MonoBehaviour
         boxColliderCache = GetComponent<BoxCollider2D>();
         capsuleColliderCache = GetComponent<CapsuleCollider2D>();
 
-        boxColliderCache.edgeRadius = 0.01f;
+        boxColliderCache.edgeRadius = 0.03f;
 
         state = State.IDLE;
     }
