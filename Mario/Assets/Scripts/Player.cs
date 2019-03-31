@@ -282,7 +282,7 @@ public class Player : MonoBehaviour
                 bool player_has_hspeed = Mathf.Abs(myRigidBody2D.velocity.x) > epsilon || control_throw != 0.0f;
                 animator.SetBool("Turning", false);
                 animator.SetBool("Running", player_has_hspeed);
-                animator.speed = Mathf.Max(0.5f, 2 * Mathf.Abs(myRigidBody2D.velocity.x) / runSpeed);
+                animator.speed = Mathf.Max(0.5f, 1.5f * Mathf.Abs(myRigidBody2D.velocity.x) / runSpeed);
             }
         }
         else
