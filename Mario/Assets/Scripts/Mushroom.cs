@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Mushroom : MonoBehaviour
 {
+    public BoxCollider2D hitBox;
+
     bool spawned = false;
 
     Patrol patrol;
@@ -12,6 +14,7 @@ public class Mushroom : MonoBehaviour
     void Start()
     {
         patrol = GetComponent<Patrol>();
+        hitBox.edgeRadius = 0.01f;
     }
 
     // Update is called once per frame

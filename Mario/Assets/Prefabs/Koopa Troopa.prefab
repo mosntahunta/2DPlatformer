@@ -11,11 +11,11 @@ GameObject:
   - component: {fileID: 5519030492859518696}
   - component: {fileID: 5519030492859518691}
   - component: {fileID: 5519030492859518690}
-  - component: {fileID: 5519030492859518693}
   - component: {fileID: 5519030492859518692}
   - component: {fileID: 5519030492859518697}
   - component: {fileID: 5519030492859518695}
   - component: {fileID: 5519030492859518694}
+  - component: {fileID: 9140064436804853475}
   m_Layer: 10
   m_Name: Koopa Troopa
   m_TagString: Enemy
@@ -93,7 +93,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -676295039
-  m_SortingLayer: 2
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: b95a9dc452e3ab44dbb42786f53fba25, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -106,22 +106,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!70 &5519030492859518693
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5519030492859518699}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 6200000, guid: a9083fbeff8b3734194290d76953e94e, type: 2}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.08168471, y: -0.4863251}
-  m_Size: {x: 0.75593543, y: 0.911543}
-  m_Direction: 0
 --- !u!95 &5519030492859518692
 Animator:
   serializedVersion: 3
@@ -154,6 +138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shellSpeed: 8
+  hitBox: {fileID: 9140064436804853475}
   state: 0
 --- !u!61 &5519030492859518695
 BoxCollider2D:
@@ -195,3 +180,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   horizontalSpeed: 2
   direction: -1
+  forwardBoxCollider: {fileID: 5519030492859518695}
+--- !u!61 &9140064436804853475
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5519030492859518699}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: a9083fbeff8b3734194290d76953e94e, type: 2}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.010797262, y: -0.33201635}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 2}
+    newSize: {x: 1, y: 2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.7948518, y: 1.3359673}
+  m_EdgeRadius: 0

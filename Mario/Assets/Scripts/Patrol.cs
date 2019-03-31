@@ -16,29 +16,28 @@ using UnityEngine;
 /// 
 public class Patrol : MonoBehaviour
 {
-    [SerializeField] float horizontalSpeed = 5.0f;
-    [SerializeField] float direction = -1.0f;
+    public float horizontalSpeed = 5.0f;
+    public float direction = -1.0f;
+    public BoxCollider2D forwardBoxCollider;
 
     Rigidbody2D myRigidBody2D;
-    BoxCollider2D myBoxCollider2D;
     GameObject player;
 
     // Start is called before the first frame update
     void Start()
     {
         myRigidBody2D = GetComponent<Rigidbody2D>();
-        myBoxCollider2D = GetComponent<BoxCollider2D>();
         player = GameObject.FindGameObjectWithTag("Player");
 
         // set the initial direction of the game object
         transform.localScale = new Vector2(direction, 1f);
 
         // ignore the obstacle detection for the player game object
-        if (player && myBoxCollider2D)
+        if (player && forwardBoxCollider)
         {
             foreach (var collider in player.GetComponentsInChildren<Collider2D>())
             {
-                Physics2D.IgnoreCollision(collider, myBoxCollider2D);
+                Physics2D.IgnoreCollision(collider, forwardBoxCollider);
             }
         }
     }

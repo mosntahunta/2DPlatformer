@@ -5,6 +5,7 @@ using UnityEngine;
 public class KoopaTroopa : MonoBehaviour
 {
     [SerializeField] float shellSpeed = 10.0f;
+    public BoxCollider2D hitBox;
 
     Rigidbody2D myRigidBody2D;
     Animator animator;
@@ -92,6 +93,7 @@ public class KoopaTroopa : MonoBehaviour
 
         // by default koopa patrols the ground
         state = State.PATROL;
+        hitBox.edgeRadius = 0.01f;
     }
 
     void Update()

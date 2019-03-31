@@ -5,6 +5,7 @@ using UnityEngine;
 public class Goomba : MonoBehaviour
 {
     public int deathScore = 100;
+    public BoxCollider2D hitBox;
 
     // State
     bool isAlive = true;
@@ -20,6 +21,8 @@ public class Goomba : MonoBehaviour
         animator = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player");
         patrol = GetComponent<Patrol>();
+
+        hitBox.edgeRadius = 0.01f;
     }
     
     void Update()
