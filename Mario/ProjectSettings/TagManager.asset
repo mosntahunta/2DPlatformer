@@ -11,6 +11,7 @@ TagManager:
   - Flower
   - UI
   - Canvas
+  - Flag
   layers:
   - Default
   - TransparentFX
@@ -53,6 +54,9 @@ TagManager:
     locked: 0
   - name: Background
     uniqueID: 3208239831
+    locked: 0
+  - name: Building
+    uniqueID: 944344453
     locked: 0
   - name: Foreground
     uniqueID: 870362607
