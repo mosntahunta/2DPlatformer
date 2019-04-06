@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField] float runSpeed = 5.0f;
     [SerializeField] float acceleration = 10.0f;
+    [SerializeField] float climbSpeed = 100.0f;
     [SerializeField] float jumpSpeed = 10.0f;
     [SerializeField] float drag = 2.5f;
     [SerializeField] float epsilon = 0.2f;
@@ -17,11 +18,15 @@ public class Player : MonoBehaviour
     [SerializeField] float pushUpVelocity = 15.0f;
     [SerializeField] float deathGravityScale = 0.8f;
     [SerializeField] int itemScore = 1000;
+    [SerializeField] int flagScore = 50000;
     [SerializeField] Vector2 deathKick = new Vector2(0f, 10f);
     [SerializeField] GameObject mainCamera; // todo - this is temporary, will be moved to the game session manager
     [SerializeField] GameObject projectile;
 
     private float nextFireTime = 0.0f;
+    private float initialGravityScale;
+
+    private GameObject flag;
     
     // State
     bool isAlive = true;
@@ -49,6 +54,7 @@ public class Player : MonoBehaviour
         WALK,
         TURN,
         JUMP,
+        CLIMB,
         DEATH
     }
 
@@ -97,6 +103,15 @@ public class Player : MonoBehaviour
         {
             CheckForMovement();
             LaunchProjectile();
+        }
+        yield return 0;
+    }
+
+    IEnumerator ClimbState()
+    {
+        if (state == State.CLIMB)
+        {
+            Climb();
         }
         yield return 0;
     }
@@ -157,6 +172,9 @@ public class Player : MonoBehaviour
             case State.JUMP:
                 StartCoroutine("JumpState");
                 break;
+            case State.CLIMB:
+                StartCoroutine("ClimbState");
+                break;
             case State.DEATH:
                 StartCoroutine("DeathState");
                 break;
@@ -174,6 +192,8 @@ public class Player : MonoBehaviour
         capsuleColliderCache = GetComponent<CapsuleCollider2D>();
 
         boxColliderCache.edgeRadius = 0.03f;
+
+        initialGravityScale = myRigidBody2D.gravityScale;
 
         state = State.IDLE;
     }
@@ -218,6 +238,39 @@ public class Player : MonoBehaviour
                     myRigidBody2D.drag = 0;
                 }
             }
+        }
+    }
+
+    void Climb()
+    {
+        float control_throw = CrossPlatformInputManager.GetAxis("Vertical"); // -1 to 1
+        bool apply_movement = Mathf.Abs(control_throw) > 0.15f;
+        
+
+        if (apply_movement)
+        {
+            myRigidBody2D.drag = 0;
+            float vertical_speed = control_throw * climbSpeed;
+            Vector2 velocity = new Vector2(0.0f, vertical_speed);
+            myRigidBody2D.velocity = velocity;
+
+            animator.speed = Mathf.Max(0.25f, 1.0f * Mathf.Abs(myRigidBody2D.velocity.y) / climbSpeed);
+
+            if (TouchingGround())
+            {
+                Destroy(flag);
+                state = State.IDLE;
+                animator.SetBool("Climbing", false);
+                myRigidBody2D.gravityScale = initialGravityScale;
+
+                GameControl.control.setScore(GameControl.control.getScore() + flagScore);
+                GameControl.control.DisplayScoreAtPosition(flagScore, transform.position);
+            }
+        }
+        else
+        {
+            myRigidBody2D.velocity = new Vector2(0, 0);
+            animator.speed = 0;
         }
     }
 
@@ -345,6 +398,16 @@ public class Player : MonoBehaviour
         {
             isAlive = false;
             mainCamera.GetComponent<CinemachineBrain>().enabled = false;
+        }
+        else if (targetLayer == LayerMask.NameToLayer("Flag"))
+        {
+            flag = collision.gameObject;
+            state = State.CLIMB;
+            myRigidBody2D.gravityScale = 0.0f;
+            myRigidBody2D.velocity = new Vector2(0, 0);
+            print("flag");
+            animator.SetBool("Jumping", false);
+            animator.SetBool("Climbing", true);
         }
 
         if (collision.otherCollider.GetType() == typeof(BoxCollider2D) && state == State.JUMP)
