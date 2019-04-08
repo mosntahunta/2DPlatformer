@@ -51,7 +51,13 @@ public class Goomba : MonoBehaviour
                     player.GetComponent<Player>().PushUp();
 
                     GameControl.control.setScore(GameControl.control.getScore() + deathScore);
-                    GameControl.control.DisplayScoreAtPosition(deathScore, transform.position);
+
+                    PointDisplay pointDisplay = GameObject.FindGameObjectWithTag("PointDisplay").GetComponent<PointDisplay>();
+                    if (pointDisplay)
+                    {
+                        pointDisplay.DisplayScoreAtPosition(deathScore, transform.position);
+                    }
+                    
                     Death();
                 }
             }

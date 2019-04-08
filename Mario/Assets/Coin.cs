@@ -21,7 +21,12 @@ public class Coin : MonoBehaviour
             GameControl.control.setCoins(currentCoins + 1);
         }
         GameControl.control.setScore(GameControl.control.getScore() + score);
-        GameControl.control.DisplayScoreAtPosition(score, transform.position);
+
+        PointDisplay pointDisplay = GameObject.FindGameObjectWithTag("PointDisplay").GetComponent<PointDisplay>();
+        if (pointDisplay)
+        {
+            pointDisplay.DisplayScoreAtPosition(score, transform.position);
+        }
 
         Destroy(gameObject, 0.45f);
     }

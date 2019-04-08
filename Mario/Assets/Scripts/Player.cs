@@ -264,7 +264,11 @@ public class Player : MonoBehaviour
                 myRigidBody2D.gravityScale = initialGravityScale;
 
                 GameControl.control.setScore(GameControl.control.getScore() + flagScore);
-                GameControl.control.DisplayScoreAtPosition(flagScore, transform.position);
+                PointDisplay pointDisplay = GameObject.FindGameObjectWithTag("PointDisplay").GetComponent<PointDisplay>();
+                if (pointDisplay)
+                {
+                    pointDisplay.DisplayScoreAtPosition(flagScore, transform.position);
+                }
             }
         }
         else
@@ -376,7 +380,11 @@ public class Player : MonoBehaviour
             }
 
             GameControl.control.setScore(GameControl.control.getScore() + itemScore);
-            GameControl.control.DisplayScoreAtPosition(itemScore, transform.position);
+            PointDisplay pointDisplay = GameObject.FindGameObjectWithTag("PointDisplay").GetComponent<PointDisplay>();
+            if (pointDisplay)
+            {
+                pointDisplay.DisplayScoreAtPosition(itemScore, transform.position);
+            }
 
             StartCoroutine(Transforming());
 
@@ -405,7 +413,6 @@ public class Player : MonoBehaviour
             state = State.CLIMB;
             myRigidBody2D.gravityScale = 0.0f;
             myRigidBody2D.velocity = new Vector2(0, 0);
-            print("flag");
             animator.SetBool("Jumping", false);
             animator.SetBool("Climbing", true);
         }

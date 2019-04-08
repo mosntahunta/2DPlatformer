@@ -12,6 +12,7 @@ TagManager:
   - UI
   - Canvas
   - Flag
+  - PointDisplay
   layers:
   - Default
   - TransparentFX
