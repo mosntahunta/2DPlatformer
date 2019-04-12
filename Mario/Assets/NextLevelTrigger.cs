@@ -6,9 +6,9 @@ public class NextLevelTrigger : MonoBehaviour
 {
     void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.gameObject.tag == "Player")
+        if (collider.gameObject.tag == "Player" && collider.GetType() == typeof(CapsuleCollider2D))
         {
-            GameControl.control.LoadNextScene();
+            GameControl.control.PrepareForTransitionToNextLevel();
         }
     }
 }

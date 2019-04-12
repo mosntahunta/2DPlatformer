@@ -33,7 +33,11 @@ public class MenuController : MonoBehaviour
         {
             if (selectedText == SelectedText.START)
             {
-                GameControl.control.LoadNextScene();
+                GameControl.control.PrepareForTransitionToNextLevel();
+            }
+            else if (selectedText == SelectedText.LOAD)
+            {
+                GameControl.control.PrepareForLoadingSavedLevel();
             }
         }
     }

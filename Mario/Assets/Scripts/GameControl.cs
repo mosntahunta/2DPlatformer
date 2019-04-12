@@ -19,38 +19,36 @@ public class GameControl : MonoBehaviour
     private int coins = 0;
     private int score = 0;
     private int time = 360;
-    private string currentLevel = "WORLD\n1-1";
+    private int currentLevelIndex = 0;
+
+    private String[] screenList = 
+    {
+        "Main Menu",
+        "World 1-1",
+        "World 1-2",
+        "Transition Screen"
+    };
 
     void Awake()
     {
         if (control == null)
         {
             DontDestroyOnLoad(gameObject);
+
             control = this;
 
             control.setLives(lives);
             control.setCoins(coins);
             control.setScore(score);
             control.setTime(time);
-            control.setCurrentLevel(currentLevel);
+            control.setCurrentLevelIndex(currentLevelIndex);
         }
         else if (control != this)
         {
             Destroy(gameObject);
         }
     }
-
-    // save data out to a file
-    public void Save()
-    {
-        BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Create(Application.persistentDataPath + "/playerInfo.dat");
-
-        PlayerData data = new PlayerData(lives, coins, score, currentLevel);
-        bf.Serialize(file, data);
-        file.Close();
-    }
-
+    
     public void setLives(int lives)
     {
         this.lives = lives;
@@ -97,22 +95,31 @@ public class GameControl : MonoBehaviour
         return this.time;
     }
 
-    public void setCurrentLevel(string currentLevel)
+    public void setCurrentLevelIndex(int currentLevelIndex)
     {
-        this.currentLevel = currentLevel;
-
-        currentLevelText.text = currentLevel.ToString();
+        this.currentLevelIndex = currentLevelIndex;
+        int screenIndex = (currentLevelIndex == 0) ? 1 : currentLevelIndex;
+        currentLevelText.text = screenList[screenIndex];
     }
 
-    public string getCurrentLevel()
+    public int getCurrentLevelIndex()
     {
-        return this.currentLevel;
+        return this.currentLevelIndex;
     }
 
-    
+    // save data out to a file
+    public void SaveData()
+    {
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file = File.Create(Application.persistentDataPath + "/playerInfo.dat");
+
+        PlayerData data = new PlayerData(lives, coins, score, currentLevelIndex);
+        bf.Serialize(file, data);
+        file.Close();
+    }
 
     // load data from a saved file
-    public void Load()
+    public void LoadData()
     {
         if (File.Exists(Application.persistentDataPath + "/playerInfo.dat"))
         {
@@ -124,15 +131,31 @@ public class GameControl : MonoBehaviour
             setLives(data.lives);
             setCoins(data.coins);
             setScore(data.score);
-            setCurrentLevel(data.currentLevel);
+            setCurrentLevelIndex(data.currentLevelIndex);
         }
     }
 
-    public void LoadNextScene()
+    public void LoadNextLevel()
     {
-        Scene scene = SceneManager.GetActiveScene();
+        StartCoroutine(LoadYourAsyncScene(currentLevelIndex));
+    }
 
-        StartCoroutine(LoadYourAsyncScene(scene.buildIndex + 1));
+    public void PrepareForLoadingSavedLevel()
+    {
+        LoadData();
+        LoadTransitionScreen();
+    }
+
+    public void PrepareForTransitionToNextLevel()
+    {
+        setCurrentLevelIndex(++currentLevelIndex);
+        SaveData();
+        LoadTransitionScreen();
+    }
+
+    private void LoadTransitionScreen()
+    {
+        StartCoroutine(LoadYourAsyncScene(screenList.Length - 1));
     }
 
     IEnumerator LoadYourAsyncScene(int sceneIndex)
@@ -155,16 +178,16 @@ public class GameControl : MonoBehaviour
 [Serializable]
 class PlayerData
 {
-    public PlayerData(int lives, int coins, int score, string currentLevel)
+    public PlayerData(int lives, int coins, int score, int currentLevelIndex)
     {
         this.lives = lives;
         this.coins = coins;
         this.score = score;
-        this.currentLevel = currentLevel;
+        this.currentLevelIndex = currentLevelIndex;
     }
 
     public int lives;
     public int coins;
     public int score;
-    public string currentLevel;
+    public int currentLevelIndex;
 }
