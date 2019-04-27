@@ -1,12 +1,18 @@
 fileFormatVersion: 2
 guid: ce44533f184aa394aa5898d167516f1e
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: mario_adult_running_0
-    21300002: mario_adult_running_1
-    21300004: mario_adult_running_2
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: mario_adult_running_0
+  - first:
+      213: 21300002
+    second: mario_adult_running_1
+  - first:
+      213: 21300004
+    second: mario_adult_running_2
   externalObjects: {}
-  serializedVersion: 9
+  serializedVersion: 10
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -34,7 +40,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: -1
+    filterMode: 0
     aniso: -1
     mipBias: -100
     wrapU: 1
@@ -66,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -77,7 +83,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -102,6 +108,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 3ec95ffa251dc3644a06d3b369e9789c
+      internalID: 21300000
       vertices: []
       indices: 
       edges: []
@@ -122,6 +129,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: ff77f078920781b42afad63b0f784637
+      internalID: 21300002
       vertices: []
       indices: 
       edges: []
@@ -142,6 +150,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: a9343c90c28917f4aab2c2539cb72b24
+      internalID: 21300004
       vertices: []
       indices: 
       edges: []
@@ -150,10 +159,12 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: a2b5ac803df0d7243ba0e6c735794a0f
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
+    secondaryTextures: []
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

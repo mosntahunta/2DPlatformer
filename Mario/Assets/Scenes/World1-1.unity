@@ -7926,7 +7926,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 672416215}
-  canvasGameObject: {fileID: 0}
   arcadeFont: {fileID: 12800000, guid: 2f6dc0601ff61d747bbe626a6451aa50, type: 3}
   scoreTextAnimationTime: 2
   scoreTextAnimationValue: 100
@@ -9856,17 +9855,17 @@ PrefabInstance:
     - target: {fileID: 2420720149336614759, guid: f6fc08bf8c3e72f4785e3d23a2425e8c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 180.65015
+      value: -2.690936
       objectReference: {fileID: 0}
     - target: {fileID: 2420720149336614759, guid: f6fc08bf8c3e72f4785e3d23a2425e8c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.000776
+      value: 2.0124404
       objectReference: {fileID: 0}
     - target: {fileID: 2420720148944974374, guid: f6fc08bf8c3e72f4785e3d23a2425e8c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 180.65
+      value: -3.1
       objectReference: {fileID: 0}
     - target: {fileID: 2420720148944974374, guid: f6fc08bf8c3e72f4785e3d23a2425e8c,
         type: 3}
@@ -9899,7 +9898,7 @@ PrefabInstance:
     - target: {fileID: 3628596635975408626, guid: 38f2f5ff8d83c6b458c975424daba5b7,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 180.65
+      value: -3.1
       objectReference: {fileID: 0}
     - target: {fileID: 3628596635975408626, guid: 38f2f5ff8d83c6b458c975424daba5b7,
         type: 3}
