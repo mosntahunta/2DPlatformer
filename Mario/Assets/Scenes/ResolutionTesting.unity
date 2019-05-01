@@ -276,6 +276,8 @@ MonoBehaviour:
   jumpSpeedY: 17
   maxSpeed: 4
   jumpCancelFactor: 0.6
+  jumpGraceTime: 0.1
+  jumpInputBufferTime: 0.1
 --- !u!1 &589338465
 GameObject:
   m_ObjectHideFlags: 0
