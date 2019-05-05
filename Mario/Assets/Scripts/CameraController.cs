@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    public float minimumHorizontalSpeed = 0.5f;
     public float slowHorizontalSpeed = 2f;
     public float fastHorizontalSpeed = 10f;
 
@@ -83,6 +84,8 @@ public class CameraController : MonoBehaviour
             cameraStartUpTimer -= Time.deltaTime;
             currentCameraSpeed = Mathf.Lerp(currentCameraSpeed, 0.0f, cameraStartUpTimer / cameraStartUpTime);
         }
+
+        if (currentCameraSpeed < minimumHorizontalSpeed) currentCameraSpeed = minimumHorizontalSpeed;
 
         transform.position = Vector3.MoveTowards(transform.position, cameraTarget, Time.deltaTime * currentCameraSpeed);
 

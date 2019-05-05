@@ -7203,11 +7203,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slowHorizontalSpeed: 1.5
-  fastHorizontalSpeed: 4
-  forwardDistance: 0.8
+  fastHorizontalSpeed: 3.75
+  forwardDistance: 0.4
   slowdownDistance: 1
   slowdownFactor: 5
-  cameraStartUpTime: 0.5
+  cameraStartUpTime: 0.65
 --- !u!61 &1152438956
 BoxCollider2D:
   m_ObjectHideFlags: 0
