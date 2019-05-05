@@ -5,19 +5,25 @@ using UnityStandardAssets.CrossPlatformInput;
 
 public class PlayerController : PhysicsObject
 {
+    public float facingDirection = 1.0f;
+
     public float jumpSpeedY = 7f;
     public float maxSpeed = 7f;
     public float jumpCancelFactor = 0.6f;
-
+    
     public float jumpGraceTime = 0.2f;
     public float jumpInputBufferTime = 0.2f;
 
     private float jumpGraceTimer;
     private float jumpInputBufferTimer;
 
+    private CameraController cameraController;
+
     void Start()
     {
-        
+        cameraController = GameObject.FindGameObjectWithTag("Camera").GetComponent<CameraController>();
+        cameraController.SetHorizontalTarget(rb2d.position.x, rb2d.position, facingDirection, false);
+        cameraController.SetPlayerHorizontalSpeed(maxSpeed);
     }
 
     protected override void ComputeVelocity()
@@ -62,6 +68,17 @@ public class PlayerController : PhysicsObject
         }
 
         targetVelocity = move * maxSpeed;
+
+        if (cameraController)
+        {
+            if (move.x != 0.0f)
+            {
+                bool isMaxSpeed = Mathf.Abs(targetVelocity.x) == maxSpeed;
+                facingDirection = Mathf.Sign(move.x);
+                cameraController.SetHorizontalTarget(targetVelocity.x + rb2d.position.x, rb2d.position, facingDirection, isMaxSpeed);
+            }
+        }
+        
     }
 
     private void Jump()
