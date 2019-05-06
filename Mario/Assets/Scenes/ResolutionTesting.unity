@@ -275,10 +275,11 @@ MonoBehaviour:
   gravityModifier: 0.5
   facingDirection: 1
   jumpSpeedY: 17
-  maxSpeed: 3
+  maxSpeed: 2.75
   jumpCancelFactor: 0.6
   jumpGraceTime: 0.1
   jumpInputBufferTime: 0.1
+  holdDownTime: 0.35
 --- !u!1 &589338465
 GameObject:
   m_ObjectHideFlags: 0
@@ -7202,12 +7203,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0757f33209b9a484d8be1fa43e1a7024, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slowHorizontalSpeed: 1.5
-  fastHorizontalSpeed: 3.75
-  forwardDistance: 0.4
+  minimumHorizontalSpeed: 0.5
+  slowHorizontalSpeed: 1.75
+  fastHorizontalSpeed: 4.25
+  forwardDistance: 1
   slowdownDistance: 1
-  slowdownFactor: 5
-  cameraStartUpTime: 0.65
+  slowdownFactor: 3
+  cameraStartUpTime: 1
 --- !u!61 &1152438956
 BoxCollider2D:
   m_ObjectHideFlags: 0

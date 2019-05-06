@@ -13,16 +13,19 @@ public class PlayerController : PhysicsObject
     
     public float jumpGraceTime = 0.2f;
     public float jumpInputBufferTime = 0.2f;
-
+    
     private float jumpGraceTimer;
     private float jumpInputBufferTimer;
+
+    public float holdDownTime = 0.35f;
+    private float holdDownTimer = 0.0f;
 
     private CameraController cameraController;
 
     void Start()
     {
         cameraController = GameObject.FindGameObjectWithTag("Camera").GetComponent<CameraController>();
-        cameraController.SetHorizontalTarget(rb2d.position.x, rb2d.position, facingDirection, false);
+        cameraController.SetHorizontalTarget(rb2d.position, facingDirection, false);
         cameraController.SetPlayerHorizontalSpeed(maxSpeed);
     }
 
@@ -67,18 +70,41 @@ public class PlayerController : PhysicsObject
             }
         }
 
+        // todo: do the friction properly
+        //move.x = Mathf.Lerp(0, move.x, holdDownTimer / holdDownTime);
         targetVelocity = move * maxSpeed;
+
+        //if (targetVelocity.x > maxSpeed) targetVelocity.x = maxSpeed;
+        //if (targetVelocity.x < -maxSpeed) targetVelocity.x = -maxSpeed;
+
+        UpdateCamera(move.x);
+    }
+
+    void UpdateCamera(float xVelocity)
+    {
+        if (xVelocity == 0f)
+        {
+            holdDownTimer = 0f;
+        }
 
         if (cameraController)
         {
-            if (move.x != 0.0f)
+            if (xVelocity != 0.0f)
             {
-                bool isMaxSpeed = Mathf.Abs(targetVelocity.x) == maxSpeed;
-                facingDirection = Mathf.Sign(move.x);
-                cameraController.SetHorizontalTarget(targetVelocity.x + rb2d.position.x, rb2d.position, facingDirection, isMaxSpeed);
+                if (facingDirection != Mathf.Sign(xVelocity))
+                {
+                    holdDownTimer = 0.0f;
+                    facingDirection = Mathf.Sign(xVelocity);
+                }
+
+                bool isMaxSpeed = holdDownTimer > holdDownTime;
+                cameraController.SetHorizontalTarget(rb2d.position, facingDirection, isMaxSpeed);
             }
+
+            cameraController.SetPlayerIsMoving(xVelocity != 0.0f);
         }
-        
+
+        holdDownTimer += Time.deltaTime;
     }
 
     private void Jump()
