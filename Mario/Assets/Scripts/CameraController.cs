@@ -9,8 +9,8 @@ public class CameraController : MonoBehaviour
     public float fastHorizontalSpeed = 10f;
 
     public float forwardDistance = 1f;
-    public float slowdownDistance = 0.5f;
     public float slowdownFactor = 5f;
+    public float cameraDrag = 0.4f;
 
     private float currentCameraSpeed = 0f;
     private float playerHorizontalSpeed = 0f;
@@ -21,6 +21,7 @@ public class CameraController : MonoBehaviour
     public float cameraStartUpTime = 0.5f;
     private float cameraStartUpTimer = 0.0f;
 
+    private bool cameraFromBehind = false;
     private bool snap = false;
 
     Vector2 playerPosition;
@@ -53,24 +54,23 @@ public class CameraController : MonoBehaviour
 
         if (horizontalMoveState == HorizontalMoveState.Fast)
         {
-            if (cameraToTarget < playerToTarget - 0.1f)
+            if (cameraToTarget < playerToTarget)
             {
-                currentCameraSpeed = Mathf.Lerp(slowHorizontalSpeed / slowdownFactor, playerHorizontalSpeed, cameraToTarget / (playerToTarget - 0.1f));
+                currentCameraSpeed = Mathf.Lerp(slowHorizontalSpeed / slowdownFactor, playerHorizontalSpeed, cameraToTarget / playerToTarget);
             }
-            else if (cameraToTarget > playerToTarget + 0.1f)
+            else if (cameraToTarget > playerToTarget)
             {
-                if (playerIsMoving)
-                {
-                    currentCameraSpeed = fastHorizontalSpeed;
-                }
-                else
-                {
-                    currentCameraSpeed = playerHorizontalSpeed;
-                }
+                cameraFromBehind = true;
+                currentCameraSpeed = playerIsMoving ? fastHorizontalSpeed : playerHorizontalSpeed;
             }
             else
             {
                 currentCameraSpeed = playerHorizontalSpeed;
+            }
+
+            if (!playerIsMoving && cameraFromBehind)
+            {
+                currentCameraSpeed = Mathf.Lerp(currentCameraSpeed, 0.0f, cameraDrag);
             }
         }
         else
@@ -116,6 +116,10 @@ public class CameraController : MonoBehaviour
         
         if (isMaxSpeed)
         {
+            if (horizontalMoveState == HorizontalMoveState.Slow)
+            {
+                cameraStartUpTimer = 0.35f;
+            }
             horizontalMoveState = HorizontalMoveState.Fast;
         }
         else if (direction != playerDirection)
@@ -136,5 +140,10 @@ public class CameraController : MonoBehaviour
     public void SetPlayerIsMoving(bool moving)
     {
         playerIsMoving = moving;
+
+        if (!playerIsMoving)
+        {
+            cameraFromBehind = false;
+        }
     }
 }

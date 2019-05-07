@@ -7,8 +7,11 @@ public class PlayerController : PhysicsObject
 {
     public float facingDirection = 1.0f;
 
+    public float drag = 0.12f;
+
     public float jumpSpeedY = 7f;
-    public float maxSpeed = 7f;
+    public float maxWalkSpeed = 2.5f;
+
     public float jumpCancelFactor = 0.6f;
     
     public float jumpGraceTime = 0.2f;
@@ -26,7 +29,7 @@ public class PlayerController : PhysicsObject
     {
         cameraController = GameObject.FindGameObjectWithTag("Camera").GetComponent<CameraController>();
         cameraController.SetHorizontalTarget(rb2d.position, facingDirection, false);
-        cameraController.SetPlayerHorizontalSpeed(maxSpeed);
+        cameraController.SetPlayerHorizontalSpeed(maxWalkSpeed);
     }
 
     protected override void ComputeVelocity()
@@ -70,38 +73,39 @@ public class PlayerController : PhysicsObject
             }
         }
 
-        // todo: do the friction properly
-        //move.x = Mathf.Lerp(0, move.x, holdDownTimer / holdDownTime);
-        targetVelocity = move * maxSpeed;
+        // apply horizontal input to speed
+        targetVelocity.x = move.x * maxWalkSpeed;
 
-        //if (targetVelocity.x > maxSpeed) targetVelocity.x = maxSpeed;
-        //if (targetVelocity.x < -maxSpeed) targetVelocity.x = -maxSpeed;
+        // apply drag
+        targetVelocity.x = Mathf.Lerp(targetVelocity.x, 0, drag);
 
-        UpdateCamera(move.x);
-    }
+        // stop
+        if (Mathf.Abs(targetVelocity.x) <= 0.1f) targetVelocity.x = 0.0f;
 
-    void UpdateCamera(float xVelocity)
-    {
-        if (xVelocity == 0f)
+        // face the correct way
+        if (facingDirection != Mathf.Sign(move.x))
         {
-            holdDownTimer = 0f;
+            holdDownTimer = 0.0f;
+            facingDirection = Mathf.Sign(move.x);
         }
 
+        // limit the speed
+        //targetVelocity.x = Mathf.Min(Mathf.Abs(targetVelocity.x), maxHorizontalSpeed) * facingDirection;
+        
+        UpdateCamera();
+    }
+
+    void UpdateCamera()
+    {
         if (cameraController)
         {
-            if (xVelocity != 0.0f)
+            if (targetVelocity.x != 0.0f)
             {
-                if (facingDirection != Mathf.Sign(xVelocity))
-                {
-                    holdDownTimer = 0.0f;
-                    facingDirection = Mathf.Sign(xVelocity);
-                }
-
-                bool isMaxSpeed = holdDownTimer > holdDownTime;
+                bool isMaxSpeed = Mathf.Abs(targetVelocity.x) == Mathf.Lerp(maxWalkSpeed, 0, drag);
                 cameraController.SetHorizontalTarget(rb2d.position, facingDirection, isMaxSpeed);
             }
 
-            cameraController.SetPlayerIsMoving(xVelocity != 0.0f);
+            cameraController.SetPlayerIsMoving(targetVelocity.x != 0.0f);
         }
 
         holdDownTimer += Time.deltaTime;

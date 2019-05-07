@@ -274,8 +274,9 @@ MonoBehaviour:
   minGroundNormalY: 0.65
   gravityModifier: 0.5
   facingDirection: 1
+  drag: 0.325
   jumpSpeedY: 17
-  maxSpeed: 2.75
+  maxWalkSpeed: 3.3
   jumpCancelFactor: 0.6
   jumpGraceTime: 0.1
   jumpInputBufferTime: 0.1
@@ -7207,8 +7208,8 @@ MonoBehaviour:
   slowHorizontalSpeed: 1.75
   fastHorizontalSpeed: 4.25
   forwardDistance: 1
-  slowdownDistance: 1
-  slowdownFactor: 3
+  slowdownFactor: 10
+  cameraDrag: 0.245
   cameraStartUpTime: 1
 --- !u!61 &1152438956
 BoxCollider2D:
