@@ -11,6 +11,9 @@ public class PlayerController : PhysicsObject
 
     public float jumpSpeedY = 7f;
     public float maxWalkSpeed = 2.5f;
+    public float maxHorizontalSpeed = 3f;
+
+    private float horizontalSpeed = 0.0f;
 
     public float jumpCancelFactor = 0.6f;
     
@@ -29,7 +32,7 @@ public class PlayerController : PhysicsObject
     {
         cameraController = GameObject.FindGameObjectWithTag("Camera").GetComponent<CameraController>();
         cameraController.SetHorizontalTarget(rb2d.position, facingDirection, false);
-        cameraController.SetPlayerHorizontalSpeed(maxWalkSpeed);
+        cameraController.SetPlayerHorizontalSpeed(maxHorizontalSpeed);
     }
 
     protected override void ComputeVelocity()
@@ -74,24 +77,26 @@ public class PlayerController : PhysicsObject
         }
 
         // apply horizontal input to speed
-        targetVelocity.x = move.x * maxWalkSpeed;
+        horizontalSpeed += move.x * maxWalkSpeed;
 
         // apply drag
-        targetVelocity.x = Mathf.Lerp(targetVelocity.x, 0, drag);
+        horizontalSpeed = Mathf.Lerp(horizontalSpeed, 0, drag);
 
         // stop
-        if (Mathf.Abs(targetVelocity.x) <= 0.1f) targetVelocity.x = 0.0f;
+        if (Mathf.Abs(horizontalSpeed) <= 0.1f) horizontalSpeed = 0.0f;
 
         // face the correct way
-        if (facingDirection != Mathf.Sign(move.x))
+        if (facingDirection != Mathf.Sign(horizontalSpeed))
         {
             holdDownTimer = 0.0f;
-            facingDirection = Mathf.Sign(move.x);
+            facingDirection = Mathf.Sign(horizontalSpeed);
         }
 
         // limit the speed
-        //targetVelocity.x = Mathf.Min(Mathf.Abs(targetVelocity.x), maxHorizontalSpeed) * facingDirection;
-        
+        horizontalSpeed = Mathf.Min(Mathf.Abs(horizontalSpeed), maxHorizontalSpeed) * facingDirection;
+
+        targetVelocity.x = horizontalSpeed;
+
         UpdateCamera();
     }
 
@@ -101,7 +106,7 @@ public class PlayerController : PhysicsObject
         {
             if (targetVelocity.x != 0.0f)
             {
-                bool isMaxSpeed = Mathf.Abs(targetVelocity.x) == Mathf.Lerp(maxWalkSpeed, 0, drag);
+                bool isMaxSpeed = Mathf.Abs(targetVelocity.x) == maxHorizontalSpeed;
                 cameraController.SetHorizontalTarget(rb2d.position, facingDirection, isMaxSpeed);
             }
 
