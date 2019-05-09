@@ -276,8 +276,9 @@ MonoBehaviour:
   facingDirection: 1
   drag: 0.325
   jumpSpeedY: 17
-  maxWalkSpeed: 2
-  maxHorizontalSpeed: 2.5
+  horizontalAcceleration: 1000
+  maxHorizontalSpeed: 4.5
+  minimumHorizontalSpeed: 0.1
   jumpCancelFactor: 0.6
   jumpGraceTime: 0.1
   jumpInputBufferTime: 0.1
@@ -7207,8 +7208,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minimumHorizontalSpeed: 0.5
   slowHorizontalSpeed: 1.75
-  fastHorizontalSpeed: 4
-  forwardDistance: 1
+  fastHorizontalSpeed: 4.5
+  forwardDistance: 0.65
   slowdownFactor: 10
   cameraDrag: 0.245
   cameraStartUpTime: 1

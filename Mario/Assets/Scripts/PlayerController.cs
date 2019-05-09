@@ -10,8 +10,9 @@ public class PlayerController : PhysicsObject
     public float drag = 0.12f;
 
     public float jumpSpeedY = 7f;
-    public float maxWalkSpeed = 2.5f;
+    public float horizontalAcceleration = 1000f;
     public float maxHorizontalSpeed = 3f;
+    public float minimumHorizontalSpeed = 0.1f;
 
     private float horizontalSpeed = 0.0f;
 
@@ -75,15 +76,15 @@ public class PlayerController : PhysicsObject
                 velocity.y = velocity.y * jumpCancelFactor;
             }
         }
-
-        // apply horizontal input to speed
-        horizontalSpeed += move.x * maxWalkSpeed;
+        
+        // apply horizontal acceleration over time
+        horizontalSpeed = Mathf.MoveTowards(horizontalSpeed, move.x * maxHorizontalSpeed, horizontalAcceleration * Time.deltaTime);
 
         // apply drag
         horizontalSpeed = Mathf.Lerp(horizontalSpeed, 0, drag);
 
-        // stop
-        if (Mathf.Abs(horizontalSpeed) <= 0.1f) horizontalSpeed = 0.0f;
+        // stop if speed is below the minimum horizontal speed
+        if (Mathf.Abs(horizontalSpeed) <= minimumHorizontalSpeed) horizontalSpeed = 0.0f;
 
         // face the correct way
         if (facingDirection != Mathf.Sign(horizontalSpeed))
@@ -106,7 +107,7 @@ public class PlayerController : PhysicsObject
         {
             if (targetVelocity.x != 0.0f)
             {
-                bool isMaxSpeed = Mathf.Abs(targetVelocity.x) == maxHorizontalSpeed;
+                bool isMaxSpeed = Mathf.Abs(targetVelocity.x) == Mathf.Lerp(maxHorizontalSpeed, 0, drag);
                 cameraController.SetHorizontalTarget(rb2d.position, facingDirection, isMaxSpeed);
             }
 
