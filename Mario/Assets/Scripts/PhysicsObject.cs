@@ -41,7 +41,7 @@ public class PhysicsObject : MonoBehaviour
     {
         velocity += gravityModifier * Physics2D.gravity * Time.deltaTime;
         velocity.x = targetVelocity.x;
-
+        
         grounded = false;
 
         Vector2 deltaPosition = velocity * Time.deltaTime;
@@ -55,6 +55,8 @@ public class PhysicsObject : MonoBehaviour
         move = Vector2.up * deltaPosition.y;
 
         Movement(move, true);
+
+        PositionIsSet();
     }
 
     //
@@ -63,6 +65,16 @@ public class PhysicsObject : MonoBehaviour
     // To be called by the update().
     //
     protected virtual void ComputeVelocity()
+    {
+
+    }
+
+    protected virtual void PositionIsSet()
+    {
+
+    }
+
+    protected virtual void OnLanded(int layer)
     {
 
     }
@@ -83,6 +95,8 @@ public class PhysicsObject : MonoBehaviour
     {
         float distance = move.magnitude;
 
+        GameObject groundObject = null; 
+
         if (distance > minMoveDistance)
         {
             int count = rb2d.Cast(move, contactFilter, hitBuffer, distance + shellRadius);
@@ -98,6 +112,7 @@ public class PhysicsObject : MonoBehaviour
                 if (currentNormal.y > minGroundNormalY)
                 {
                     grounded = true;
+                    
                     if (yMovement)
                     {
                         groundNormal = currentNormal;
@@ -113,10 +128,20 @@ public class PhysicsObject : MonoBehaviour
 
                 // Get the closest collision distance
                 float modifiedDistance = hitBufferList[i].distance - shellRadius;
-                distance = modifiedDistance < distance ? modifiedDistance : distance;
+
+                if (modifiedDistance < distance)
+                {
+                    groundObject = hitBufferList[i].collider.gameObject;
+                    distance = modifiedDistance;
+                }
             }
         }
 
         rb2d.position = rb2d.position + move.normalized * distance;
+
+        if (grounded && groundObject != null)
+        {
+            OnLanded(groundObject.layer);
+        }
     }
 }
