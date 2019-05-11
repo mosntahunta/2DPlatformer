@@ -8,24 +8,21 @@ public class PlayerController : PhysicsObject
     public float facingDirection = 1.0f;
 
     public float drag = 0.12f;
-
-    public float jumpSpeedY = 7f;
+    
     public float horizontalAcceleration = 1000f;
     public float maxHorizontalSpeed = 3f;
     public float minimumHorizontalSpeed = 0.1f;
+    private float horizontalSpeed = 0.0f;
 
     public float platformCameraMovementRange = 1f;
 
-    private float horizontalSpeed = 0.0f;
-
+    public float jumpSpeedY = 7f;
     public float jumpCancelFactor = 0.6f;
-    
     public float jumpGraceTime = 0.2f;
     public float jumpInputBufferTime = 0.2f;
-    
     private float jumpGraceTimer;
     private float jumpInputBufferTimer;
-
+    
     private CameraController cameraController;
     private float lastLandedPlatformHeight = float.NegativeInfinity;
 
@@ -108,7 +105,6 @@ public class PlayerController : PhysicsObject
                                    rb2d.position.y <= lastLandedPlatformHeight + platformCameraMovementRange;
         if (layerName == "Platform" && !positionWithinRange)
         {
-            Debug.Log("landed");
             lastLandedPlatformHeight = rb2d.position.y;
             cameraController.SetVerticalState(CameraController.VerticalState.PlatformLock);
             cameraController.SetVerticalTarget(rb2d.position, 2f); // todo: create public property for delay
@@ -129,6 +125,14 @@ public class PlayerController : PhysicsObject
             {
                 bool isMaxSpeed = Mathf.Abs(targetVelocity.x) == Mathf.Lerp(maxHorizontalSpeed, 0, drag);
                 cameraController.SetHorizontalTarget(rb2d.position, facingDirection, isMaxSpeed);
+            }
+
+            if (cameraController.GetVerticalState() == CameraController.VerticalState.PlatformLock)
+            {
+                if (rb2d.position.y < lastLandedPlatformHeight - platformCameraMovementRange)
+                {
+                    cameraController.SetVerticalState(CameraController.VerticalState.FreeMoving);
+                }
             }
             
             if (cameraController.GetVerticalState() == CameraController.VerticalState.FreeMoving)
