@@ -12,6 +12,8 @@ public class CameraController : MonoBehaviour
     public float slowdownFactor = 5f;
     public float cameraDrag = 0.4f;
 
+    public float cameraCollisionLookahead = 1f;
+
     private float cameraVerticalSpeed = 3f;
 
     private float cameraHorizontalSpeed = 0f;
@@ -20,13 +22,13 @@ public class CameraController : MonoBehaviour
     private float playerDirection = 0f;
     private bool playerIsMoving = false;
     
-    public float cameraStartUpTime = 0.5f;
-    private float cameraStartUpTimer = 0.0f;
+    public float cameraTurnTime = 0.5f;
+    private float cameraTurnTimer = 0.0f;
 
     private bool cameraFromBehind = false;
     private bool snap = false;
 
-    private float groundPositionY = -4.5f; // placeholder variable for now
+    private Camera cameraCache;
 
     Vector2 playerPosition;
     Vector3 cameraTarget;
@@ -46,14 +48,14 @@ public class CameraController : MonoBehaviour
         TopLock,
         FreeMoving
     }
-
-
+    
     // Start is called before the first frame update
     void Start()
     {
         Application.targetFrameRate = 300;
         horizontalState = HorizontalState.SlowMoving;
         verticalState = VerticalState.FreeMoving;
+        cameraCache = GetComponent<Camera>();
     }
 
     // Update is called once per frame
@@ -64,8 +66,36 @@ public class CameraController : MonoBehaviour
 
     void FixedUpdate()
     {
-        HorizontalMovement();
-        VerticalMovement();
+        RaycastHit2D horizontalHitBox;
+        RaycastHit2D verticalHitBox;
+
+        if (cameraTarget.x > transform.position.x)
+        {
+            horizontalHitBox = CheckForBoundary(new Vector2(1, 0));
+        }
+        else
+        {
+            horizontalHitBox = CheckForBoundary(new Vector2(-1, 0));
+        }
+
+        if (cameraTarget.y > transform.position.y)
+        {
+            verticalHitBox = CheckForBoundary(new Vector2(0, 1));
+        }
+        else
+        {
+            verticalHitBox = CheckForBoundary(new Vector2(0, -1));
+        }
+
+        if (horizontalHitBox.collider == null)
+        {
+            HorizontalMovement();
+        }
+
+        if (verticalHitBox.collider == null)
+        {
+            VerticalMovement();
+        }
     }
 
     void HorizontalMovement()
@@ -110,10 +140,10 @@ public class CameraController : MonoBehaviour
         if (cameraHorizontalSpeed < minimumHorizontalSpeed) cameraHorizontalSpeed = minimumHorizontalSpeed;
 
         // turning ramp up time
-        if (cameraStartUpTimer > 0)
+        if (cameraTurnTimer > 0)
         {
-            cameraStartUpTimer -= Time.deltaTime;
-            cameraHorizontalSpeed = Mathf.Lerp(cameraHorizontalSpeed, 0.0f, cameraStartUpTimer / cameraStartUpTime);
+            cameraTurnTimer -= Time.deltaTime;
+            cameraHorizontalSpeed = Mathf.Lerp(cameraHorizontalSpeed, 0.0f, cameraTurnTimer / cameraTurnTime);
         }
 
         Vector3 horizontalTarget = new Vector3(cameraTarget.x, transform.position.y, transform.position.z);
@@ -136,7 +166,28 @@ public class CameraController : MonoBehaviour
             Vector3 verticalTarget = new Vector3(transform.position.x, cameraTarget.y, transform.position.z);
             transform.position = Vector3.MoveTowards(transform.position, verticalTarget, Time.deltaTime * cameraVerticalSpeed);
         }
-        
+    }
+
+    RaycastHit2D CheckForBoundary(Vector2 direction)
+    {
+        float screenHeightHalf = cameraCache.orthographicSize;
+        float screenWidthHalf = cameraCache.aspect * screenHeightHalf;
+
+        Vector2 origin = new Vector2(transform.position.x + direction.x * screenWidthHalf, transform.position.y + direction.y * screenHeightHalf);
+        Vector2 size = Vector2.zero;
+
+        if (direction.x != 0)
+        {
+            size.x = cameraCollisionLookahead;
+            size.y = 2 * screenHeightHalf - 2;
+        }
+        else if (direction.y != 0)
+        {
+            size.x = 2 * screenWidthHalf - 2;
+            size.y = cameraCollisionLookahead;
+        }
+
+        return Physics2D.BoxCast(origin, size, 0, direction, cameraCollisionLookahead, LayerMask.GetMask("LevelBoundary"));
     }
 
     void SnapToPosition(float yPos)
@@ -152,14 +203,14 @@ public class CameraController : MonoBehaviour
         {
             if (horizontalState == HorizontalState.SlowMoving)
             {
-                cameraStartUpTimer = 0.35f;
+                cameraTurnTimer = 0.35f;
             }
             horizontalState = HorizontalState.FastMoving;
         }
         else if (direction != playerDirection)
         {
             horizontalState = HorizontalState.SlowMoving;
-            cameraStartUpTimer = cameraStartUpTime;
+            cameraTurnTimer = cameraTurnTime;
         }
 
         playerDirection = direction;
