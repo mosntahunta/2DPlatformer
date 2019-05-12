@@ -6,6 +6,7 @@ public class PhysicsObject : MonoBehaviour
 {
     public float minGroundNormalY = .65f;
     public float gravityModifier = 1.0f;
+    public float maxFall = 20f;
 
     protected bool grounded;
     protected Vector2 groundNormal;
@@ -39,7 +40,7 @@ public class PhysicsObject : MonoBehaviour
     
     void FixedUpdate()
     {
-        velocity += gravityModifier * Physics2D.gravity * Time.deltaTime;
+        velocity.y = Mathf.MoveTowards(velocity.y, maxFall, gravityModifier * Physics2D.gravity.y * Time.deltaTime);
         velocity.x = targetVelocity.x;
         
         grounded = false;
