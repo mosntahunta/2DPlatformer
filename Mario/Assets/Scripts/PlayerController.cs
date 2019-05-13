@@ -17,12 +17,15 @@ public class PlayerController : PhysicsObject
     public float platformCameraMovementRange = 1f;
 
     public float jumpSpeedY = 7f;
-    public float jumpCancelFactor = 0.6f;
+
     public float jumpGraceTime = 0.2f;
     public float jumpInputBufferTime = 0.2f;
+    public float jumpVarTime = 0f;
+
     private float jumpGraceTimer;
     private float jumpInputBufferTimer;
-    
+    private float jumpVarTimer = 0f;
+
     private CameraController cameraController;
     private float lastLandedPlatformHeight = float.NegativeInfinity;
 
@@ -58,19 +61,29 @@ public class PlayerController : PhysicsObject
             jumpInputBufferTimer -= Time.deltaTime;
         }
 
+        ApplyGravity();
+
+        // variable jumping
+        if (jumpVarTimer > 0)
+        {
+            jumpVarTimer -= Time.deltaTime;
+
+            if (CrossPlatformInputManager.GetButton("Jump"))
+            {
+                velocity.y = Mathf.Max(velocity.y, jumpSpeedY);
+            }
+            else
+            {
+                jumpVarTimer = 0;
+            }
+        }
+
         if (CrossPlatformInputManager.GetButtonDown("Jump"))
         {
             jumpInputBufferTimer = jumpInputBufferTime;
             if (jumpGraceTimer > 0)
             {
                 Jump();
-            }
-        }
-        else if (CrossPlatformInputManager.GetButtonUp("Jump")) // jump cancelling
-        {
-            if (velocity.y >= 0)
-            {
-                velocity.y = velocity.y * jumpCancelFactor;
             }
         }
         
@@ -97,9 +110,6 @@ public class PlayerController : PhysicsObject
 
     protected override void OnLanded(int layer)
     {
-        //
-        // todo: handle top-lock here
-        //
         string layerName = LayerMask.LayerToName(layer);
         bool positionWithinRange = rb2d.position.y >= lastLandedPlatformHeight - platformCameraMovementRange && 
                                    rb2d.position.y <= lastLandedPlatformHeight + platformCameraMovementRange;
@@ -147,6 +157,8 @@ public class PlayerController : PhysicsObject
     {
         jumpGraceTimer = 0;
         jumpInputBufferTimer = 0;
+        jumpVarTimer = jumpVarTime;
+
         velocity.y = jumpSpeedY;
     }
 }

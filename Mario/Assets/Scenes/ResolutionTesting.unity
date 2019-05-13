@@ -253,7 +253,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 159063025}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -4.29, z: 0}
+  m_LocalPosition: {x: -0.41, y: -4.29, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -273,17 +273,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minGroundNormalY: 0.65
   gravityModifier: 0.5
-  maxFall: 17
+  maxFall: 10
+  velocity: {x: 0, y: 0}
   facingDirection: 1
   drag: 0.325
   horizontalAcceleration: 1000
   maxHorizontalSpeed: 4.5
   minimumHorizontalSpeed: 0.1
   platformCameraMovementRange: 0.1
-  jumpSpeedY: 17
-  jumpCancelFactor: 0.6
+  jumpSpeedY: 12
   jumpGraceTime: 0.1
   jumpInputBufferTime: 0.1
+  jumpVarTime: 0.2
 --- !u!1 &349693309
 GameObject:
   m_ObjectHideFlags: 0
@@ -10262,7 +10263,8 @@ MonoBehaviour:
   forwardDistance: 0.65
   slowdownFactor: 10
   cameraDrag: 0.245
-  cameraStartUpTime: 1
+  cameraCollisionLookahead: 1
+  cameraTurnTime: 0.5
 --- !u!61 &1152438956
 BoxCollider2D:
   m_ObjectHideFlags: 0

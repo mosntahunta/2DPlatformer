@@ -7,7 +7,7 @@ public class PhysicsObject : MonoBehaviour
     public float minGroundNormalY = .65f;
     public float gravityModifier = 1.0f;
     public float maxFall = 20f;
-
+    
     protected bool grounded;
     protected Vector2 groundNormal;
     protected Rigidbody2D rb2d;
@@ -40,7 +40,6 @@ public class PhysicsObject : MonoBehaviour
     
     void FixedUpdate()
     {
-        velocity.y = Mathf.MoveTowards(velocity.y, maxFall, gravityModifier * Physics2D.gravity.y * Time.deltaTime);
         velocity.x = targetVelocity.x;
         
         grounded = false;
@@ -78,6 +77,11 @@ public class PhysicsObject : MonoBehaviour
     protected virtual void OnLanded(int layer)
     {
 
+    }
+
+    protected virtual void ApplyGravity()
+    {
+        velocity.y = Mathf.MoveTowards(velocity.y, -maxFall, gravityModifier * Mathf.Abs(Physics2D.gravity.y) * Time.deltaTime);
     }
 
     //
