@@ -113,13 +113,17 @@ public class PlayerController : PhysicsObject
         string layerName = LayerMask.LayerToName(layer);
         bool positionWithinRange = rb2d.position.y >= lastLandedPlatformHeight - platformCameraMovementRange && 
                                    rb2d.position.y <= lastLandedPlatformHeight + platformCameraMovementRange;
+
         if (layerName == "Platform" && !positionWithinRange)
         {
             lastLandedPlatformHeight = rb2d.position.y;
             cameraController.SetVerticalState(CameraController.VerticalState.PlatformLock);
             cameraController.SetVerticalTarget(rb2d.position, 2f); // todo: create public property for delay
         }
-        
+        else if (layerName == "Ground")
+        {
+            lastLandedPlatformHeight = rb2d.position.y;
+        }
     }
 
     protected override void PositionIsSet()
