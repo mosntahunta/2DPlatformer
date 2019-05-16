@@ -276,7 +276,7 @@ MonoBehaviour:
   maxFall: 10
   facingDirection: 1
   drag: 0.325
-  horizontalAcceleration: 1000
+  horizontalAcceleration: 200
   maxHorizontalSpeed: 4.5
   minimumHorizontalSpeed: 0.1
   platformCameraMovementRange: 0.1

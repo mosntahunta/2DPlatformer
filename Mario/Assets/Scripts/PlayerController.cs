@@ -39,8 +39,15 @@ public class PlayerController : PhysicsObject
     protected override void ComputeVelocity()
     {
         Vector2 move = Vector2.zero;
-        
-        move.x = CrossPlatformInputManager.GetAxis("Horizontal");
+
+        if (CrossPlatformInputManager.GetButton("Horizontal"))
+        {
+            move.x = Mathf.Sign(CrossPlatformInputManager.GetAxis("Horizontal"));
+        }
+        else
+        {
+            move.x = 0f;
+        }
 
         if (grounded)
         {
