@@ -32,12 +32,6 @@ public class PhysicsObject : MonoBehaviour
         contactFilter.useLayerMask = true;
     }
     
-    void Update()
-    {
-        targetVelocity = Vector2.zero;
-        ComputeVelocity();
-    }
-    
     void FixedUpdate()
     {
         velocity.x = targetVelocity.x;
@@ -57,16 +51,6 @@ public class PhysicsObject : MonoBehaviour
         Movement(move, true);
 
         PositionIsSet();
-    }
-
-    //
-    // Virtual function to calculate the target velocity
-    //
-    // To be called by the update().
-    //
-    protected virtual void ComputeVelocity()
-    {
-
     }
 
     protected virtual void PositionIsSet()

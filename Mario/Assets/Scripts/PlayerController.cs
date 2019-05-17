@@ -26,18 +26,29 @@ public class PlayerController : PhysicsObject
     private float jumpInputBufferTimer;
     private float jumpVarTimer = 0f;
 
-    private CameraController cameraController;
     private float lastLandedPlatformHeight = float.NegativeInfinity;
 
+    // state references
+    private int normalState = 0;
+
+    private CameraController cameraController;
+    private StateMachine stateMachine;
+    
     void Start()
     {
         cameraController = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraController>();
         cameraController.SetHorizontalTarget(rb2d.position, facingDirection, false);
         cameraController.SetPlayerHorizontalSpeed(maxHorizontalSpeed);
+
+        stateMachine = gameObject.AddComponent<StateMachine>();
+        stateMachine.Initialise(1);
+        stateMachine.SetCallbacks(normalState, null, null, NormalUpdate, null);
+        stateMachine.SetState(normalState);
     }
 
-    protected override void ComputeVelocity()
+    private int NormalUpdate()
     {
+        targetVelocity = Vector2.zero;
         Vector2 move = Vector2.zero;
 
         if (CrossPlatformInputManager.GetButton("Horizontal"))
@@ -113,6 +124,8 @@ public class PlayerController : PhysicsObject
         horizontalSpeed = Mathf.Min(Mathf.Abs(horizontalSpeed), maxHorizontalSpeed) * facingDirection;
 
         targetVelocity.x = horizontalSpeed;
+
+        return normalState;
     }
 
     protected override void OnLanded(int layer)
