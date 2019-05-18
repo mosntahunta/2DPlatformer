@@ -13,7 +13,8 @@ public class StateMachine : MonoBehaviour
     private Action[] stateEnterMethod;
     private Action[] stateExitMethod;
     private Func<int>[] stateUpdateMethod;
-    private IEnumerator[] stateCoroutine;
+    private Func<IEnumerator>[] stateCoroutine;
+    private Coroutine currentCoroutine = null;
 
     public void Initialise(int states)
     {
@@ -22,7 +23,7 @@ public class StateMachine : MonoBehaviour
         stateEnterMethod = new Action[numberOfStates];
         stateExitMethod = new Action[numberOfStates];
         stateUpdateMethod = new Func<int>[numberOfStates];
-        stateCoroutine = new IEnumerator[numberOfStates];
+        stateCoroutine = new Func<IEnumerator>[numberOfStates];
     }
     
     public bool Active()
@@ -30,7 +31,7 @@ public class StateMachine : MonoBehaviour
         return numberOfStates > 0 && currentState >= 0;
     }
 
-    public void SetCallbacks(int state, Action enter, Action exit, Func<int> update, IEnumerator coroutine)
+    public void SetCallbacks(int state, Action enter, Action exit, Func<int> update, Func<IEnumerator> coroutine)
     {
         stateEnterMethod[state] = enter;
         stateExitMethod[state] = exit;
@@ -40,12 +41,16 @@ public class StateMachine : MonoBehaviour
 
     public void SetState(int state)
     {
-        if (Active())
+        if (currentState != state)
         {
-            stateExitMethod[currentState]?.Invoke();
+            if (Active())
+            {
+                stateExitMethod[currentState]?.Invoke();
+            }
+            
+            currentState = state;
+            stateHasBegun = false;
         }
-        currentState = state;
-        stateHasBegun = false;
     }
     
     void Update()
@@ -56,14 +61,17 @@ public class StateMachine : MonoBehaviour
             {
                 stateEnterMethod[currentState]?.Invoke();
                 stateHasBegun = true;
-
+                
                 if (stateCoroutine[currentState] != null)
                 {
-                    StartCoroutine(stateCoroutine[currentState]);
+                    StartCoroutine(stateCoroutine[currentState]());
                 }
             }
 
-            stateUpdateMethod[currentState]?.Invoke();
+            if (stateUpdateMethod[currentState] != null)
+            {
+                SetState(stateUpdateMethod[currentState].Invoke());
+            }
         }
     }
 }

@@ -30,6 +30,7 @@ public class PlayerController : PhysicsObject
 
     // state references
     private int normalState = 0;
+    private int dashState = 1;
 
     private CameraController cameraController;
     private StateMachine stateMachine;
@@ -41,11 +42,13 @@ public class PlayerController : PhysicsObject
         cameraController.SetPlayerHorizontalSpeed(maxHorizontalSpeed);
 
         stateMachine = gameObject.AddComponent<StateMachine>();
-        stateMachine.Initialise(1);
+        stateMachine.Initialise(2);
         stateMachine.SetCallbacks(normalState, null, null, NormalUpdate, null);
+        stateMachine.SetCallbacks(dashState, DashBegin, DashExit, DashUpdate, DashCoroutine);
         stateMachine.SetState(normalState);
     }
 
+    // Normal state
     private int NormalUpdate()
     {
         targetVelocity = Vector2.zero;
@@ -58,6 +61,11 @@ public class PlayerController : PhysicsObject
         else
         {
             move.x = 0f;
+        }
+
+        if (CrossPlatformInputManager.GetButton("Fire1"))
+        {
+            return dashState;
         }
 
         if (grounded)
@@ -126,6 +134,30 @@ public class PlayerController : PhysicsObject
         targetVelocity.x = horizontalSpeed;
 
         return normalState;
+    }
+
+    // Dash state
+    private void DashBegin()
+    {
+        //Debug.Log("Dash begin");
+    }
+
+    private void DashExit()
+    {
+        //Debug.Log("Dash exit");
+    }
+
+    private int DashUpdate()
+    {
+        //Debug.Log("Dash update");
+        return dashState;
+    }
+
+    private IEnumerator DashCoroutine()
+    {
+        //Debug.Log("Dash Coroutine");
+        yield return null;
+        stateMachine.SetState(normalState);
     }
 
     protected override void OnLanded(int layer)
