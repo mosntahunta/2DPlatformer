@@ -281,8 +281,8 @@ MonoBehaviour:
   maxHorizontalSpeed: 4
   minimumHorizontalSpeed: 0.1
   horizontalSpeed: 0
-  jumpSpeedY: 8
-  superJumpSpeedY: 13
+  jumpSpeedY: 10
+  superJumpSpeedY: 12
   jumpGraceTime: 0.1
   jumpInputBufferTime: 0.1
   jumpVarTime: 0.2
@@ -10265,8 +10265,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minimumHorizontalSpeed: 0.5
-  slowHorizontalSpeed: 1.75
-  fastHorizontalSpeed: 4.5
+  turnAroundHSpeed: 1.75
+  followFromBehindHBoost: 0.5
   forwardDistance: 0.65
   slowdownFactor: 10
   cameraDrag: 0.245

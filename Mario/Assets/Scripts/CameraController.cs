@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public float minimumHorizontalSpeed = 0.5f;
-    public float slowHorizontalSpeed = 2f;
-    public float fastHorizontalSpeed = 10f;
+    public float minimumHSpeed = 0.5f;
+    public float turnAroundHSpeed = 2f;
+    public float followFromBehindHBoost = 0.5f;
 
     public float forwardDistance = 1f;
     public float slowdownFactor = 5f;
@@ -107,12 +107,17 @@ public class CameraController : MonoBehaviour
         {
             if (cameraToTarget < playerToTarget)
             {
-                cameraHorizontalSpeed = Mathf.Lerp(slowHorizontalSpeed / slowdownFactor, playerHorizontalSpeed, cameraToTarget / playerToTarget);
+                cameraHorizontalSpeed = Mathf.Lerp(turnAroundHSpeed / slowdownFactor, playerHorizontalSpeed, cameraToTarget / playerToTarget);
             }
             else if (cameraToTarget > playerToTarget)
             {
                 cameraFromBehind = true;
-                cameraHorizontalSpeed = playerIsMoving ? fastHorizontalSpeed : playerHorizontalSpeed;
+                cameraHorizontalSpeed = playerHorizontalSpeed;
+
+                if (playerIsMoving)
+                {
+                    cameraHorizontalSpeed += followFromBehindHBoost;
+                }
             }
             else
             {
@@ -128,16 +133,16 @@ public class CameraController : MonoBehaviour
         {
             if (cameraToTarget > playerToTarget)
             {
-                cameraHorizontalSpeed = slowHorizontalSpeed;
+                cameraHorizontalSpeed = turnAroundHSpeed;
             }
             else
             {
-                cameraHorizontalSpeed = Mathf.Lerp(slowHorizontalSpeed / slowdownFactor, slowHorizontalSpeed, cameraToTarget / playerToTarget);
+                cameraHorizontalSpeed = Mathf.Lerp(turnAroundHSpeed / slowdownFactor, turnAroundHSpeed, cameraToTarget / playerToTarget);
             }
         }
 
         // limit the camera speed
-        if (cameraHorizontalSpeed < minimumHorizontalSpeed) cameraHorizontalSpeed = minimumHorizontalSpeed;
+        if (cameraHorizontalSpeed < minimumHSpeed) cameraHorizontalSpeed = minimumHSpeed;
 
         // turning ramp up time
         if (cameraTurnTimer > 0)
@@ -195,11 +200,30 @@ public class CameraController : MonoBehaviour
         snap = true;
     }
 
-    public void SetHorizontalTarget(Vector2 playerPos, float direction, bool isMaxSpeed)
+    //
+    // Set the x position target for the camera to move towards.
+    //
+    // @param playerPos
+    //  Current player position in vector.
+    //
+    // @param direction
+    //  Direction the player is facing.
+    //
+    // @param moving
+    //  Whether or not the player is moving fast enough for the camera to follow.
+    //
+    public void SetHorizontalTarget(Vector2 playerPos, float direction, bool moving)
     {
         cameraTarget.x = playerPos.x + direction * forwardDistance;
-        
-        if (isMaxSpeed)
+
+        playerIsMoving = moving;
+
+        if (!playerIsMoving)
+        {
+            cameraFromBehind = false;
+        }
+
+        if (playerIsMoving)
         {
             if (horizontalState == HorizontalState.SlowMoving)
             {
@@ -217,19 +241,15 @@ public class CameraController : MonoBehaviour
         playerPosition = playerPos;
     }
 
+    //
+    // Set the horizontal speed of the player.
+    //
+    // @param speed
+    //  Player's horizontal speed.
+    //
     public void SetPlayerHorizontalSpeed(float speed)
     {
         playerHorizontalSpeed = speed;
-    }
-    
-    public void SetPlayerIsMoving(bool moving)
-    {
-        playerIsMoving = moving;
-
-        if (!playerIsMoving)
-        {
-            cameraFromBehind = false;
-        }
     }
 
     public void SetVerticalSpeed(float speed)
@@ -243,7 +263,6 @@ public class CameraController : MonoBehaviour
         {
             cameraTarget.y = playerPos.y;
         }
-        
     }
 
     public VerticalState GetVerticalState()

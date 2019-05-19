@@ -30,7 +30,6 @@ public class PlayerController : PhysicsObject
     private float jumpGraceTimer;
     private float jumpInputBufferTimer;
     private float jumpVarTimer = 0f;
-    
 
     public float dashSpeedX = 20f;
     public float dashTime = 0.15f;
@@ -52,7 +51,6 @@ public class PlayerController : PhysicsObject
     {
         cameraController = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraController>();
         cameraController.SetHorizontalTarget(rb2d.position, facingDirection, false);
-        cameraController.SetPlayerHorizontalSpeed(maxHorizontalSpeed);
 
         stateMachine = gameObject.AddComponent<StateMachine>();
         stateMachine.Initialise(2);
@@ -67,7 +65,6 @@ public class PlayerController : PhysicsObject
         {
             dashCooldownTimer -= Time.deltaTime;
         }
-        
     }
 
     // Normal state
@@ -248,12 +245,19 @@ public class PlayerController : PhysicsObject
     {
         if (cameraController)
         {
+            // Horizontal
             if (targetVelocity.x != 0.0f)
             {
-                bool isMaxSpeed = Mathf.Abs(targetVelocity.x) == maxHorizontalSpeed;
-                cameraController.SetHorizontalTarget(rb2d.position, facingDirection, isMaxSpeed);
+                bool playerIsMoving = Mathf.Abs(targetVelocity.x) >= maxHorizontalSpeed;
+                cameraController.SetHorizontalTarget(rb2d.position, facingDirection, playerIsMoving);
+
+                if (playerIsMoving)
+                {
+                    cameraController.SetPlayerHorizontalSpeed(Mathf.Abs(targetVelocity.x));
+                }
             }
 
+            // Vertical
             if (cameraController.GetVerticalState() == CameraController.VerticalState.PlatformLock)
             {
                 if (rb2d.position.y < lastLandedPlatformHeight - platformCameraMovementRange)
@@ -266,7 +270,6 @@ public class PlayerController : PhysicsObject
             {
                 cameraController.SetVerticalTarget(rb2d.position, 0.0f);
             }
-            cameraController.SetPlayerIsMoving(targetVelocity.x != 0.0f);
         }
     }
 }
