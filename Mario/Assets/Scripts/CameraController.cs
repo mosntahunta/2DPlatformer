@@ -14,6 +14,7 @@ public class CameraController : MonoBehaviour
 
     public float cameraCollisionLookahead = 1f;
 
+    public float platformCameraVerticalSpeed = 7f;
     private float cameraVerticalSpeed = 3f;
 
     private float cameraHorizontalSpeed = 0f;
@@ -162,14 +163,14 @@ public class CameraController : MonoBehaviour
 
     void VerticalMovement()
     {
+        Vector3 verticalTarget = new Vector3(transform.position.x, cameraTarget.y, transform.position.z);
         if (verticalState == VerticalState.FreeMoving)
         {
-            transform.position = new Vector3(transform.position.x, cameraTarget.y, transform.position.z);
+            transform.position = Vector3.MoveTowards(transform.position, verticalTarget, Time.deltaTime * cameraVerticalSpeed);
         }
         else if (verticalState == VerticalState.PlatformLock)
         {
-            Vector3 verticalTarget = new Vector3(transform.position.x, cameraTarget.y, transform.position.z);
-            transform.position = Vector3.MoveTowards(transform.position, verticalTarget, Time.deltaTime * cameraVerticalSpeed);
+            transform.position = Vector3.MoveTowards(transform.position, verticalTarget, Time.deltaTime * platformCameraVerticalSpeed);
         }
     }
 

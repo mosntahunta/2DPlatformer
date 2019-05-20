@@ -268,6 +268,7 @@ public class PlayerController : PhysicsObject
             
             if (cameraController.GetVerticalState() == CameraController.VerticalState.FreeMoving)
             {
+                cameraController.SetVerticalSpeed(Mathf.Abs(velocity.y));
                 cameraController.SetVerticalTarget(rb2d.position, 0.0f);
             }
         }
