@@ -33,8 +33,12 @@ public class PlayerController : PhysicsObject
 
     public float dashSpeedX = 20f;
     public float dashTime = 0.15f;
+
     public float dashCooldownTime = 0.2f;
     private float dashCooldownTimer = 0f;
+
+    public float shootTime = 0.1f;
+    private float shootTimer = 0f;
 
     public float platformCameraMovementRange = 1f;
 
@@ -65,6 +69,11 @@ public class PlayerController : PhysicsObject
         {
             dashCooldownTimer -= Time.deltaTime;
         }
+
+        if (shootTimer > 0)
+        {
+            shootTimer -= Time.deltaTime;
+        }
     }
 
     // Normal state
@@ -72,6 +81,16 @@ public class PlayerController : PhysicsObject
     {
         targetVelocity = Vector2.zero;
         moveX = 0;
+
+        // Shoot
+        if (CrossPlatformInputManager.GetButton("Fire"))
+        {
+            if (shootTimer <= 0)
+            {
+                Shoot();
+                shootTimer = shootTime;
+            }
+        }
 
         // Horizontal Movement
         if (CrossPlatformInputManager.GetButton("Horizontal"))
@@ -153,6 +172,17 @@ public class PlayerController : PhysicsObject
         targetVelocity.x = horizontalSpeed;
 
         return normalState;
+    }
+
+    private void Shoot()
+    {
+        GameObject bullet = ObjectPooler.SharedInstance.GetPooledObject();
+        if (bullet != null)
+        {
+            bullet.transform.position = transform.position;
+            bullet.transform.rotation = Quaternion.LookRotation(Vector3.forward, new Vector3(facingDirection, 0, 0));
+            bullet.SetActive(true);
+        }
     }
 
     // Dash state
