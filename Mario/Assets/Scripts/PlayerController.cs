@@ -176,7 +176,7 @@ public class PlayerController : PhysicsObject
 
     private void Shoot()
     {
-        GameObject bullet = ObjectPooler.SharedInstance.GetPooledObject();
+        GameObject bullet = ObjectPooler.SharedInstance.GetPooledObject("PlayerBullet");
         if (bullet != null)
         {
             bullet.transform.position = transform.position;

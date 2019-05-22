@@ -281,8 +281,8 @@ MonoBehaviour:
   maxHorizontalSpeed: 4
   minimumHorizontalSpeed: 0.1
   horizontalSpeed: 0
-  jumpSpeedY: 8
-  superJumpSpeedY: 8
+  jumpSpeedY: 9
+  superJumpSpeedY: 9
   jumpGraceTime: 0.1
   jumpInputBufferTime: 0.1
   jumpVarTime: 0.2
