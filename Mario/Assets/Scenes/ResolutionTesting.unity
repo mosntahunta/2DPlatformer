@@ -132,8 +132,8 @@ GameObject:
   - component: {fileID: 159063029}
   - component: {fileID: 159063028}
   - component: {fileID: 159063027}
-  - component: {fileID: 159063026}
   - component: {fileID: 159063031}
+  - component: {fileID: 159063026}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -141,8 +141,8 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!70 &159063026
-CapsuleCollider2D:
+--- !u!61 &159063026
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -154,9 +154,19 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.012525201}
-  m_Size: {x: 0.4593563, y: 0.9621184}
-  m_Direction: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.5, y: 1}
+    newSize: {x: 2.5, y: 0.625}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.5, y: 1}
+  m_EdgeRadius: 0
 --- !u!50 &159063027
 Rigidbody2D:
   serializedVersion: 4
@@ -10364,10 +10374,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23fd5bf4e0647254198fd32bbed5ce4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemsToPool:
+  - objectToPool: {fileID: 5663552295502862965, guid: 1e22818f4e35f3b479c398ec91566a64,
+      type: 3}
+    amountToPool: 20
+    shouldExpand: 1
   pooledObjects: []
-  objectToPool: {fileID: 5663552295502862965, guid: 1e22818f4e35f3b479c398ec91566a64,
-    type: 3}
-  amountToPool: 20
 --- !u!1 &1250915499
 GameObject:
   m_ObjectHideFlags: 0

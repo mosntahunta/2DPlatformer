@@ -31,6 +31,8 @@ public class PlayerController : PhysicsObject
     private float jumpInputBufferTimer;
     private float jumpVarTimer = 0f;
 
+    private bool ducking = false;
+
     public float dashSpeedX = 20f;
     public float dashTime = 0.15f;
 
@@ -50,6 +52,8 @@ public class PlayerController : PhysicsObject
 
     private CameraController cameraController;
     private StateMachine stateMachine;
+
+    private BoxCollider2D hitBox;
     
     void Start()
     {
@@ -61,6 +65,8 @@ public class PlayerController : PhysicsObject
         stateMachine.SetCallbacks(normalState, null, null, NormalUpdate, null);
         stateMachine.SetCallbacks(dashState, DashBegin, DashExit, DashUpdate, DashCoroutine);
         stateMachine.SetState(normalState);
+
+        hitBox = GetComponent<BoxCollider2D>();
     }
 
     void Update()
@@ -92,12 +98,33 @@ public class PlayerController : PhysicsObject
             }
         }
 
-        // Horizontal Movement
+        // Horizontal Input
         if (CrossPlatformInputManager.GetButton("Horizontal"))
         {
             moveX = Mathf.Sign(CrossPlatformInputManager.GetAxis("Horizontal"));
         }
-        
+
+        if (grounded)
+        {
+            // Vertical Input
+            if (CrossPlatformInputManager.GetButton("Vertical"))
+            {
+                float yInputDir = Mathf.Sign(CrossPlatformInputManager.GetAxis("Vertical"));
+
+                if (yInputDir < 0 && !ducking)
+                {
+                    Duck();
+                }
+            }
+            else
+            {
+                if (ducking)
+                {
+                    Unduck();
+                }
+            }
+        }
+
         // approach the max speed with acceleration or deceleration
         if (Mathf.Abs(horizontalSpeed) > maxHorizontalSpeed && Mathf.Sign(horizontalSpeed) == moveX)
         {
@@ -174,6 +201,27 @@ public class PlayerController : PhysicsObject
         return normalState;
     }
 
+    // todo - use the get{} pattern
+    private void Duck()
+    {
+        if (hitBox)
+        {
+            hitBox.size = new Vector2(hitBox.size.x, hitBox.size.y / 2);
+            hitBox.offset = new Vector2(0, -hitBox.size.y / 2);
+            ducking = true;
+        }
+    }
+
+    private void Unduck()
+    {
+        if (hitBox)
+        {
+            hitBox.size = new Vector2(hitBox.size.x, hitBox.size.y * 2);
+            hitBox.offset = new Vector2(0, 0);
+            ducking = false; ;
+        }
+    }
+
     private void Shoot()
     {
         GameObject bullet = ObjectPooler.SharedInstance.GetPooledObject("PlayerBullet");
@@ -197,6 +245,11 @@ public class PlayerController : PhysicsObject
     private void DashBegin()
     {
         dashCooldownTimer = dashCooldownTime;
+
+        if (ducking)
+        {
+            Unduck();
+        }
     }
 
     private void DashExit()
@@ -232,6 +285,11 @@ public class PlayerController : PhysicsObject
         jumpInputBufferTimer = 0;
         jumpVarTimer = jumpVarTime;
 
+        if (ducking)
+        {
+            Unduck();
+        }
+
         velocity.y = jumpSpeedY;
 
         horizontalSpeed += moveX * jumpHBoost;
@@ -242,6 +300,11 @@ public class PlayerController : PhysicsObject
         jumpGraceTimer = 0;
         jumpInputBufferTimer = 0;
         jumpVarTimer = jumpVarTime;
+
+        if (ducking)
+        {
+            Unduck();
+        }
 
         velocity.y = superJumpSpeedY;
 
