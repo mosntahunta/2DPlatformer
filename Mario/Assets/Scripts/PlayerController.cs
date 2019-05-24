@@ -116,12 +116,10 @@ public class PlayerController : PhysicsObject
                     Duck();
                 }
             }
-            else
+            else if (ducking)
             {
-                if (ducking)
-                {
-                    Unduck();
-                }
+                
+                Unduck();
             }
         }
 
@@ -218,10 +216,10 @@ public class PlayerController : PhysicsObject
         {
             hitBox.size = new Vector2(hitBox.size.x, hitBox.size.y * 2);
             hitBox.offset = new Vector2(0, 0);
-            ducking = false; ;
+            ducking = false;
         }
     }
-
+    
     private void Shoot()
     {
         GameObject bullet = ObjectPooler.SharedInstance.GetPooledObject("PlayerBullet");
@@ -290,8 +288,10 @@ public class PlayerController : PhysicsObject
             Unduck();
         }
 
+        // Update and fixed update are not always 1-1, thus you can still sometimes
+        // duck while jumping due to grounded not being set to false in fixedupdate.
+        grounded = false;
         velocity.y = jumpSpeedY;
-
         horizontalSpeed += moveX * jumpHBoost;
     }
 
@@ -306,8 +306,9 @@ public class PlayerController : PhysicsObject
             Unduck();
         }
 
+        
+        grounded = false;
         velocity.y = superJumpSpeedY;
-
         horizontalSpeed = facingDirection * superJumpH;
     }
 
