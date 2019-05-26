@@ -8,7 +8,7 @@ public class NextLevelTrigger : MonoBehaviour
     {
         if (collider.gameObject.tag == "Player" && collider.GetType() == typeof(CapsuleCollider2D))
         {
-            GameControl.control.PrepareForTransitionToNextLevel();
+            //GameControl.control.PrepareForTransitionToNextLevel();
         }
     }
 }

@@ -296,7 +296,7 @@ MonoBehaviour:
   jumpGraceTime: 0.1
   jumpInputBufferTime: 0.1
   jumpVarTime: 0.2
-  jumpHBoost: 2
+  jumpHBoost: 1
   superJumpH: 12
   dashSpeedX: 10
   dashTime: 0.3
@@ -10341,6 +10341,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1202713626}
   - component: {fileID: 1202713627}
+  - component: {fileID: 1202713628}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -10380,6 +10381,18 @@ MonoBehaviour:
     amountToPool: 20
     shouldExpand: 1
   pooledObjects: []
+--- !u!114 &1202713628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1202713625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77b5db7838c18984eb5e033b49cf9f56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1250915499
 GameObject:
   m_ObjectHideFlags: 0

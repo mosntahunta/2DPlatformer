@@ -15,11 +15,11 @@ public class PointDisplay : MonoBehaviour
     {
         // Create the score display text game object
         GameObject gameObject = new GameObject("ScoreDisplayText");
-        foreach (Transform childTransform in GameControl.control.transform)
+        //foreach (Transform childTransform in GameControl.control.transform)
         {
-            if (childTransform.tag == "Canvas")
+            //if (childTransform.tag == "Canvas")
             {
-                gameObject.transform.SetParent(childTransform);
+                //gameObject.transform.SetParent(childTransform);
             }
         }
         

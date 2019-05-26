@@ -10,7 +10,7 @@ public class NextLevelLoader : MonoBehaviour
     {
         if (CrossPlatformInputManager.GetButtonDown("Jump") || CrossPlatformInputManager.GetButtonDown("Enter"))
         {
-            GameControl.control.LoadNextLevel();
+            //GameControl.control.LoadNextLevel();
         }
     }
 }

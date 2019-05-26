@@ -71,6 +71,19 @@ public class PlayerController : PhysicsObject
 
     void Update()
     {
+        // Save and Load for testing purposes. This will be replaced when we implement the UI.
+        if (CrossPlatformInputManager.GetButtonUp("Save"))
+        {
+            Debug.Log("save");
+            GameModel.SharedInstance.SaveData();
+        }
+
+        if (CrossPlatformInputManager.GetButtonUp("Load"))
+        {
+            Debug.Log("load");
+            GameModel.SharedInstance.LoadData();
+        }
+
         if (dashCooldownTimer > 0)
         {
             dashCooldownTimer -= Time.deltaTime;
@@ -93,6 +106,7 @@ public class PlayerController : PhysicsObject
         {
             if (shootTimer <= 0)
             {
+                GameModel.SharedInstance.playerData.currentLives++;
                 Shoot();
                 shootTimer = shootTime;
             }
