@@ -67,6 +67,7 @@ public class PlayerController : PhysicsObject
         stateMachine.SetState(normalState);
 
         hitBox = GetComponent<BoxCollider2D>();
+        hitBox.edgeRadius = 0.03f;
     }
 
     void Update()
