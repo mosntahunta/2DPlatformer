@@ -10393,6 +10393,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77b5db7838c18984eb5e033b49cf9f56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerData:
+    currentLives: 0
+    maxLives: 0
+    currentLevelIndex: 0
 --- !u!1 &1250915499
 GameObject:
   m_ObjectHideFlags: 0
