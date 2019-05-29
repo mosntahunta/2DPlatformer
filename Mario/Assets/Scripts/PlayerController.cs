@@ -333,15 +333,13 @@ public class PlayerController : PhysicsObject
         bool positionWithinRange = rb2d.position.y >= lastLandedPlatformHeight - platformCameraMovementRange && 
                                    rb2d.position.y <= lastLandedPlatformHeight + platformCameraMovementRange;
 
-        if (layerName == "Platform" && !positionWithinRange)
+        // todo: every ground utilises platform-lock camera for now, we may require free moving camera
+        // study super mario world camera more closely
+        if ((layerName == "Ground" || layerName == "Platform") && !positionWithinRange)
         {
             lastLandedPlatformHeight = rb2d.position.y;
             cameraController.SetVerticalState(CameraController.VerticalState.PlatformLock);
             cameraController.SetVerticalTarget(rb2d.position, 2f); // todo: create public property for delay
-        }
-        else if (layerName == "Ground")
-        {
-            lastLandedPlatformHeight = rb2d.position.y;
         }
     }
 
