@@ -22,6 +22,11 @@ public class BasicProjectile : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        gameObject.SetActive(false);
+    }
+
     private bool PointIsVisibleToCamera(Vector2 point)
     {
         if (Camera.main.WorldToViewportPoint(point).x < 0 || 

@@ -39,6 +39,8 @@ public class PlayerController : PhysicsObject
     public float dashCooldownTime = 0.2f;
     private float dashCooldownTimer = 0f;
 
+    public float enemyContactKnockbackSpeed = 10f;
+
     public float shootTime = 0.1f;
     private float shootTimer = 0f;
 
@@ -133,7 +135,6 @@ public class PlayerController : PhysicsObject
             }
             else if (ducking)
             {
-                
                 Unduck();
             }
         }
@@ -320,22 +321,37 @@ public class PlayerController : PhysicsObject
         {
             Unduck();
         }
-
         
         grounded = false;
         velocity.y = superJumpSpeedY;
         horizontalSpeed = facingDirection * superJumpH;
     }
-
-    protected override void OnLanded(int layer)
+    
+    protected override void OnCollision(Collider2D collider, Vector2 contactPosition)
     {
-        string layerName = LayerMask.LayerToName(layer);
-        bool positionWithinRange = rb2d.position.y >= lastLandedPlatformHeight - platformCameraMovementRange && 
+        GameObject collidedObject = collider.gameObject;
+        string layerName = LayerMask.LayerToName(collidedObject.layer);
+
+        // todo: Every type of ground uses the platform-lock camera for now. Later, we may also require the free moving camera.
+        // Study the super mario world camera more closely
+        if (grounded && (layerName == "Ground" || layerName == "Platform"))
+        {
+            OnLanded();
+        }
+
+        if (layerName == "Enemy")
+        {
+            horizontalSpeed = (contactPosition.x < collider.bounds.center.x) ? -enemyContactKnockbackSpeed : enemyContactKnockbackSpeed;
+            facingDirection = Mathf.Sign(horizontalSpeed);
+        }
+    }
+
+    private void OnLanded()
+    {
+        bool positionWithinRange = rb2d.position.y >= lastLandedPlatformHeight - platformCameraMovementRange &&
                                    rb2d.position.y <= lastLandedPlatformHeight + platformCameraMovementRange;
 
-        // todo: every ground utilises platform-lock camera for now, we may require free moving camera
-        // study super mario world camera more closely
-        if ((layerName == "Ground" || layerName == "Platform") && !positionWithinRange)
+        if (!positionWithinRange)
         {
             lastLandedPlatformHeight = rb2d.position.y;
             cameraController.SetVerticalState(CameraController.VerticalState.PlatformLock);

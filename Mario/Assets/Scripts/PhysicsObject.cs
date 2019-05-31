@@ -58,7 +58,7 @@ public class PhysicsObject : MonoBehaviour
 
     }
 
-    protected virtual void OnLanded(int layer)
+    protected virtual void OnCollision(Collider2D collider, Vector2 contactPosition)
     {
 
     }
@@ -84,7 +84,7 @@ public class PhysicsObject : MonoBehaviour
     {
         float distance = move.magnitude;
 
-        GameObject groundObject = null; 
+        Collider2D finalHitCollider = null; 
 
         if (distance > minMoveDistance)
         {
@@ -120,7 +120,7 @@ public class PhysicsObject : MonoBehaviour
 
                 if (modifiedDistance < distance)
                 {
-                    groundObject = hitBufferList[i].collider.gameObject;
+                    finalHitCollider = hitBufferList[i].collider;
                     distance = modifiedDistance;
                 }
             }
@@ -128,9 +128,9 @@ public class PhysicsObject : MonoBehaviour
 
         rb2d.position = rb2d.position + move.normalized * distance;
 
-        if (grounded && groundObject != null)
+        if (finalHitCollider != null)
         {
-            OnLanded(groundObject.layer);
+            OnCollision(finalHitCollider, rb2d.position);
         }
     }
 }

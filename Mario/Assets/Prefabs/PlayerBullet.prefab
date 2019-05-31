@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5663552295502862920}
   - component: {fileID: 5663552295502862966}
   - component: {fileID: 5663552295502862921}
+  - component: {fileID: 8353048975999949546}
   m_Layer: 28
   m_Name: PlayerBullet
   m_TagString: PlayerBullet
@@ -66,7 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51289d1d13b03204dbd661d6acff7ef5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
+  speed: 15
 --- !u!212 &5663552295502862921
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -115,3 +116,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!70 &8353048975999949546
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5663552295502862965}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.03244558, y: 0}
+  m_Size: {x: 0.44482034, y: 0.48808098}
+  m_Direction: 0
