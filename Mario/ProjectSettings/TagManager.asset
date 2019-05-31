@@ -28,24 +28,24 @@ TagManager:
   - Player
   - Enemy
   - Hazard
-  - Fall
-  - Interactable
-  - Brick
-  - Friend
-  - Projectile
-  - Invulnerable
-  - Untouchable
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
   - Neutral
-  - EnemyDeath
-  - PlayerDeath
+  - 
+  - 
   - LevelTrigger
-  - Transparent
-  - Flag
+  - 
+  - 
   - Ground
   - Platform
   - LevelBoundary
   - PlayerBullet
-  - 
+  - PlayerHurt
   - 
   - 
   m_SortingLayers:

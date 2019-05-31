@@ -39,6 +39,9 @@ public class PlayerController : PhysicsObject
     public float dashCooldownTime = 0.2f;
     private float dashCooldownTimer = 0f;
 
+    public float playerHurtTime = 1.5f;
+    private float playerHurtTimer = 0f;
+
     public float enemyContactKnockbackSpeed = 10f;
 
     public float shootTime = 0.1f;
@@ -95,6 +98,15 @@ public class PlayerController : PhysicsObject
         if (shootTimer > 0)
         {
             shootTimer -= Time.deltaTime;
+        }
+
+        if (playerHurtTimer > 0)
+        {
+            playerHurtTimer -= Time.deltaTime;
+        }
+        else
+        {
+            gameObject.layer = LayerMask.NameToLayer("Player");
         }
     }
 
@@ -343,6 +355,9 @@ public class PlayerController : PhysicsObject
         {
             horizontalSpeed = (contactPosition.x < collider.bounds.center.x) ? -enemyContactKnockbackSpeed : enemyContactKnockbackSpeed;
             facingDirection = Mathf.Sign(horizontalSpeed);
+
+            gameObject.layer = LayerMask.NameToLayer("PlayerHurt");
+            playerHurtTimer = playerHurtTime;
         }
     }
 

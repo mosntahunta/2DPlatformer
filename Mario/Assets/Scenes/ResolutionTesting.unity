@@ -433,7 +433,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.004374981, y: 0.022012115}
@@ -583,6 +583,7 @@ MonoBehaviour:
   dashSpeedX: 10
   dashTime: 0.3
   dashCooldownTime: 0.2
+  playerHurtTime: 2
   enemyContactKnockbackSpeed: 12
   shootTime: 0.12
   platformCameraMovementRange: 0.5
