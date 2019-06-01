@@ -121,7 +121,6 @@ public class PlayerController : PhysicsObject
         {
             if (shootTimer <= 0)
             {
-                GameModel.SharedInstance.playerData.currentLives++;
                 Shoot();
                 shootTimer = shootTime;
             }
@@ -353,11 +352,7 @@ public class PlayerController : PhysicsObject
 
         if (layerName == "Enemy")
         {
-            horizontalSpeed = (contactPosition.x < collider.bounds.center.x) ? -enemyContactKnockbackSpeed : enemyContactKnockbackSpeed;
-            facingDirection = Mathf.Sign(horizontalSpeed);
-
-            gameObject.layer = LayerMask.NameToLayer("PlayerHurt");
-            playerHurtTimer = playerHurtTime;
+            OnHit(collider, contactPosition);
         }
     }
 
@@ -371,6 +366,22 @@ public class PlayerController : PhysicsObject
             lastLandedPlatformHeight = rb2d.position.y;
             cameraController.SetVerticalState(CameraController.VerticalState.PlatformLock);
             cameraController.SetVerticalTarget(rb2d.position, 2f); // todo: create public property for delay
+        }
+    }
+
+    private void OnHit(Collider2D collider, Vector2 contactPosition)
+    {
+        horizontalSpeed = (contactPosition.x < collider.bounds.center.x) ? -enemyContactKnockbackSpeed : enemyContactKnockbackSpeed;
+        facingDirection = Mathf.Sign(horizontalSpeed);
+
+        gameObject.layer = LayerMask.NameToLayer("PlayerHurt");
+        playerHurtTimer = playerHurtTime;
+
+        GameModel.SharedInstance.playerData.currentLives--;
+
+        if (GameModel.SharedInstance.playerData.currentLives == 0)
+        {
+            // todo: player death
         }
     }
 

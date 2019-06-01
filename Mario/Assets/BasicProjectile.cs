@@ -5,6 +5,9 @@ using UnityEngine;
 public class BasicProjectile : MonoBehaviour
 {
     public float speed = 20f;
+    public float damage = 10f;
+
+    // todo - later on there could be type of damage, on-hit effects (stun, knockback, paralysis, etc)
 
     private Rigidbody2D rb2d;
 

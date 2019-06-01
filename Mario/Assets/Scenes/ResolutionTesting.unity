@@ -235,6 +235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b8893871ff894945a19bbb80dd6db53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 0
 --- !u!61 &3732587
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -376,6 +377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b8893871ff894945a19bbb80dd6db53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 0
 --- !u!61 &67078403
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -702,6 +704,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b8893871ff894945a19bbb80dd6db53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 0
 --- !u!61 &207677047
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -843,6 +846,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b8893871ff894945a19bbb80dd6db53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 0
 --- !u!61 &226043786
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7317,6 +7321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b8893871ff894945a19bbb80dd6db53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 0
 --- !u!61 &493898376
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -47484,6 +47489,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b8893871ff894945a19bbb80dd6db53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 0
 --- !u!61 &742414740
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -47724,6 +47730,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b8893871ff894945a19bbb80dd6db53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 0
 --- !u!61 &912431387
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -47865,6 +47872,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b8893871ff894945a19bbb80dd6db53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 0
 --- !u!70 &985308021
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -47996,6 +48004,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b8893871ff894945a19bbb80dd6db53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 0
 --- !u!61 &1105793801
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -48292,6 +48301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b8893871ff894945a19bbb80dd6db53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 0
 --- !u!70 &1171673842
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -48568,6 +48578,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b8893871ff894945a19bbb80dd6db53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 0
 --- !u!70 &1354466163
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -48739,6 +48750,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b8893871ff894945a19bbb80dd6db53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 0
 --- !u!70 &1534856409
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -48766,8 +48778,8 @@ GameObject:
   - component: {fileID: 1541090458}
   - component: {fileID: 1541090457}
   - component: {fileID: 1541090456}
-  - component: {fileID: 1541090459}
   - component: {fileID: 1541090460}
+  - component: {fileID: 1541090459}
   m_Layer: 10
   m_Name: Bat
   m_TagString: Untagged
@@ -48868,9 +48880,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1541090455}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b8893871ff894945a19bbb80dd6db53, type: 3}
+  m_Script: {fileID: 11500000, guid: 8295d1527678a9b4380a2fa1e364e2bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 10
 --- !u!70 &1541090460
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -49202,6 +49215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b8893871ff894945a19bbb80dd6db53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 0
 --- !u!70 &1567785902
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -49535,6 +49549,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b8893871ff894945a19bbb80dd6db53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 0
 --- !u!61 &1653136657
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -49676,6 +49691,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b8893871ff894945a19bbb80dd6db53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 0
 --- !u!61 &2120395700
 BoxCollider2D:
   m_ObjectHideFlags: 0

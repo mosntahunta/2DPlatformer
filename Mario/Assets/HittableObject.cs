@@ -4,9 +4,17 @@ using UnityEngine;
 
 public class HittableObject : MonoBehaviour
 {
-    protected int health;
+    public float maxHealth;
 
-    protected virtual void OnHit()
+    protected float currentHealth;
+
+    void Start()
+    {
+        currentHealth = maxHealth;
+    }
+
+    // the inherited classes will determine how they will process the damage
+    protected virtual void OnHit(float damage)
     {
         Debug.Log("hit");
     }
@@ -16,7 +24,8 @@ public class HittableObject : MonoBehaviour
         // Todo: this should be more generic as there could be other ways of hitting such as melee attacks, bombs, etc
         if (collider.tag == "PlayerBullet")
         {
-            OnHit();
+            BasicProjectile projectile = collider.gameObject.GetComponent<BasicProjectile>();
+            OnHit(projectile.damage);
         }
     }
 
