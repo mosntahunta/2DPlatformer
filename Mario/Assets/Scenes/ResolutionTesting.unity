@@ -131,8 +131,8 @@ GameObject:
   - component: {fileID: 3732583}
   - component: {fileID: 3732585}
   - component: {fileID: 3732584}
-  - component: {fileID: 3732586}
   - component: {fileID: 3732587}
+  - component: {fileID: 3732586}
   m_Layer: 19
   m_Name: DestructibleBox (4)
   m_TagString: Untagged
@@ -232,10 +232,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3732582}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b8893871ff894945a19bbb80dd6db53, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d437f10346e65743ad919e91998d6d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 0
+  maxHealth: 30
 --- !u!61 &3732587
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -273,8 +273,8 @@ GameObject:
   - component: {fileID: 67078399}
   - component: {fileID: 67078401}
   - component: {fileID: 67078400}
-  - component: {fileID: 67078402}
   - component: {fileID: 67078403}
+  - component: {fileID: 67078402}
   m_Layer: 19
   m_Name: DestructibleBox (7)
   m_TagString: Untagged
@@ -374,10 +374,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 67078398}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b8893871ff894945a19bbb80dd6db53, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d437f10346e65743ad919e91998d6d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 0
+  maxHealth: 30
 --- !u!61 &67078403
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -587,7 +587,7 @@ MonoBehaviour:
   dashCooldownTime: 0.2
   playerHurtTime: 2
   enemyContactKnockbackSpeed: 12
-  shootTime: 0.12
+  shootTime: 0.25
   platformCameraMovementRange: 0.5
 --- !u!1 &207677042
 GameObject:
@@ -600,8 +600,8 @@ GameObject:
   - component: {fileID: 207677043}
   - component: {fileID: 207677045}
   - component: {fileID: 207677044}
-  - component: {fileID: 207677046}
   - component: {fileID: 207677047}
+  - component: {fileID: 207677046}
   m_Layer: 19
   m_Name: DestructibleBox (9)
   m_TagString: Untagged
@@ -701,10 +701,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 207677042}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b8893871ff894945a19bbb80dd6db53, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d437f10346e65743ad919e91998d6d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 0
+  maxHealth: 30
 --- !u!61 &207677047
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -742,8 +742,8 @@ GameObject:
   - component: {fileID: 226043782}
   - component: {fileID: 226043784}
   - component: {fileID: 226043783}
-  - component: {fileID: 226043785}
   - component: {fileID: 226043786}
+  - component: {fileID: 226043785}
   m_Layer: 19
   m_Name: DestructibleBox (2)
   m_TagString: Untagged
@@ -843,10 +843,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 226043781}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b8893871ff894945a19bbb80dd6db53, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d437f10346e65743ad919e91998d6d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 0
+  maxHealth: 30
 --- !u!61 &226043786
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7217,8 +7217,8 @@ GameObject:
   - component: {fileID: 493898374}
   - component: {fileID: 493898373}
   - component: {fileID: 493898372}
-  - component: {fileID: 493898375}
   - component: {fileID: 493898376}
+  - component: {fileID: 493898375}
   m_Layer: 19
   m_Name: DestructibleBox
   m_TagString: Untagged
@@ -7318,10 +7318,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 493898371}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b8893871ff894945a19bbb80dd6db53, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d437f10346e65743ad919e91998d6d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 0
+  maxHealth: 30
 --- !u!61 &493898376
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -47385,8 +47385,8 @@ GameObject:
   - component: {fileID: 742414736}
   - component: {fileID: 742414738}
   - component: {fileID: 742414737}
-  - component: {fileID: 742414739}
   - component: {fileID: 742414740}
+  - component: {fileID: 742414739}
   m_Layer: 19
   m_Name: DestructibleBox (5)
   m_TagString: Untagged
@@ -47486,10 +47486,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 742414735}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b8893871ff894945a19bbb80dd6db53, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d437f10346e65743ad919e91998d6d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 0
+  maxHealth: 30
 --- !u!61 &742414740
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -47626,8 +47626,8 @@ GameObject:
   - component: {fileID: 912431383}
   - component: {fileID: 912431385}
   - component: {fileID: 912431384}
-  - component: {fileID: 912431386}
   - component: {fileID: 912431387}
+  - component: {fileID: 912431386}
   m_Layer: 19
   m_Name: DestructibleBox (1)
   m_TagString: Untagged
@@ -47727,10 +47727,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 912431382}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b8893871ff894945a19bbb80dd6db53, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d437f10346e65743ad919e91998d6d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 0
+  maxHealth: 30
 --- !u!61 &912431387
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -47770,7 +47770,7 @@ GameObject:
   - component: {fileID: 985308017}
   - component: {fileID: 985308021}
   - component: {fileID: 985308020}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BouncingBall (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47869,10 +47869,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 985308016}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b8893871ff894945a19bbb80dd6db53, type: 3}
+  m_Script: {fileID: 11500000, guid: ff0dbc2272b65fd42a7ca0eeaa242781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 0
+  maxHealth: 50
 --- !u!70 &985308021
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -47886,8 +47886,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 1}
+  m_Offset: {x: -0.037571907, y: -0.048843265}
+  m_Size: {x: 0.5491371, y: 0.6167667}
   m_Direction: 0
 --- !u!1 &1105793796
 GameObject:
@@ -47900,8 +47900,8 @@ GameObject:
   - component: {fileID: 1105793797}
   - component: {fileID: 1105793799}
   - component: {fileID: 1105793798}
-  - component: {fileID: 1105793800}
   - component: {fileID: 1105793801}
+  - component: {fileID: 1105793800}
   m_Layer: 19
   m_Name: DestructibleBox (3)
   m_TagString: Untagged
@@ -48001,10 +48001,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1105793796}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b8893871ff894945a19bbb80dd6db53, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d437f10346e65743ad919e91998d6d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 0
+  maxHealth: 30
 --- !u!61 &1105793801
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -48199,7 +48199,7 @@ GameObject:
   - component: {fileID: 1171673838}
   - component: {fileID: 1171673842}
   - component: {fileID: 1171673841}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BouncingBall (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48298,10 +48298,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1171673837}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b8893871ff894945a19bbb80dd6db53, type: 3}
+  m_Script: {fileID: 11500000, guid: ff0dbc2272b65fd42a7ca0eeaa242781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 0
+  maxHealth: 50
 --- !u!70 &1171673842
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -48315,8 +48315,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 1}
+  m_Offset: {x: -0.030057907, y: -0.045086384}
+  m_Size: {x: 0.6242809, y: 0.6242809}
   m_Direction: 0
 --- !u!1 &1202713625
 GameObject:
@@ -48476,7 +48476,7 @@ GameObject:
   - component: {fileID: 1354466159}
   - component: {fileID: 1354466163}
   - component: {fileID: 1354466162}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BouncingBall (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48575,10 +48575,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1354466158}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b8893871ff894945a19bbb80dd6db53, type: 3}
+  m_Script: {fileID: 11500000, guid: ff0dbc2272b65fd42a7ca0eeaa242781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 0
+  maxHealth: 50
 --- !u!70 &1354466163
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -48592,8 +48592,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 1}
+  m_Offset: {x: -0.03381443, y: -0.033814907}
+  m_Size: {x: 0.6317959, y: 0.6317959}
   m_Direction: 0
 --- !u!1 &1462792037
 GameObject:
@@ -48648,7 +48648,7 @@ GameObject:
   - component: {fileID: 1534856405}
   - component: {fileID: 1534856409}
   - component: {fileID: 1534856408}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BouncingBall (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48747,10 +48747,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1534856404}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b8893871ff894945a19bbb80dd6db53, type: 3}
+  m_Script: {fileID: 11500000, guid: ff0dbc2272b65fd42a7ca0eeaa242781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 0
+  maxHealth: 50
 --- !u!70 &1534856409
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -48764,8 +48764,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 1}
+  m_Offset: {x: -0.037571907, y: -0.030057907}
+  m_Size: {x: 0.594223, y: 0.594223}
   m_Direction: 0
 --- !u!1 &1541090455
 GameObject:
@@ -49113,7 +49113,7 @@ GameObject:
   - component: {fileID: 1567785899}
   - component: {fileID: 1567785902}
   - component: {fileID: 1567785901}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BouncingBall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49212,10 +49212,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1567785897}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b8893871ff894945a19bbb80dd6db53, type: 3}
+  m_Script: {fileID: 11500000, guid: ff0dbc2272b65fd42a7ca0eeaa242781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 0
+  maxHealth: 50
 --- !u!70 &1567785902
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -49229,8 +49229,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 1}
+  m_Offset: {x: -0.041328907, y: -0.041328907}
+  m_Size: {x: 0.601738, y: 0.601738}
   m_Direction: 0
 --- !u!1 &1602018593
 GameObject:
@@ -49445,8 +49445,8 @@ GameObject:
   - component: {fileID: 1653136653}
   - component: {fileID: 1653136655}
   - component: {fileID: 1653136654}
-  - component: {fileID: 1653136656}
   - component: {fileID: 1653136657}
+  - component: {fileID: 1653136656}
   m_Layer: 19
   m_Name: DestructibleBox (8)
   m_TagString: Untagged
@@ -49546,10 +49546,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1653136652}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b8893871ff894945a19bbb80dd6db53, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d437f10346e65743ad919e91998d6d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 0
+  maxHealth: 30
 --- !u!61 &1653136657
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -49587,8 +49587,8 @@ GameObject:
   - component: {fileID: 2120395696}
   - component: {fileID: 2120395698}
   - component: {fileID: 2120395697}
-  - component: {fileID: 2120395699}
   - component: {fileID: 2120395700}
+  - component: {fileID: 2120395699}
   m_Layer: 19
   m_Name: DestructibleBox (6)
   m_TagString: Untagged
@@ -49688,10 +49688,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2120395695}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b8893871ff894945a19bbb80dd6db53, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d437f10346e65743ad919e91998d6d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 0
+  maxHealth: 30
 --- !u!61 &2120395700
 BoxCollider2D:
   m_ObjectHideFlags: 0
