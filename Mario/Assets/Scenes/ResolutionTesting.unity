@@ -48883,7 +48883,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8295d1527678a9b4380a2fa1e364e2bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
+  maxHealth: 20
+  patrolDistanceY: 2
+  directionY: 1
+  patrolWaitTime: 0.5
+  maxSpeed: 5
+  minSpeed: 2
 --- !u!70 &1541090460
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
