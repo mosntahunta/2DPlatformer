@@ -60,7 +60,7 @@ public class PlayerController : PhysicsObject
 
     private BoxCollider2D hitBox;
     
-    void Start()
+    protected override void Start()
     {
         cameraController = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraController>();
         cameraController.SetHorizontalTarget(rb2d.position, facingDirection, false);

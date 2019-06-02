@@ -25,7 +25,7 @@ public class PhysicsObject : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
     }
     
-    void Start()
+    protected virtual void Start()
     {
         contactFilter.useTriggers = false;
         contactFilter.useLayerMask = true;

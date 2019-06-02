@@ -39,6 +39,11 @@ public class StateMachine : MonoBehaviour
         stateCoroutine[state] = coroutine;
     }
 
+    public int GetState()
+    {
+        return currentState;
+    }
+
     public void SetState(int state)
     {
         if (currentState != state)

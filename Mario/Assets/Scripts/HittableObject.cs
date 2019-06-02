@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HittableObject : MonoBehaviour
+public class HittableObject : PhysicsObject
 {
     public float maxHealth;
 
     protected float currentHealth;
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         currentHealth = maxHealth;
     }
 
     // the inherited classes will determine how they will process the damage
     protected virtual void OnHit(float damage)
     {
-        Debug.Log("hit");
     }
 
     void OnTriggerEnter2D(Collider2D collider)

@@ -21,11 +21,9 @@ public class BatEnemy : HittableObject
     private int patrolState = 1;
 
     private StateMachine stateMachine;
-    private Rigidbody2D rb2d;
 
-    void Start()
+    protected override void Start()
     {
-        rb2d = GetComponent<Rigidbody2D>();
         startY = rb2d.position.y;
         patrolWaitTimer = patrolWaitTime;
 
