@@ -354,6 +354,11 @@ public class PlayerController : PhysicsObject
         {
             OnHit(collider, contactPosition);
         }
+
+        if (layerName == "Trap")
+        {
+            OnDeath();
+        }
     }
 
     private void OnLanded()
@@ -381,8 +386,13 @@ public class PlayerController : PhysicsObject
 
         if (GameModel.SharedInstance.playerData.currentLives == 0)
         {
-            // todo: player death
+            OnDeath();
         }
+    }
+
+    private void OnDeath()
+    {
+        SceneController.SharedInstance.ReloadCurrentScene();
     }
 
     protected override void PositionIsSet()
