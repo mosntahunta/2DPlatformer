@@ -6,15 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MarioScenes/MainMenu.unity
-    guid: 3afae7038053c4c43b494f5af7b9e7c3
-  - enabled: 1
-    path: Assets/Scenes/MarioScenes/World1-1.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
-    path: Assets/Scenes/MarioScenes/World1-2.unity
-    guid: 9353e32815aef6c4e929b2e280d1b205
-  - enabled: 1
-    path: Assets/Scenes/MarioScenes/TransitionScreen.unity
-    guid: ce44e94ae1ea6ed468f6b23a8a27ff02
+    path: Assets/Scenes/ResolutionTesting.unity
+    guid: 3c1ca70f17809ed4faa1c335265950ca
   m_configObjects: {}

@@ -6,6 +6,9 @@ public class BasicProjectile : MonoBehaviour
 {
     public float speed = 20f;
     public float damage = 10f;
+    public float range = 10f;
+
+    private float startX = 0f;
 
     // todo - later on there could be type of damage, on-hit effects (stun, knockback, paralysis, etc)
 
@@ -15,11 +18,12 @@ public class BasicProjectile : MonoBehaviour
     {
         rb2d = GetComponent<Rigidbody2D>();
         rb2d.velocity = transform.up * speed;
+        startX = rb2d.position.x;
     }
 
     void Update()
     {
-        if (!PointIsVisibleToCamera(rb2d.position))
+        if (!PointIsVisibleToCamera(rb2d.position) || Mathf.Abs(rb2d.position.x - startX) >= range)
         {
             gameObject.SetActive(false);
         }
