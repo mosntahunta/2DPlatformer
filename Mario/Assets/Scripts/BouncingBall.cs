@@ -38,15 +38,6 @@ public class BouncingBall : HittableObject
         if (jumpTimer < 0)
         {
             jumpTimer = jumpTime;
-
-            // change direction if a wall is detected
-            // todo: is there an easy way to get all the layer mask for the current game object?
-            RaycastHit2D hit = Physics2D.Raycast(rb2d.position, new Vector2(facingDirection, 0), 1f, LayerMask.GetMask("Ground", "Platform", "Neutral") );
-            if (hit.collider != null)
-            {
-                facingDirection *= -1;
-            }
-
             velocity.y = jumpSpeed;
             grounded = false;
             return jumpState;
@@ -61,6 +52,14 @@ public class BouncingBall : HittableObject
 
     int JumpUpdate()
     {
+        // change direction if a wall is detected
+        // todo: is there an easy way to get all the layer mask for the current game object?
+        RaycastHit2D hit = Physics2D.Raycast(rb2d.position, new Vector2(facingDirection, 0), 0.5f, LayerMask.GetMask("Ground", "Platform", "Neutral"));
+        if (hit.collider != null)
+        {
+            facingDirection *= -1;
+        }
+
         targetVelocity.x = facingDirection * maxHorizontalSpeed;
 
         if (grounded)
@@ -79,8 +78,6 @@ public class BouncingBall : HittableObject
 
     protected override void OnCollision(Collider2D collider, Vector2 contactPosition)
     {
-        GameObject collidedObject = collider.gameObject;
-        string layerName = LayerMask.LayerToName(collidedObject.layer);
     }
 
     protected override void OnHit(float damage)
