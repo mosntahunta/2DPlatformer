@@ -24,6 +24,8 @@ public class BatEnemy : HittableObject
 
     protected override void Start()
     {
+        base.Start();
+
         startY = rb2d.position.y;
         patrolWaitTimer = patrolWaitTime;
 
