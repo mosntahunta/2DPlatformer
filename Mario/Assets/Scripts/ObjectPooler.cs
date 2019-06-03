@@ -43,6 +43,18 @@ public class ObjectPooler : MonoBehaviour
         }
     }
 
+    private GameObject CreateAndAddGameObject(ref GameObject objectToPool)
+    {
+        GameObject obj = Instantiate(objectToPool);
+        obj.SetActive(false);
+        pooledObjects.Add(obj);
+
+        // todo - bullets should persist across different levels, but later if you have screens (e.g. menu)
+        // that don't require bullets, should we delete and recreate when another level is loaded?
+        DontDestroyOnLoad(obj); 
+        return obj;
+    }
+
     //
     // Search for a pooled object that is not currently active in the scene and matches the given tag
     //
@@ -69,13 +81,5 @@ public class ObjectPooler : MonoBehaviour
         }
 
         return null;
-    }
-
-    private GameObject CreateAndAddGameObject(ref GameObject objectToPool)
-    {
-        GameObject obj = Instantiate(objectToPool);
-        obj.SetActive(false);
-        pooledObjects.Add(obj);
-        return obj;
     }
 }
