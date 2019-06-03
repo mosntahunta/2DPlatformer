@@ -44,6 +44,9 @@ public class PlayerController : PhysicsObject
 
     public float enemyContactKnockbackSpeed = 10f;
 
+    // temporary for now, later on, there will be inventory system for guns and items, etc
+    public bool canShoot = false;
+
     public float shootTime = 0.1f;
     private float shootTimer = 0f;
 
@@ -117,7 +120,7 @@ public class PlayerController : PhysicsObject
         moveX = 0;
 
         // Shoot
-        if (CrossPlatformInputManager.GetButton("Fire"))
+        if (CrossPlatformInputManager.GetButton("Fire") && canShoot)
         {
             if (shootTimer <= 0)
             {
@@ -430,6 +433,15 @@ public class PlayerController : PhysicsObject
                 cameraController.SetVerticalSpeed(Mathf.Abs(velocity.y));
                 cameraController.SetVerticalTarget(rb2d.position, 0.0f);
             }
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        
+        if (collider.gameObject.tag == "Weapon")
+        {
+            canShoot = true;
         }
     }
 }
