@@ -131,6 +131,7 @@ public class PlayerController : PhysicsObject
         else
         {
             meleeAttack.Sheathe();
+            animator.SetBool("MeleeAttacking", false);
         }
 
         if (playerHurtTimer > 0)
@@ -315,6 +316,7 @@ public class PlayerController : PhysicsObject
     {
         meleeAttack.Unsheathe();
         slashAttackTimer = slashAttackTime;
+        animator.SetBool("MeleeAttacking", true);
     }
 
     private void RangeAttack()
