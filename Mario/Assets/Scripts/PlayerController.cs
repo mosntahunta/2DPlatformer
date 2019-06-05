@@ -50,6 +50,12 @@ public class PlayerController : PhysicsObject
     public float shootTime = 0.1f;
     private float shootTimer = 0f;
 
+    public float slashCooldownTime = 0.25f;
+    private float slashCooldownTimer = 0f;
+
+    public float slashAttackTime = 0.10f;
+    private float slashAttackTimer = 0f;
+
     public float platformCameraMovementRange = 1f;
 
     private float lastLandedPlatformHeight = float.NegativeInfinity;
@@ -65,6 +71,8 @@ public class PlayerController : PhysicsObject
     private Animator animator;
 
     private Vector2 scaleVector;
+
+    MeleeAttack meleeAttack;
     
     protected override void Start()
     {
@@ -82,6 +90,8 @@ public class PlayerController : PhysicsObject
 
         animator = GetComponent<Animator>();
         scaleVector = new Vector2(1f, 1f);
+
+        meleeAttack = GetComponentInChildren<MeleeAttack>();
     }
 
     void Update()
@@ -109,6 +119,20 @@ public class PlayerController : PhysicsObject
             shootTimer -= Time.deltaTime;
         }
 
+        if (slashCooldownTimer > 0)
+        {
+            slashCooldownTimer -= Time.deltaTime;
+        }
+
+        if (slashAttackTimer > 0)
+        {
+            slashAttackTimer -= Time.deltaTime;
+        }
+        else
+        {
+            meleeAttack.Sheathe();
+        }
+
         if (playerHurtTimer > 0)
         {
             playerHurtTimer -= Time.deltaTime;
@@ -125,12 +149,25 @@ public class PlayerController : PhysicsObject
         targetVelocity = Vector2.zero;
         moveX = 0;
 
-        // Shoot
-        if (CrossPlatformInputManager.GetButton("Fire") && canShoot)
+        //
+        // todo - create weapon classes to define the attack speed, type of attack, etc
+        //
+        // Melee Attack
+        if (CrossPlatformInputManager.GetButton("MeleeAttack"))
+        {
+            if (slashCooldownTimer <= 0)
+            {
+                MeleeAttack();
+                slashCooldownTimer = slashCooldownTime;
+            }
+        }
+
+        // Range Attack
+        if (CrossPlatformInputManager.GetButton("RangeAttack"))
         {
             if (shootTimer <= 0)
             {
-                Shoot();
+                RangeAttack();
                 shootTimer = shootTime;
             }
         }
@@ -140,7 +177,10 @@ public class PlayerController : PhysicsObject
         {
             moveX = Mathf.Sign(CrossPlatformInputManager.GetAxis("Horizontal"));
             
-            animator.SetBool("Running", true);
+            if (grounded)
+            {
+                animator.SetBool("Running", true);
+            }
         }
         else
         {
@@ -163,6 +203,11 @@ public class PlayerController : PhysicsObject
             {
                 Unduck();
             }
+        }
+        else
+        {
+            // falling off the ground
+            animator.SetBool("Running", false);
         }
 
         // approach the max speed with acceleration or deceleration
@@ -265,8 +310,14 @@ public class PlayerController : PhysicsObject
             animator.SetBool("Ducking", ducking);
         }
     }
-    
-    private void Shoot()
+
+    private void MeleeAttack()
+    {
+        meleeAttack.Unsheathe();
+        slashAttackTimer = slashAttackTime;
+    }
+
+    private void RangeAttack()
     {
         GameObject bullet = ObjectPooler.SharedInstance.GetPooledObject("PlayerBullet");
         if (bullet != null)
@@ -468,9 +519,9 @@ public class PlayerController : PhysicsObject
         }
     }
 
+    // Item pickup
     void OnTriggerEnter2D(Collider2D collider)
     {
-        
         if (collider.gameObject.tag == "Weapon")
         {
             canShoot = true;
