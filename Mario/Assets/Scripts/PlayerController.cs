@@ -182,8 +182,6 @@ public class PlayerController : PhysicsObject
         if (horizontalSpeed != 0 && facingDirection != Mathf.Sign(horizontalSpeed))
         {
             facingDirection = Mathf.Sign(horizontalSpeed);
-            scaleVector.x = facingDirection;
-            transform.localScale = scaleVector;
         }
         
         // Dashing
@@ -423,6 +421,13 @@ public class PlayerController : PhysicsObject
 
     protected override void PositionIsSet()
     {
+        // flip the player sprite if needed
+        if (Mathf.Sign(scaleVector.x) != facingDirection)
+        {
+            scaleVector.x = facingDirection;
+            transform.localScale = scaleVector;
+        }
+
         UpdateCamera();
     }
 
