@@ -14,8 +14,9 @@ TagManager:
   - Flag
   - PointDisplay
   - Camera
-  - PlayerBullet
   - Weapon
+  - PlayerAttack
+  - PlayerBullet
   layers:
   - Default
   - TransparentFX
@@ -45,7 +46,7 @@ TagManager:
   - Ground
   - Platform
   - LevelBoundary
-  - PlayerBullet
+  - PlayerAttack
   - PlayerHurt
   - 
   - 

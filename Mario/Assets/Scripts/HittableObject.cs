@@ -21,11 +21,10 @@ public class HittableObject : PhysicsObject
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        // Todo: this should be more generic as there could be other ways of hitting such as melee attacks, bombs, etc
-        if (collider.tag == "PlayerBullet")
+        if (collider.gameObject.layer == LayerMask.NameToLayer("PlayerAttack"))
         {
-            BasicProjectile projectile = collider.gameObject.GetComponent<BasicProjectile>();
-            OnHit(projectile.damage);
+            Attack attack = collider.gameObject.GetComponent<Attack>();
+            OnHit(attack.damage);
         }
     }
 
