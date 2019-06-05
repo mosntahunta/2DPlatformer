@@ -248,7 +248,9 @@ public class PlayerController : PhysicsObject
         {
             hitBox.size = new Vector2(hitBox.size.x, hitBox.size.y / 2);
             hitBox.offset = new Vector2(0, -hitBox.size.y / 2);
+
             ducking = true;
+            animator.SetBool("Ducking", ducking);
         }
     }
 
@@ -258,7 +260,9 @@ public class PlayerController : PhysicsObject
         {
             hitBox.size = new Vector2(hitBox.size.x, hitBox.size.y * 2);
             hitBox.offset = new Vector2(0, 0);
+
             ducking = false;
+            animator.SetBool("Ducking", ducking);
         }
     }
     
