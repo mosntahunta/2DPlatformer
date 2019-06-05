@@ -62,6 +62,9 @@ public class PlayerController : PhysicsObject
     private StateMachine stateMachine;
 
     private BoxCollider2D hitBox;
+    private Animator animator;
+
+    private Vector2 scaleVector;
     
     protected override void Start()
     {
@@ -76,6 +79,9 @@ public class PlayerController : PhysicsObject
 
         hitBox = GetComponent<BoxCollider2D>();
         hitBox.edgeRadius = 0.03f;
+
+        animator = GetComponent<Animator>();
+        scaleVector = new Vector2(1f, 1f);
     }
 
     void Update()
@@ -133,6 +139,12 @@ public class PlayerController : PhysicsObject
         if (CrossPlatformInputManager.GetButton("Horizontal"))
         {
             moveX = Mathf.Sign(CrossPlatformInputManager.GetAxis("Horizontal"));
+            
+            animator.SetBool("Running", true);
+        }
+        else
+        {
+            animator.SetBool("Running", false);
         }
 
         if (grounded)
@@ -170,6 +182,8 @@ public class PlayerController : PhysicsObject
         if (horizontalSpeed != 0 && facingDirection != Mathf.Sign(horizontalSpeed))
         {
             facingDirection = Mathf.Sign(horizontalSpeed);
+            scaleVector.x = facingDirection;
+            transform.localScale = scaleVector;
         }
         
         // Dashing
@@ -255,6 +269,7 @@ public class PlayerController : PhysicsObject
         GameObject bullet = ObjectPooler.SharedInstance.GetPooledObject("PlayerBullet");
         if (bullet != null)
         {
+            // todo fix this to get proper direction
             bullet.transform.position = transform.position;
             bullet.transform.rotation = Quaternion.LookRotation(Vector3.forward, new Vector3(facingDirection, 0, 0));
             bullet.SetActive(true);
@@ -272,6 +287,7 @@ public class PlayerController : PhysicsObject
 
     private void DashBegin()
     {
+        animator.SetBool("Dashing", true);
         dashCooldownTimer = dashCooldownTime;
 
         if (ducking)
@@ -282,6 +298,7 @@ public class PlayerController : PhysicsObject
 
     private void DashExit()
     {
+        animator.SetBool("Dashing", false);
     }
 
     private int DashUpdate()
@@ -323,6 +340,8 @@ public class PlayerController : PhysicsObject
         grounded = false;
         velocity.y = jumpSpeedY;
         horizontalSpeed += moveX * jumpHBoost;
+
+        animator.SetBool("Jumping", true);
     }
 
     private void SuperJump()
@@ -339,6 +358,8 @@ public class PlayerController : PhysicsObject
         grounded = false;
         velocity.y = superJumpSpeedY;
         horizontalSpeed = facingDirection * superJumpH;
+
+        animator.SetBool("Jumping", true);
     }
     
     protected override void OnCollision(Collider2D collider, Vector2 contactPosition)
@@ -375,6 +396,8 @@ public class PlayerController : PhysicsObject
             cameraController.SetVerticalState(CameraController.VerticalState.PlatformLock);
             cameraController.SetVerticalTarget(rb2d.position, 2f); // todo: create public property for delay
         }
+
+        animator.SetBool("Jumping", false);
     }
 
     private void OnHit(Collider2D collider, Vector2 contactPosition)
