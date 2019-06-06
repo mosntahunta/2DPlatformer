@@ -14,9 +14,7 @@ public class PlayerController : PhysicsObject
     public float maxHorizontalSpeed = 3f;
     public float minimumHorizontalSpeed = 0.1f;
     public float horizontalSpeed = 0.0f;
-
-    private float moveX = 0f;
-
+    
     public float jumpSpeedY = 7f;
     public float superJumpSpeedY = 10f;
 
@@ -30,6 +28,13 @@ public class PlayerController : PhysicsObject
     private float jumpGraceTimer;
     private float jumpInputBufferTimer;
     private float jumpVarTimer = 0f;
+
+    private float moveX = 0f;
+    private float forceMoveX = 0f;
+    private float forceMoveXTimer = 0f;
+
+    public float wallJumpHSpeed = 5f;
+    public float wallJumpForceTime = 0.16f;
 
     private bool ducking = false;
 
@@ -148,7 +153,6 @@ public class PlayerController : PhysicsObject
     private int NormalUpdate()
     {
         targetVelocity = Vector2.zero;
-        moveX = 0;
 
         //
         // todo - create weapon classes to define the attack speed, type of attack, etc
@@ -173,19 +177,30 @@ public class PlayerController : PhysicsObject
             }
         }
 
-        // Horizontal Input
-        if (CrossPlatformInputManager.GetButton("Horizontal"))
+        
+        // Force Move X
+        if (forceMoveXTimer > 0)
         {
-            moveX = Mathf.Sign(CrossPlatformInputManager.GetAxis("Horizontal"));
-            
-            if (grounded)
-            {
-                animator.SetBool("Running", true);
-            }
+            forceMoveXTimer -= Time.deltaTime;
+            moveX = forceMoveX;
         }
         else
         {
-            animator.SetBool("Running", false);
+            // Horizontal Input
+            if (CrossPlatformInputManager.GetButton("Horizontal"))
+            {
+                moveX = Mathf.Sign(CrossPlatformInputManager.GetAxis("Horizontal"));
+
+                if (grounded)
+                {
+                    animator.SetBool("Running", true);
+                }
+            }
+            else
+            {
+                moveX = 0;
+                animator.SetBool("Running", false);
+            }
         }
 
         if (grounded)
@@ -279,6 +294,14 @@ public class PlayerController : PhysicsObject
             if (jumpGraceTimer > 0)
             {
                 Jump();
+            }
+            else if (WallJumpCheck(1))
+            {
+                WallJump(-1);
+            }
+            else if (WallJumpCheck(-1))
+            {
+                WallJump(1);
             }
         }
 
@@ -415,6 +438,33 @@ public class PlayerController : PhysicsObject
         horizontalSpeed = facingDirection * superJumpH;
 
         animator.SetBool("Jumping", true);
+    }
+
+    private void WallJump(int direction)
+    {
+        jumpGraceTimer = 0;
+        jumpVarTimer = jumpVarTime;
+
+        if (moveX != 0)
+        {
+            forceMoveX = direction;
+            forceMoveXTimer = wallJumpForceTime;
+        }
+
+        horizontalSpeed = wallJumpHSpeed * direction;
+        velocity.y = jumpSpeedY;
+    }
+
+    private bool WallJumpCheck(int direction)
+    {
+        Vector2 rayStart = new Vector2(transform.position.x, transform.position.y);
+        Vector2 directionVector = new Vector2(direction, 0f);
+
+        float wallJumpCheckDist = hitBox.size.x / 2 + 0.05f;
+
+        RaycastHit2D hit = Physics2D.Raycast(rayStart, directionVector, wallJumpCheckDist, LayerMask.GetMask("Ground", "Platform"));
+        
+        return hit.collider != null;
     }
     
     protected override void OnCollision(Collider2D collider, Vector2 contactPosition)
