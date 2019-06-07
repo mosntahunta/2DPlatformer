@@ -136,6 +136,8 @@ MonoBehaviour:
   superJumpH: 12
   wallJumpHSpeed: 6.5
   wallJumpForceTime: 0.16
+  wallSlideStartMax: 1.25
+  wallSlideTime: 2
   dashSpeedX: 10
   dashTime: 0.3
   dashCooldownTime: 0.2

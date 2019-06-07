@@ -5,7 +5,7 @@ using UnityStandardAssets.CrossPlatformInput;
 
 public class PlayerController : PhysicsObject
 {
-    public float facingDirection = 1.0f;
+    public int facingDirection = 1;
 
     public float drag = 0.12f;
     
@@ -36,6 +36,11 @@ public class PlayerController : PhysicsObject
     public float wallJumpHSpeed = 5f;
     public float wallJumpForceTime = 0.16f;
 
+    public float wallSlideStartMax = 1.25f;
+    public float wallSlideTime = 1.2f;
+    private float wallSlideTimer = 0f;
+    private float wallSlideDirection = 0f;
+
     private bool ducking = false;
 
     public float dashSpeedX = 20f;
@@ -64,6 +69,8 @@ public class PlayerController : PhysicsObject
     public float platformCameraMovementRange = 1f;
 
     private float lastLandedPlatformHeight = float.NegativeInfinity;
+
+    private float modifiedMaxFall = 0f;
 
     // state references
     private int normalState = 0;
@@ -137,6 +144,13 @@ public class PlayerController : PhysicsObject
         {
             meleeAttack.Sheathe();
             animator.SetBool("MeleeAttacking", false);
+        }
+
+        //Wall Slide
+        if (wallSlideDirection != 0)
+        {
+            wallSlideTimer = Mathf.Max(wallSlideTimer - Time.deltaTime, 0);
+            wallSlideDirection = 0;
         }
 
         if (playerHurtTimer > 0)
@@ -242,7 +256,7 @@ public class PlayerController : PhysicsObject
         // face the correct way
         if (horizontalSpeed != 0 && facingDirection != Mathf.Sign(horizontalSpeed))
         {
-            facingDirection = Mathf.Sign(horizontalSpeed);
+            facingDirection = (int)Mathf.Sign(horizontalSpeed);
         }
         
         // Dashing
@@ -251,6 +265,15 @@ public class PlayerController : PhysicsObject
             return dashState;
         }
 
+        modifiedMaxFall = maxFall;
+
+        // Wall Slide
+        if (!grounded && moveX == facingDirection)
+        {
+            WallSlide();
+        }
+
+        // Gravity
         ApplyGravity();
 
         // Jumping
@@ -309,7 +332,7 @@ public class PlayerController : PhysicsObject
 
         return normalState;
     }
-
+    
     // todo - use the get{} pattern
     private void Duck()
     {
@@ -408,6 +431,8 @@ public class PlayerController : PhysicsObject
         jumpInputBufferTimer = 0;
         jumpVarTimer = jumpVarTime;
 
+        wallSlideTimer = wallSlideTime;
+
         if (ducking)
         {
             Unduck();
@@ -428,6 +453,8 @@ public class PlayerController : PhysicsObject
         jumpInputBufferTimer = 0;
         jumpVarTimer = jumpVarTime;
 
+        wallSlideTimer = wallSlideTime;
+
         if (ducking)
         {
             Unduck();
@@ -444,6 +471,8 @@ public class PlayerController : PhysicsObject
     {
         jumpGraceTimer = 0;
         jumpVarTimer = jumpVarTime;
+
+        wallSlideTimer = wallSlideTime;
 
         if (moveX != 0)
         {
@@ -466,7 +495,26 @@ public class PlayerController : PhysicsObject
         
         return hit.collider != null;
     }
-    
+
+    private void WallSlide()
+    {
+        if (velocity.y <= 0f && wallSlideTimer > 0 && WallJumpCheck(facingDirection))
+        {
+            ducking = false;
+            wallSlideDirection = facingDirection;
+        }
+
+        if (wallSlideDirection != 0)
+        {
+            if (wallSlideTimer > wallSlideTime * .5f)
+            {
+                wallSlideTimer = wallSlideTime * .5f;
+            }
+
+            modifiedMaxFall = Mathf.Lerp(maxFall, wallSlideStartMax, wallSlideTimer / wallSlideTime);
+        }
+    }
+
     protected override void OnCollision(Collider2D collider, Vector2 contactPosition)
     {
         GameObject collidedObject = collider.gameObject;
@@ -508,7 +556,7 @@ public class PlayerController : PhysicsObject
     private void OnHit(Collider2D collider, Vector2 contactPosition)
     {
         horizontalSpeed = (contactPosition.x < collider.bounds.center.x) ? -enemyContactKnockbackSpeed : enemyContactKnockbackSpeed;
-        facingDirection = Mathf.Sign(horizontalSpeed);
+        facingDirection = (int)Mathf.Sign(horizontalSpeed);
 
         gameObject.layer = LayerMask.NameToLayer("PlayerHurt");
         playerHurtTimer = playerHurtTime;
@@ -524,6 +572,11 @@ public class PlayerController : PhysicsObject
     private void OnDeath()
     {
         SceneController.SharedInstance.ReloadCurrentScene();
+    }
+
+    protected override void ApplyGravity()
+    {
+        velocity.y = Mathf.MoveTowards(velocity.y, -modifiedMaxFall, gravityModifier * Mathf.Abs(Physics2D.gravity.y) * Time.deltaTime);
     }
 
     protected override void PositionIsSet()

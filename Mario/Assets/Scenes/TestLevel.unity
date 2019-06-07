@@ -187,11 +187,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5326973649156011980, guid: 8c901cfa434d6114a82ba45923ecaca4,
-        type: 3}
-      propertyPath: wallJumpHSpeed
-      value: 6.5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8c901cfa434d6114a82ba45923ecaca4, type: 3}
 --- !u!1 &619850284
@@ -1360,29 +1355,29 @@ CompositeCollider2D:
   m_ColliderPaths:
   - m_Collider: {fileID: 9155190448528345491}
     m_ColliderPaths:
-    - - X: 0
+    - - X: -105000000
+        Y: -100000000
+      - X: -105000000
+        Y: -105000000
+      - X: 105000000
+        Y: -105000000
+      - X: 105000000
+        Y: -100000000
+      - X: 35000000
+        Y: -100000000
+      - X: 35000000
+        Y: 0
+      - X: 25000000
+        Y: 0
+      - X: 25000000
+        Y: -100000000
+      - X: 0
         Y: -100000000
       - X: 0
         Y: 0
       - X: -10000000
         Y: 0
       - X: -10000000
-        Y: -100000000
-      - X: -105000000
-        Y: -100000000
-      - X: -105000000
-        Y: -105000000
-      - X: 105000000
-        Y: -105000000
-      - X: 105000000
-        Y: -100000000
-      - X: 35000000
-        Y: -100000000
-      - X: 35000000
-        Y: 0
-      - X: 25000000
-        Y: 0
-      - X: 25000000
         Y: -100000000
   m_CompositePaths:
     m_Paths:
