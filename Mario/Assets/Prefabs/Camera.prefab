@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0757f33209b9a484d8be1fa43e1a7024, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minimumHSpeed: 0.5
+  minimumHSpeed: 0.25
   turnAroundHSpeed: 1.75
   followFromBehindHBoost: 0.5
   forwardDistance: 0.65

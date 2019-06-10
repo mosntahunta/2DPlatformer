@@ -119,7 +119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minGroundNormalY: 0.65
   gravityModifier: 0.4
-  maxFall: 10
+  maxFall: 8.5
   facingDirection: 1
   drag: 0.325
   horizontalAcceleration: 60

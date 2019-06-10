@@ -17,8 +17,7 @@ public class CameraController : MonoBehaviour
     public float positionCameraVerticalSpeed = 8f;
     public float platformCameraVerticalSpeed = 7f;
     private float cameraVerticalSpeed = 3f;
-
-    private float cameraHorizontalSpeed = 0f;
+    
     private float playerHorizontalSpeed = 0f;
 
     private float playerDirection = 0f;
@@ -27,20 +26,12 @@ public class CameraController : MonoBehaviour
     public float cameraTurnTime = 0.5f;
     private float cameraTurnTimer = 0.0f;
 
-    private bool cameraFromBehind = false;
-    private bool snap = false;
+    private float hDistanceMoved = 0.0f;
 
     private Camera cameraCache;
 
     Vector2 playerPosition;
     Vector3 cameraTarget;
-
-    HorizontalState horizontalState;
-    enum HorizontalState
-    {
-        SlowMoving,
-        FastMoving
-    }
 
     VerticalState verticalState;
     public enum VerticalState
@@ -55,7 +46,6 @@ public class CameraController : MonoBehaviour
     void Start()
     {
         Application.targetFrameRate = 300;
-        horizontalState = HorizontalState.SlowMoving;
         verticalState = VerticalState.PositionLock;
         cameraCache = GetComponent<Camera>();
     }
@@ -102,51 +92,34 @@ public class CameraController : MonoBehaviour
 
     void HorizontalMovement()
     {
+        // The horizontal movement uses the `Dual Forward Focus` camera to ensure that the player sees
+        // more in the direction he is facing.
+        float cameraHorizontalSpeed = minimumHSpeed;
         float cameraToTarget = Mathf.Abs(cameraTarget.x - transform.position.x);
         float playerToTarget = Mathf.Abs(cameraTarget.x - playerPosition.x);
-
-        if (horizontalState == HorizontalState.FastMoving)
+        
+        if (cameraToTarget < playerToTarget)
         {
-            if (cameraToTarget < playerToTarget)
-            {
-                cameraHorizontalSpeed = Mathf.Lerp(turnAroundHSpeed / slowdownFactor, playerHorizontalSpeed, cameraToTarget / playerToTarget);
-            }
-            else if (cameraToTarget > playerToTarget)
-            {
-                cameraFromBehind = true;
-                cameraHorizontalSpeed = playerHorizontalSpeed;
+            cameraHorizontalSpeed = Mathf.Lerp(minimumHSpeed, playerHorizontalSpeed, cameraToTarget / playerToTarget);
+        }
+        else if (cameraToTarget > playerToTarget)
+        {
+            cameraHorizontalSpeed = playerHorizontalSpeed;
 
-                if (playerIsMoving)
-                {
-                    cameraHorizontalSpeed += followFromBehindHBoost;
-                }
-            }
-            else
+            if (playerIsMoving)
             {
-                cameraHorizontalSpeed = playerHorizontalSpeed;
-            }
-
-            if (!playerIsMoving && cameraFromBehind)
-            {
-                cameraHorizontalSpeed = Mathf.Lerp(cameraHorizontalSpeed, 0.0f, cameraDrag);
+                cameraHorizontalSpeed += minimumHSpeed;
             }
         }
         else
         {
-            if (cameraToTarget > playerToTarget)
-            {
-                cameraHorizontalSpeed = turnAroundHSpeed;
-            }
-            else
-            {
-                cameraHorizontalSpeed = Mathf.Lerp(turnAroundHSpeed / slowdownFactor, turnAroundHSpeed, cameraToTarget / playerToTarget);
-            }
+            cameraHorizontalSpeed = playerHorizontalSpeed;
         }
 
         // limit the camera speed
         if (cameraHorizontalSpeed < minimumHSpeed) cameraHorizontalSpeed = minimumHSpeed;
 
-        // turning ramp up time
+        // stop the camera shaking when the player turns around
         if (cameraTurnTimer > 0)
         {
             cameraTurnTimer -= Time.deltaTime;
@@ -154,12 +127,7 @@ public class CameraController : MonoBehaviour
         }
 
         Vector3 horizontalTarget = new Vector3(cameraTarget.x, transform.position.y, transform.position.z);
-        transform.position = Vector3.MoveTowards(transform.position, horizontalTarget, Time.deltaTime * cameraHorizontalSpeed);
-
-        if (Mathf.Abs(cameraTarget.x - transform.position.x) == 0.0f)
-        {
-            horizontalState = HorizontalState.SlowMoving;
-        }
+        transform.position = Vector3.Lerp(transform.position, horizontalTarget, Time.deltaTime * cameraHorizontalSpeed);
     }
 
     void VerticalMovement()
@@ -197,49 +165,30 @@ public class CameraController : MonoBehaviour
         return Physics2D.BoxCast(origin, size, 0, direction, cameraCollisionLookahead, LayerMask.GetMask("LevelBoundary"));
     }
 
-    void SnapToPosition(float yPos)
-    {
-        snap = true;
-    }
-
     //
     // Set the x position target for the camera to move towards.
     //
     // @param playerPos
     //  Current player position in vector.
     //
-    // @param direction
+    // @param newPlayerDirection
     //  Direction the player is facing.
     //
     // @param moving
     //  Whether or not the player is moving fast enough for the camera to follow.
     //
-    public void SetHorizontalTarget(Vector2 playerPos, float direction, bool moving)
+    public void SetHorizontalTarget(Vector2 playerPos, float newPlayerDirection, bool moving)
     {
-        cameraTarget.x = playerPos.x + direction * forwardDistance;
+        cameraTarget.x = playerPos.x + newPlayerDirection * forwardDistance;
 
         playerIsMoving = moving;
-
-        if (!playerIsMoving)
+        
+        if (newPlayerDirection != playerDirection)
         {
-            cameraFromBehind = false;
-        }
-
-        if (playerIsMoving)
-        {
-            if (horizontalState == HorizontalState.SlowMoving)
-            {
-                cameraTurnTimer = 0.35f;
-            }
-            horizontalState = HorizontalState.FastMoving;
-        }
-        else if (direction != playerDirection)
-        {
-            horizontalState = HorizontalState.SlowMoving;
             cameraTurnTimer = cameraTurnTime;
         }
 
-        playerDirection = direction;
+        playerDirection = newPlayerDirection;
         playerPosition = playerPos;
     }
 
