@@ -187,6 +187,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5326973649156011980, guid: 8c901cfa434d6114a82ba45923ecaca4,
+        type: 3}
+      propertyPath: superJumpH
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5326973649156011980, guid: 8c901cfa434d6114a82ba45923ecaca4,
+        type: 3}
+      propertyPath: dashSpeedX
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 5326973649156011977, guid: 8c901cfa434d6114a82ba45923ecaca4,
         type: 3}
       propertyPath: m_Offset.y
@@ -399,7 +409,7 @@ PrefabInstance:
     - target: {fileID: 1459190399356123411, guid: b43720743c305fb4dafe7778b580d236,
         type: 3}
       propertyPath: positionCameraVerticalSpeed
-      value: 5
+      value: 2.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b43720743c305fb4dafe7778b580d236, type: 3}

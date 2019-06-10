@@ -26,7 +26,7 @@ public class CameraController : MonoBehaviour
     public float cameraTurnTime = 0.5f;
     private float cameraTurnTimer = 0.0f;
 
-    private float hDistanceMoved = 0.0f;
+    private float verticalOffset = 0.0f;
 
     private Camera cameraCache;
 
@@ -70,7 +70,7 @@ public class CameraController : MonoBehaviour
             horizontalHitBox = CheckForBoundary(new Vector2(-1, 0));
         }
 
-        if (cameraTarget.y > transform.position.y)
+        if (cameraTarget.y + verticalOffset > transform.position.y)
         {
             verticalHitBox = CheckForBoundary(new Vector2(0, 1));
         }
@@ -132,7 +132,7 @@ public class CameraController : MonoBehaviour
 
     void VerticalMovement()
     {
-        Vector3 verticalTarget = new Vector3(transform.position.x, cameraTarget.y, transform.position.z);
+        Vector3 verticalTarget = new Vector3(transform.position.x, cameraTarget.y + verticalOffset, transform.position.z);
         if (verticalState == VerticalState.PositionLock)
         {
             transform.position = Vector3.Lerp(transform.position, verticalTarget, Time.deltaTime * positionCameraVerticalSpeed);
@@ -214,6 +214,11 @@ public class CameraController : MonoBehaviour
         {
             cameraTarget.y = playerPos.y;
         }
+    }
+
+    public void SetVerticalOffset(float offset)
+    {
+        verticalOffset = offset;
     }
 
     public VerticalState GetVerticalState()

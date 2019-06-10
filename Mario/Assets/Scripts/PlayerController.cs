@@ -224,16 +224,33 @@ public class PlayerController : PhysicsObject
             // Vertical Input
             if (CrossPlatformInputManager.GetButton("Vertical"))
             {
+                // todo: manual camera control doesn't work when the player is near the boundaries in the opposite direction
+                float verticalCameraOffset = 0f;
                 float yInputDir = Mathf.Sign(CrossPlatformInputManager.GetAxis("Vertical"));
-
-                if (yInputDir < 0 && !ducking)
+                if (yInputDir < 0)
                 {
-                    Duck();
+                    verticalCameraOffset -= 3f;
+
+                    if (!ducking)
+                    {
+                        Duck();
+                    }
                 }
+                else
+                {
+                    verticalCameraOffset += 3f;
+                }
+                
+                cameraController.SetVerticalOffset(verticalCameraOffset);
             }
-            else if (ducking)
+            else 
             {
-                Unduck();
+                cameraController.SetVerticalOffset(0f);
+
+                if (ducking)
+                {
+                    Unduck();
+                }
             }
 
             animator.SetBool("Jumping", false);
