@@ -14,6 +14,7 @@ public class CameraController : MonoBehaviour
 
     public float cameraCollisionLookahead = 1f;
 
+    public float positionCameraVerticalSpeed = 8f;
     public float platformCameraVerticalSpeed = 7f;
     private float cameraVerticalSpeed = 3f;
 
@@ -45,17 +46,17 @@ public class CameraController : MonoBehaviour
     public enum VerticalState
     {
         GroundLock,
-        PlatformLock,
         TopLock,
-        FreeMoving
+        PlatformLock,
+        PositionLock
     }
-    
+
     // Start is called before the first frame update
     void Start()
     {
         Application.targetFrameRate = 300;
         horizontalState = HorizontalState.SlowMoving;
-        verticalState = VerticalState.FreeMoving;
+        verticalState = VerticalState.PositionLock;
         cameraCache = GetComponent<Camera>();
     }
 
@@ -164,9 +165,9 @@ public class CameraController : MonoBehaviour
     void VerticalMovement()
     {
         Vector3 verticalTarget = new Vector3(transform.position.x, cameraTarget.y, transform.position.z);
-        if (verticalState == VerticalState.FreeMoving)
+        if (verticalState == VerticalState.PositionLock)
         {
-            transform.position = Vector3.MoveTowards(transform.position, verticalTarget, Time.deltaTime * cameraVerticalSpeed);
+            transform.position = Vector3.Lerp(transform.position, verticalTarget, Time.deltaTime * positionCameraVerticalSpeed);
         }
         else if (verticalState == VerticalState.PlatformLock)
         {

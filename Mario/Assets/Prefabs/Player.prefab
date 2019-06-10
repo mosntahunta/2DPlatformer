@@ -118,7 +118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minGroundNormalY: 0.65
-  gravityModifier: 0.575
+  gravityModifier: 0.4
   maxFall: 10
   facingDirection: 1
   drag: 0.325
@@ -127,17 +127,17 @@ MonoBehaviour:
   maxHorizontalSpeed: 4
   minimumHorizontalSpeed: 0.1
   horizontalSpeed: 0
-  jumpSpeedY: 10
-  superJumpSpeedY: 10
+  jumpSpeedY: 9
+  superJumpSpeedY: 9
   jumpGraceTime: 0.1
   jumpInputBufferTime: 0.1
   jumpVarTime: 0.2
-  jumpHBoost: 1
+  jumpHBoost: 1.5
   superJumpH: 12
-  wallJumpHSpeed: 6.5
+  wallJumpHSpeed: 6
   wallJumpForceTime: 0.16
-  wallSlideStartMax: 1.25
-  wallSlideTime: 2
+  wallSlideStartMax: 1
+  wallSlideTime: 4
   dashSpeedX: 10
   dashTime: 0.3
   dashCooldownTime: 0.2

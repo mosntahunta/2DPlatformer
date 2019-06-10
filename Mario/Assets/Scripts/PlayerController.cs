@@ -29,6 +29,8 @@ public class PlayerController : PhysicsObject
     private float jumpInputBufferTimer;
     private float jumpVarTimer = 0f;
 
+    private float jumpYPos = 0f;
+
     private float moveX = 0f;
     private float forceMoveX = 0f;
     private float forceMoveXTimer = 0f;
@@ -438,6 +440,8 @@ public class PlayerController : PhysicsObject
             Unduck();
         }
 
+        jumpYPos = rb2d.position.y;
+
         // Update and fixed update are not always 1-1, thus you can still sometimes
         // duck while jumping due to grounded not being set to false in fixedupdate.
         grounded = false;
@@ -459,7 +463,9 @@ public class PlayerController : PhysicsObject
         {
             Unduck();
         }
-        
+
+        jumpYPos = rb2d.position.y;
+
         grounded = false;
         velocity.y = superJumpSpeedY;
         horizontalSpeed = facingDirection * superJumpH;
@@ -522,17 +528,15 @@ public class PlayerController : PhysicsObject
 
         // todo: Every type of ground uses the platform-lock camera for now. Later, we may also require the free moving camera.
         // Study the super mario world camera more closely
-        if (grounded && (layerName == "Ground" || layerName == "Platform"))
+        if (grounded && layerName == "Platform")
         {
             OnLanded();
         }
-
-        if (layerName == "Enemy")
+        else if (layerName == "Enemy")
         {
             OnHit(collider, contactPosition);
         }
-
-        if (layerName == "Trap")
+        else if (layerName == "Trap")
         {
             OnDeath();
         }
@@ -612,13 +616,12 @@ public class PlayerController : PhysicsObject
             {
                 if (rb2d.position.y < lastLandedPlatformHeight - platformCameraMovementRange)
                 {
-                    cameraController.SetVerticalState(CameraController.VerticalState.FreeMoving);
+                    cameraController.SetVerticalState(CameraController.VerticalState.PositionLock);
                 }
             }
             
-            if (cameraController.GetVerticalState() == CameraController.VerticalState.FreeMoving)
+            if (cameraController.GetVerticalState() == CameraController.VerticalState.PositionLock)
             {
-                cameraController.SetVerticalSpeed(Mathf.Abs(velocity.y));
                 cameraController.SetVerticalTarget(rb2d.position, 0.0f);
             }
         }
