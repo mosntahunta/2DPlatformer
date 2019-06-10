@@ -371,6 +371,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1459190399356123411, guid: b43720743c305fb4dafe7778b580d236,
+        type: 3}
+      propertyPath: platformCameraVerticalSpeed
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1459190399356123411, guid: b43720743c305fb4dafe7778b580d236,
+        type: 3}
+      propertyPath: positionCameraVerticalSpeed
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b43720743c305fb4dafe7778b580d236, type: 3}
 --- !u!50 &2095747841771023688
@@ -4411,23 +4421,23 @@ Tilemap:
     m_Data:
       e00: NaN
       e01: NaN
-      e02: 1
-      e03: 1
+      e02: -1701764
+      e03: -2.9929771
       e10: NaN
       e11: NaN
-      e12: 0
-      e13: 3.57e-43
-      e20: 0
-      e21: 0
-      e22: 0
-      e23: 0
-      e30: 0
-      e31: 0
-      e32: 0
-      e33: 0
+      e12: 3.57e-43
+      e13: 4.5904e-41
+      e20: 1.05e-43
+      e21: -0.002302523
+      e22: -2.9974327
+      e23: -1701653
+      e30: 9.74e-43
+      e31: 4.5904e-41
+      e32: 4.5904e-41
+      e33: 3.57e-43
   m_TileColorArray:
   - m_RefCount: 0
-    m_Data: {r: 1.9080065e+30, g: 1.9080065e+30, b: 1.9080065e+30, a: 1.9080065e+30}
+    m_Data: {r: 1.8209953e+30, g: 1.8209953e+30, b: 1.8209953e+30, a: 1.8209953e+30}
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: -50, y: -20, z: 0}

@@ -528,9 +528,17 @@ public class PlayerController : PhysicsObject
 
         // todo: Every type of ground uses the platform-lock camera for now. Later, we may also require the free moving camera.
         // Study the super mario world camera more closely
-        if (grounded && layerName == "Platform")
+        if (grounded)
         {
-            OnLanded();
+            if (layerName == "Platform")
+            {
+                OnLanded();
+            }
+            else
+            {
+                cameraController.SetVerticalState(CameraController.VerticalState.PositionLock);
+                lastLandedPlatformHeight = float.NegativeInfinity;
+            }
         }
         else if (layerName == "Enemy")
         {
@@ -617,6 +625,7 @@ public class PlayerController : PhysicsObject
                 if (rb2d.position.y < lastLandedPlatformHeight - platformCameraMovementRange)
                 {
                     cameraController.SetVerticalState(CameraController.VerticalState.PositionLock);
+                    lastLandedPlatformHeight = float.NegativeInfinity;
                 }
             }
             
