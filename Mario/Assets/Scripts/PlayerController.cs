@@ -235,6 +235,8 @@ public class PlayerController : PhysicsObject
             {
                 Unduck();
             }
+
+            animator.SetBool("Jumping", false);
         }
         else
         {
@@ -495,7 +497,7 @@ public class PlayerController : PhysicsObject
         Vector2 rayStart = new Vector2(transform.position.x, transform.position.y);
         Vector2 directionVector = new Vector2(direction, 0f);
 
-        float wallJumpCheckDist = hitBox.size.x / 2 + 0.05f;
+        float wallJumpCheckDist = hitBox.size.x / 2 + 0.10f;
 
         RaycastHit2D hit = Physics2D.Raycast(rayStart, directionVector, wallJumpCheckDist, LayerMask.GetMask("Ground", "Platform"));
         
