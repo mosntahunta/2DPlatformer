@@ -4,46 +4,98 @@ using UnityEngine;
 
 public class PlatformObject : MonoBehaviour
 {
+    public bool movingPlatform = false;
+    public bool disappearingPlatform = false;
+
     public float patrolTime = 3f;
     private float patrolTimer = 0f;
 
     public float horizontalVelocity = 3f;
     public float verticalVelocity = 3f;
 
+    public float disappearDelayTime = 0.5f;
+    private float disappearDelayTimer = 0f;
+
+    public float disappearTime = 5f;
+
     private Vector2 targetVelocity;
 
     private Rigidbody2D rb2d;
+    private Collider2D collider2d;
 
     void OnEnable()
     {
         patrolTimer = patrolTime;
         rb2d = GetComponent<Rigidbody2D>();
+        collider2d = GetComponent<Collider2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (patrolTimer > 0)
+        if (movingPlatform)
         {
-            patrolTimer -= Time.deltaTime;
-            targetVelocity.x = horizontalVelocity;
-            targetVelocity.y = verticalVelocity;
+            if (patrolTimer > 0)
+            {
+                patrolTimer -= Time.deltaTime;
+                targetVelocity.x = horizontalVelocity;
+                targetVelocity.y = verticalVelocity;
+            }
+            else
+            {
+                horizontalVelocity = -horizontalVelocity;
+                verticalVelocity = -verticalVelocity;
+                patrolTimer = patrolTime;
+            }
         }
-        else
+
+        if (disappearingPlatform)
         {
-            horizontalVelocity = -horizontalVelocity;
-            verticalVelocity = -verticalVelocity;
-            patrolTimer = patrolTime;
+            if (disappearDelayTimer > 0)
+            {
+                disappearDelayTimer -= Time.deltaTime;
+
+                if (disappearDelayTimer <= 0)
+                {
+                    StartCoroutine("DisappearCoroutine");
+                }
+            }
         }
     }
 
     void FixedUpdate()
     {
-        Vector2 deltaPosition = targetVelocity * Time.deltaTime;
+        if (movingPlatform)
+        {
+            Vector2 deltaPosition = targetVelocity * Time.deltaTime;
 
-        rb2d.position = rb2d.position + deltaPosition;
+            rb2d.position = rb2d.position + deltaPosition;
 
-        TryPushObjects(deltaPosition);
+            TryPushObjects(deltaPosition);
+        }
+    }
+
+    public void BeginDisappear()
+    {
+        if (disappearDelayTimer <= 0)
+        {
+            disappearDelayTimer = disappearDelayTime;
+        }
+    }
+
+    // 
+    // Hide and disable the collider of the platform
+    //
+    private IEnumerator DisappearCoroutine()
+    {
+        Renderer renderer = GetComponent<Renderer>();
+        renderer.enabled = false;
+        collider2d.enabled = false;
+
+        yield return new WaitForSeconds(disappearTime);
+        
+        renderer.enabled = true;
+        collider2d.enabled = true;
     }
 
     private void TryPushObjects(Vector2 deltaPosition)

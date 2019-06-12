@@ -549,6 +549,7 @@ public class PlayerController : PhysicsObject
     {
         GameObject collidedObject = collider.gameObject;
         string layerName = LayerMask.LayerToName(collidedObject.layer);
+        string tagName = collidedObject.tag;
 
         if (ceilingCollision)
         {
@@ -562,17 +563,29 @@ public class PlayerController : PhysicsObject
         // Study the super mario world camera more closely
         if (grounded)
         {
-            if (layerName == "Platform")
+            if (tagName == "Platform")
             {
-                mountParent = collider;
+                PlatformObject platformScript = collidedObject.GetComponent<PlatformObject>();
 
-                if (previousMountPosition.Equals(Vector2.negativeInfinity))
+                if (!platformScript.movingPlatform)
                 {
-                    previousMountPosition = mountParent.GetComponent<Rigidbody2D>().position;
+                    OnLanded();
                 }
 
-                // todo add a check for moving platform and use position lock if true
-                OnLanded();
+                if (platformScript.movingPlatform)
+                {
+                    mountParent = collider;
+
+                    if (previousMountPosition.Equals(Vector2.negativeInfinity))
+                    {
+                        previousMountPosition = mountParent.GetComponent<Rigidbody2D>().position;
+                    }
+                }
+                
+                if (platformScript.disappearingPlatform)
+                {
+                    platformScript.BeginDisappear();
+                }
             }
             else
             {
