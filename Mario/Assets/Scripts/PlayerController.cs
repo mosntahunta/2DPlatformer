@@ -21,6 +21,7 @@ public class PlayerController : PhysicsObject
     public float jumpGraceTime = 0.2f;
     public float jumpInputBufferTime = 0.2f;
     public float jumpVarTime = 0f;
+    public float jumpVarCeilingGrace = 0.05f;
 
     public float jumpHBoost = 10f;
     public float superJumpH = 50f;
@@ -549,13 +550,20 @@ public class PlayerController : PhysicsObject
         GameObject collidedObject = collider.gameObject;
         string layerName = LayerMask.LayerToName(collidedObject.layer);
 
+        if (ceilingCollision)
+        {
+            if (jumpVarTimer < jumpVarTime - jumpVarCeilingGrace)
+            {
+                jumpVarTimer = 0;
+            }
+        }
+
         // todo: Every type of ground uses the platform-lock camera for now. Later, we may also require the free moving camera.
         // Study the super mario world camera more closely
         if (grounded)
         {
             if (layerName == "Platform")
             {
-                // todo add a check for moving platform and use position lock if true
                 mountParent = collider;
 
                 if (previousMountPosition.Equals(Vector2.negativeInfinity))
@@ -563,6 +571,7 @@ public class PlayerController : PhysicsObject
                     previousMountPosition = mountParent.GetComponent<Rigidbody2D>().position;
                 }
 
+                // todo add a check for moving platform and use position lock if true
                 OnLanded();
             }
             else

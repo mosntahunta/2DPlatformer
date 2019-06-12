@@ -9,6 +9,7 @@ public class PhysicsObject : MonoBehaviour
     public float maxFall = 20f;
     
     protected bool grounded;
+    protected bool ceilingCollision;
     protected Vector2 groundNormal;
     protected Rigidbody2D rb2d;
     protected Vector2 velocity;
@@ -16,8 +17,6 @@ public class PhysicsObject : MonoBehaviour
     protected ContactFilter2D contactFilter;
     protected RaycastHit2D[] hitBuffer = new RaycastHit2D[16];
     protected List<RaycastHit2D> hitBufferList = new List<RaycastHit2D>(16);
-
-    protected Vector2 positionOffset;
 
     protected const float minMoveDistance = 0.001f;
     protected const float shellRadius = 0.01f;
@@ -28,7 +27,6 @@ public class PhysicsObject : MonoBehaviour
     void OnEnable()
     {
         rb2d = GetComponent<Rigidbody2D>();
-        positionOffset = new Vector2(0, 0);
         previousMountPosition = Vector2.negativeInfinity;
     }
     
@@ -40,7 +38,12 @@ public class PhysicsObject : MonoBehaviour
     
     void FixedUpdate()
     {
+        Vector2 positionOffset = Vector2.zero;
+
         // Calculate the offset position caused by a mounted parent object
+        // todo: there is a bug here where the player's collders can get stuck inside
+        // a moving platform while jumping or dashing during a mount. It is rarely
+        // reproducible but should be a high priority bug.
         if (mountParent != null)
         {
             if (HasCollisionDataFor(mountParent))
@@ -48,7 +51,6 @@ public class PhysicsObject : MonoBehaviour
                 Rigidbody2D mountRb2d = mountParent.GetComponent<Rigidbody2D>();
                 positionOffset.x = mountRb2d.position.x - previousMountPosition.x;
                 positionOffset.y = mountRb2d.position.y - previousMountPosition.y;
-
                 previousMountPosition = mountRb2d.position;
             }
             else
@@ -60,13 +62,13 @@ public class PhysicsObject : MonoBehaviour
 
         // Apply offset position
         rb2d.position = rb2d.position + positionOffset;
-        positionOffset.Set(0, 0);
-        
+
         contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
 
         velocity.x = targetVelocity.x;
         
         grounded = false;
+        ceilingCollision = false;
 
         Vector2 deltaPosition = velocity * Time.deltaTime;
 
@@ -152,13 +154,17 @@ public class PhysicsObject : MonoBehaviour
                         currentNormal.x = 0;
                     }
                 }
+                else if (currentNormal.y < -minGroundNormalY)
+                {
+                    ceilingCollision = true;
+                }
 
                 float projection = Vector2.Dot(velocity, currentNormal);
                 if (projection < 0)
                 {
                     velocity = velocity - projection * currentNormal;
                 }
-
+                
                 // Get the closest collision distance
                 float modifiedDistance = hitBufferList[i].distance - shellRadius;
 
