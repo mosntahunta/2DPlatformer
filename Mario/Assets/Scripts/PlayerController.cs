@@ -90,6 +90,8 @@ public class PlayerController : PhysicsObject
     
     protected override void Start()
     {
+        base.Start();
+
         cameraController = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraController>();
         cameraController.SetHorizontalTarget(rb2d.position, facingDirection, false);
 
@@ -425,6 +427,8 @@ public class PlayerController : PhysicsObject
 
     private int DashUpdate()
     {
+        ApplyGravity();
+
         if (CrossPlatformInputManager.GetButtonDown("Jump"))
         {
             SuperJump();
@@ -551,6 +555,14 @@ public class PlayerController : PhysicsObject
         {
             if (layerName == "Platform")
             {
+                // todo add a check for moving platform and use position lock if true
+                mountParent = collider;
+
+                if (previousMountPosition.Equals(Vector2.negativeInfinity))
+                {
+                    previousMountPosition = mountParent.GetComponent<Rigidbody2D>().position;
+                }
+
                 OnLanded();
             }
             else
@@ -558,6 +570,8 @@ public class PlayerController : PhysicsObject
                 cameraController.SetVerticalState(CameraController.VerticalState.PositionLock);
                 lastLandedPlatformHeight = float.NegativeInfinity;
             }
+
+            animator.SetBool("Jumping", false);
         }
         else if (layerName == "Enemy")
         {
@@ -580,8 +594,6 @@ public class PlayerController : PhysicsObject
             cameraController.SetVerticalState(CameraController.VerticalState.PlatformLock);
             cameraController.SetVerticalTarget(rb2d.position, 2f); // todo: create public property for delay
         }
-
-        animator.SetBool("Jumping", false);
     }
 
     private void OnHit(Collider2D collider, Vector2 contactPosition)
