@@ -40,6 +40,45 @@ public class PlatformObject : MonoBehaviour
     void FixedUpdate()
     {
         Vector2 deltaPosition = targetVelocity * Time.deltaTime;
+
         rb2d.position = rb2d.position + deltaPosition;
+
+        TryPushObjects(deltaPosition);
+    }
+
+    private void TryPushObjects(Vector2 deltaPosition)
+    {
+        Collider2D collider = GetComponent<Collider2D>();
+
+        float colliderOffsetX = targetVelocity.normalized.x * collider.bounds.size.x / 2;
+        float colliderOffsetY = targetVelocity.normalized.y * collider.bounds.size.y / 2;
+
+        Vector2 rayStartX = new Vector2(rb2d.position.x + colliderOffsetX, rb2d.position.y);
+        Vector2 rayStartY = new Vector2(rb2d.position.x, rb2d.position.y + colliderOffsetY);
+
+        Vector2 sizeX = new Vector2(0.05f, collider.bounds.size.y);
+        Vector2 sizeY = new Vector2(collider.bounds.size.x, 0.05f);
+
+        Vector2 directionX = new Vector2(targetVelocity.normalized.x, 0);
+        Vector2 directionY = new Vector2(0, targetVelocity.normalized.y);
+
+        RaycastHit2D[] hitsX = Physics2D.BoxCastAll(rayStartX, sizeX, 0, directionX, 0.05f, LayerMask.GetMask("Player", "Enemy"));
+        RaycastHit2D[] hitsY = Physics2D.BoxCastAll(rayStartY, sizeY, 0, directionY, 0.05f, LayerMask.GetMask("Player", "Enemy"));
+
+        for (int i = 0; i < hitsX.Length; i++)
+        {
+            hitsX[i].collider.GetComponent<Rigidbody2D>().position += new Vector2(deltaPosition.x, 0);
+        }
+
+        // Collision from above (also known as mounting) should be handled by the individual objects.
+        // Otherwise the object will constantly lose contact with the platform as the object is updated first.
+        if (targetVelocity.y < 0)
+        {
+            for (int i = 0; i < hitsY.Length; i++)
+            {
+                hitsY[i].collider.GetComponent<Rigidbody2D>().position += new Vector2(0, deltaPosition.y);
+            }
+        }
+        
     }
 }
