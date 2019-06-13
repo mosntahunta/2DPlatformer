@@ -21,13 +21,9 @@ public class PhysicsObject : MonoBehaviour
     protected const float minMoveDistance = 0.001f;
     protected const float shellRadius = 0.01f;
 
-    protected Collider2D mountParent; // e.g. moving platforms should also move the player
-    protected Vector2 previousMountPosition;
-
     void OnEnable()
     {
         rb2d = GetComponent<Rigidbody2D>();
-        previousMountPosition = Vector2.negativeInfinity;
     }
     
     protected virtual void Start()
@@ -38,31 +34,6 @@ public class PhysicsObject : MonoBehaviour
     
     void FixedUpdate()
     {
-        Vector2 positionOffset = Vector2.zero;
-
-        // Calculate the offset position caused by a mounted parent object
-        // todo: there is a bug here where the player's collders can get stuck inside
-        // a moving platform while jumping or dashing during a mount. It is rarely
-        // reproducible but should be a high priority bug.
-        if (mountParent != null)
-        {
-            if (HasCollisionDataFor(mountParent))
-            {
-                Rigidbody2D mountRb2d = mountParent.GetComponent<Rigidbody2D>();
-                positionOffset.x = mountRb2d.position.x - previousMountPosition.x;
-                positionOffset.y = mountRb2d.position.y - previousMountPosition.y;
-                previousMountPosition = mountRb2d.position;
-            }
-            else
-            {
-                mountParent = null;
-                previousMountPosition = Vector2.negativeInfinity;
-            }
-        }
-
-        // Apply offset position
-        rb2d.position = rb2d.position + positionOffset;
-
         contactFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
 
         velocity.x = targetVelocity.x;

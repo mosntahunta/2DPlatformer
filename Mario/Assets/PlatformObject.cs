@@ -68,10 +68,11 @@ public class PlatformObject : MonoBehaviour
         if (movingPlatform)
         {
             Vector2 deltaPosition = targetVelocity * Time.deltaTime;
+            
+            TryPushObjects(deltaPosition);
+            TryPullObjects(deltaPosition);
 
             rb2d.position = rb2d.position + deltaPosition;
-
-            TryPushObjects(deltaPosition);
         }
     }
 
@@ -100,37 +101,54 @@ public class PlatformObject : MonoBehaviour
 
     private void TryPushObjects(Vector2 deltaPosition)
     {
-        Collider2D collider = GetComponent<Collider2D>();
-
-        float colliderOffsetX = targetVelocity.normalized.x * collider.bounds.size.x / 2;
-        float colliderOffsetY = targetVelocity.normalized.y * collider.bounds.size.y / 2;
+        float colliderOffsetX = targetVelocity.normalized.x * collider2d.bounds.size.x / 2;
+        float colliderOffsetY = targetVelocity.normalized.y * collider2d.bounds.size.y / 2;
 
         Vector2 rayStartX = new Vector2(rb2d.position.x + colliderOffsetX, rb2d.position.y);
         Vector2 rayStartY = new Vector2(rb2d.position.x, rb2d.position.y + colliderOffsetY);
 
-        Vector2 sizeX = new Vector2(0.05f, collider.bounds.size.y);
-        Vector2 sizeY = new Vector2(collider.bounds.size.x, 0.05f);
+        Vector2 sizeX = new Vector2(0.05f, collider2d.bounds.size.y);
+        Vector2 sizeY = new Vector2(collider2d.bounds.size.x, 0.05f);
 
         Vector2 directionX = new Vector2(targetVelocity.normalized.x, 0);
         Vector2 directionY = new Vector2(0, targetVelocity.normalized.y);
 
-        RaycastHit2D[] hitsX = Physics2D.BoxCastAll(rayStartX, sizeX, 0, directionX, 0.05f, LayerMask.GetMask("Player", "Enemy"));
-        RaycastHit2D[] hitsY = Physics2D.BoxCastAll(rayStartY, sizeY, 0, directionY, 0.05f, LayerMask.GetMask("Player", "Enemy"));
-
+        RaycastHit2D[] hitsX = Physics2D.BoxCastAll(rayStartX, sizeX, 0, directionX, 0.1f, LayerMask.GetMask("Player", "Enemy"));
+        RaycastHit2D[] hitsY = Physics2D.BoxCastAll(rayStartY, sizeY, 0, directionY, 0.1f, LayerMask.GetMask("Player", "Enemy"));
+        
         for (int i = 0; i < hitsX.Length; i++)
         {
             hitsX[i].collider.GetComponent<Rigidbody2D>().position += new Vector2(deltaPosition.x, 0);
         }
 
-        // Collision from above (also known as mounting) should be handled by the individual objects.
-        // Otherwise the object will constantly lose contact with the platform as the object is updated first.
+        for (int i = 0; i < hitsY.Length; i++)
+        {
+            hitsY[i].collider.GetComponent<Rigidbody2D>().position += new Vector2(0, deltaPosition.y);
+        }
+    }
+
+    private void TryPullObjects(Vector2 deltaPosition)
+    {
+        // Currently other objects can only mount a platform from above but we may allow mounting
+        // on any side of the platform later on.
+        float colliderOffsetY = collider2d.bounds.size.y / 2;
+        Vector2 rayStartY = new Vector2(rb2d.position.x, rb2d.position.y + colliderOffsetY);
+        Vector2 sizeY = new Vector2(collider2d.bounds.size.x, 0.05f);
+        Vector2 directionY = new Vector2(0, 1f);
+
+        RaycastHit2D[] hitsX = Physics2D.BoxCastAll(rayStartY, sizeY, 0, directionY, 0.1f, LayerMask.GetMask("Player", "Enemy"));
+        for (int i = 0; i < hitsX.Length; i++)
+        {
+            hitsX[i].collider.GetComponent<Rigidbody2D>().position += new Vector2(deltaPosition.x, 0);
+        }
+
         if (targetVelocity.y < 0)
         {
+            RaycastHit2D[] hitsY = Physics2D.BoxCastAll(rayStartY, sizeY, 0, directionY, 1f, LayerMask.GetMask("Player", "Enemy"));
             for (int i = 0; i < hitsY.Length; i++)
             {
                 hitsY[i].collider.GetComponent<Rigidbody2D>().position += new Vector2(0, deltaPosition.y);
             }
         }
-        
     }
 }

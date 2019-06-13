@@ -558,9 +558,7 @@ public class PlayerController : PhysicsObject
                 jumpVarTimer = 0;
             }
         }
-
-        // todo: Every type of ground uses the platform-lock camera for now. Later, we may also require the free moving camera.
-        // Study the super mario world camera more closely
+        
         if (grounded)
         {
             if (tagName == "Platform")
@@ -570,16 +568,6 @@ public class PlayerController : PhysicsObject
                 if (!platformScript.movingPlatform)
                 {
                     OnLanded();
-                }
-
-                if (platformScript.movingPlatform)
-                {
-                    mountParent = collider;
-
-                    if (previousMountPosition.Equals(Vector2.negativeInfinity))
-                    {
-                        previousMountPosition = mountParent.GetComponent<Rigidbody2D>().position;
-                    }
                 }
                 
                 if (platformScript.disappearingPlatform)
