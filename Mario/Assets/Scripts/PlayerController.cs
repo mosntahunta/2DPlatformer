@@ -166,6 +166,14 @@ public class PlayerController : PhysicsObject
         {
             gameObject.layer = LayerMask.NameToLayer("Player");
         }
+
+        // Player dies when crushed between ground and platform
+        if (Physics2D.OverlapCircle(transform.position, hitBox.bounds.size.x / 2, LayerMask.GetMask("Ground", "Platform")))
+        {
+            // this has unintended consequences where if the player gets stuck in a ground/platform collider, he will still die.
+            Debug.Log("overlap detected");
+            OnDeath();
+        }
     }
 
     // Normal state
