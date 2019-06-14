@@ -136,7 +136,7 @@ public class PlatformObject : MonoBehaviour
         Vector2 sizeY = new Vector2(collider2d.bounds.size.x, 0.05f);
         Vector2 directionY = new Vector2(0, 1f);
 
-        RaycastHit2D[] hitsX = Physics2D.BoxCastAll(rayStartY, sizeY, 0, directionY, 1f, LayerMask.GetMask("Player", "Enemy"));
+        RaycastHit2D[] hitsX = Physics2D.BoxCastAll(rayStartY, sizeY, 0, directionY, 0.1f, LayerMask.GetMask("Player", "Enemy"));
         for (int i = 0; i < hitsX.Length; i++)
         {
             hitsX[i].collider.GetComponent<Rigidbody2D>().position += new Vector2(deltaPosition.x, 0);
@@ -144,7 +144,7 @@ public class PlatformObject : MonoBehaviour
 
         if (targetVelocity.y < 0)
         {
-            RaycastHit2D[] hitsY = Physics2D.BoxCastAll(rayStartY, sizeY, 0, directionY, 1f, LayerMask.GetMask("Player", "Enemy"));
+            RaycastHit2D[] hitsY = Physics2D.BoxCastAll(rayStartY, sizeY, 0, directionY, 0.1f, LayerMask.GetMask("Player", "Enemy"));
             for (int i = 0; i < hitsY.Length; i++)
             {
                 hitsY[i].collider.GetComponent<Rigidbody2D>().position += new Vector2(0, deltaPosition.y);
