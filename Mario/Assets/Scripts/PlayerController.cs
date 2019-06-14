@@ -516,12 +516,14 @@ public class PlayerController : PhysicsObject
 
     private bool WallJumpCheck(int direction)
     {
-        Vector2 rayStart = new Vector2(transform.position.x, transform.position.y);
+        float wallJumpCheckDist = 0.1f;
+        float colliderOffsetX = facingDirection * hitBox.bounds.size.x / 2;
+
+        Vector2 rayStart = new Vector2(transform.position.x + colliderOffsetX, transform.position.y);
+        Vector2 size = new Vector2(wallJumpCheckDist, hitBox.bounds.size.y);
         Vector2 directionVector = new Vector2(direction, 0f);
-
-        float wallJumpCheckDist = hitBox.size.x / 2 + 0.10f;
-
-        RaycastHit2D hit = Physics2D.Raycast(rayStart, directionVector, wallJumpCheckDist, LayerMask.GetMask("Ground", "Platform"));
+        
+        RaycastHit2D hit = Physics2D.BoxCast(rayStart, size, 0,  directionVector, wallJumpCheckDist, LayerMask.GetMask("Ground", "Platform"));
         
         return hit.collider != null;
     }
