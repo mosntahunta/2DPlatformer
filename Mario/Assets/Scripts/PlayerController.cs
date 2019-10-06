@@ -350,13 +350,9 @@ public class PlayerController : PhysicsObject
             {
                 Jump();
             }
-            else if (WallJumpCheck(1))
+            else if (WallJumpCheck(facingDirection))
             {
-                WallJump(-1);
-            }
-            else if (WallJumpCheck(-1))
-            {
-                WallJump(1);
+                WallJump(-facingDirection);
             }
         }
 
