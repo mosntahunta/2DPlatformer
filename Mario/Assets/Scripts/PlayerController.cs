@@ -266,6 +266,11 @@ public class PlayerController : PhysicsObject
 
             animator.SetBool("Jumping", false);
         }
+        else if (!grounded && velocity.y < 0)
+        {
+            // todo - later replace this with falling animation
+            animator.SetBool("Running", false);
+        }
 
         // approach the max speed with acceleration or deceleration
         if (Mathf.Abs(horizontalSpeed) > maxHorizontalSpeed && Mathf.Sign(horizontalSpeed) == moveX)
