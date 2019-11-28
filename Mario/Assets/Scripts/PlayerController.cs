@@ -16,12 +16,12 @@ public class PlayerController : PhysicsObject
     public float horizontalSpeed = 0.0f;
     
     public float jumpSpeedY = 7f;
-    public float secondJumpSpeedY = 3f;
     public float superJumpSpeedY = 10f;
 
     public float jumpGraceTime = 0.2f;
     public float jumpInputBufferTime = 0.2f;
     public float jumpVarTime = 0f;
+    public float secondJumpVarTime = 0f;
     public float jumpVarCeilingGrace = 0.05f;
 
     public float jumpHBoost = 10f;
@@ -30,6 +30,7 @@ public class PlayerController : PhysicsObject
     private float jumpGraceTimer;
     private float jumpInputBufferTimer;
     private float jumpVarTimer = 0f;
+    private float secondJumpVarTimer = 0f;
 
     private float jumpYPos = 0f;
 
@@ -317,7 +318,7 @@ public class PlayerController : PhysicsObject
         // Gravity
         ApplyGravity();
 
-        // Jumping
+        // graceful jump
         if (grounded)
         {
             jumpGraceTimer = jumpGraceTime;
@@ -336,20 +337,15 @@ public class PlayerController : PhysicsObject
         {
             jumpInputBufferTimer -= Time.deltaTime;
         }
-        
+
         // variable jumping
         if (jumpVarTimer > 0)
         {
-            jumpVarTimer -= Time.deltaTime;
-
-            if (CrossPlatformInputManager.GetButton("Jump"))
-            {
-                velocity.y = Mathf.Max(velocity.y, jumpSpeedY);
-            }
-            else
-            {
-                jumpVarTimer = 0;
-            }
+            VariableJump(ref jumpVarTimer);
+        }
+        else if (secondJumpVarTimer > 0)
+        {
+            VariableJump(ref secondJumpVarTimer);
         }
 
         if (CrossPlatformInputManager.GetButtonDown("Jump"))
@@ -473,6 +469,23 @@ public class PlayerController : PhysicsObject
         stateMachine.SetState(normalState);
     }
 
+    private void VariableJump(ref float jumpTimer)
+    {
+        if (jumpTimer > 0)
+        {
+            jumpTimer -= Time.deltaTime;
+
+            if (CrossPlatformInputManager.GetButton("Jump"))
+            {
+                velocity.y = Mathf.Max(velocity.y, jumpSpeedY);
+            }
+            else
+            {
+                jumpTimer = 0;
+            }
+        }
+    }
+
     private void Jump()
     {
         jumpGraceTimer = 0;
@@ -501,13 +514,13 @@ public class PlayerController : PhysicsObject
     {
         jumpGraceTimer = 0;
         jumpInputBufferTimer = 0;
-        jumpVarTimer = jumpVarTime;
+        secondJumpVarTimer = secondJumpVarTime;
 
         wallSlideTimer = wallSlideTime;
 
         jumpYPos = rb2d.position.y;
 
-        velocity.y = secondJumpSpeedY;
+        velocity.y = jumpSpeedY;
 
         // the second jump might have different animation later on
         animator.SetBool("Jumping", true);
