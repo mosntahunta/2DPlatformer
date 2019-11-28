@@ -16,6 +16,7 @@ public class PlayerController : PhysicsObject
     public float horizontalSpeed = 0.0f;
     
     public float jumpSpeedY = 7f;
+    public float secondJumpSpeedY = 3f;
     public float superJumpSpeedY = 10f;
 
     public float jumpGraceTime = 0.2f;
@@ -59,6 +60,9 @@ public class PlayerController : PhysicsObject
 
     // temporary for now, later on, there will be inventory system for guns and items, etc
     public bool canShoot = false;
+
+    public bool doubleJumpEnabled = false;
+    private bool canDoubleJump = true;
 
     public float shootTime = 0.1f;
     private float shootTimer = 0f;
@@ -265,6 +269,11 @@ public class PlayerController : PhysicsObject
             }
 
             animator.SetBool("Jumping", false);
+            
+            if (doubleJumpEnabled)
+            {
+                canDoubleJump = true;
+            }
         }
         else if (!grounded && velocity.y < 0)
         {
@@ -350,10 +359,19 @@ public class PlayerController : PhysicsObject
             {
                 Jump();
             }
-            else if (WallJumpCheck(facingDirection) && !grounded)
+            else if (!grounded)
             {
-                WallJump(-facingDirection);
+                if (WallJumpCheck(facingDirection))
+                {
+                    WallJump(-facingDirection);
+                }
+                else if (doubleJumpEnabled && canDoubleJump)
+                {
+                    SecondJump();
+                    canDoubleJump = false;
+                }
             }
+            
         }
 
         targetVelocity.x = horizontalSpeed;
@@ -476,6 +494,22 @@ public class PlayerController : PhysicsObject
         velocity.y = jumpSpeedY;
         horizontalSpeed += moveX * jumpHBoost;
 
+        animator.SetBool("Jumping", true);
+    }
+
+    private void SecondJump()
+    {
+        jumpGraceTimer = 0;
+        jumpInputBufferTimer = 0;
+        jumpVarTimer = jumpVarTime;
+
+        wallSlideTimer = wallSlideTime;
+
+        jumpYPos = rb2d.position.y;
+
+        velocity.y = secondJumpSpeedY;
+
+        // the second jump might have different animation later on
         animator.SetBool("Jumping", true);
     }
 

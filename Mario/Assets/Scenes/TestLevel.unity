@@ -187,6 +187,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5326973649156011980, guid: 8c901cfa434d6114a82ba45923ecaca4,
+        type: 3}
+      propertyPath: doubleJumpEnabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5326973649156011980, guid: 8c901cfa434d6114a82ba45923ecaca4,
+        type: 3}
+      propertyPath: secondJumpSpeedY
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8c901cfa434d6114a82ba45923ecaca4, type: 3}
 --- !u!1001 &556318468
