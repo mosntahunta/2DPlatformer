@@ -203,11 +203,6 @@ public class CameraController : MonoBehaviour
         playerHorizontalSpeed = speed;
     }
 
-    public void SetVerticalSpeed(float speed)
-    {
-        cameraVerticalSpeed = speed;
-    }
-
     public void SetVerticalTarget(Vector2 playerPos, float delay)
     {
         if (cameraTarget.y != playerPos.y)
