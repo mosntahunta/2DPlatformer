@@ -113,7 +113,7 @@ public class PlayerController : PhysicsObject
 
     void Update()
     {
-        // Save and Load for testing purposes. This will be replaced when we implement the UI.
+        // Save and Load buttons for testing purposes. This will be replaced when we implement the UI.
         if (CrossPlatformInputManager.GetButtonUp("Save"))
         {
             Debug.Log("save");

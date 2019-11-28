@@ -193,7 +193,7 @@ public class CameraController : MonoBehaviour
     }
 
     //
-    // Set the horizontal speed of the player.
+    // Set the horizontal speed of the player for the camera to follow.
     //
     // @param speed
     //  Player's horizontal speed.
