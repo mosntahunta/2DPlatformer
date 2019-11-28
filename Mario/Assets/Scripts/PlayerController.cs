@@ -345,7 +345,7 @@ public class PlayerController : PhysicsObject
             {
                 Jump();
             }
-            else if (WallJumpCheck(facingDirection))
+            else if (WallJumpCheck(facingDirection) && !grounded)
             {
                 WallJump(-facingDirection);
             }
