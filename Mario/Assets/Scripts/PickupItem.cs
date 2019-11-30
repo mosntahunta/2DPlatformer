@@ -2,13 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer), typeof(CircleCollider2D))]
 public class PickupItem : MonoBehaviour
 {
-    void OnTriggerEnter2D(Collider2D collider)
-    {
-        if (collider.gameObject.tag == "Player")
-        {
-            Destroy(gameObject);
-        }
-    }
+    // the item id in the `ItemDatabase`
+    public int itemId;
 }

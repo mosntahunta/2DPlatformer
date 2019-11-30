@@ -59,9 +59,6 @@ public class PlayerController : PhysicsObject
 
     public float enemyContactKnockbackSpeed = 10f;
 
-    // temporary for now, later on, there will be inventory system for guns and items, etc
-    public bool canShoot = false;
-
     public bool doubleJumpEnabled = false;
     private bool canDoubleJump = true;
 
@@ -727,15 +724,6 @@ public class PlayerController : PhysicsObject
             {
                 cameraController.SetVerticalTarget(rb2d.position, 0.0f);
             }
-        }
-    }
-
-    // Item pickup
-    void OnTriggerEnter2D(Collider2D collider)
-    {
-        if (collider.gameObject.tag == "Weapon")
-        {
-            canShoot = true;
         }
     }
 }
