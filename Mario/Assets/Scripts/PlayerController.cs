@@ -89,6 +89,8 @@ public class PlayerController : PhysicsObject
 
     private Vector2 scaleVector;
 
+    private InventoryController inventoryController;
+
     MeleeAttack meleeAttack;
     
     protected override void Start()
@@ -110,6 +112,7 @@ public class PlayerController : PhysicsObject
         animator = GetComponent<Animator>();
         scaleVector = new Vector2(1f, 1f);
 
+        inventoryController = GetComponent<InventoryController>();
         meleeAttack = GetComponentInChildren<MeleeAttack>();
     }
 
@@ -186,26 +189,34 @@ public class PlayerController : PhysicsObject
         //
         // todo - create weapon classes to define the attack speed, type of attack, etc
         //
-        // Melee Attack
-        if (CrossPlatformInputManager.GetButton("MeleeAttack"))
+        if (CrossPlatformInputManager.GetButton("Attack"))
         {
-            if (slashCooldownTimer <= 0)
+            // todo - later on we will base this on weapon type
+            InventoryItem weapon = inventoryController.GetCurrentWeapon();
+            if (weapon.id == 0)
             {
-                MeleeAttack();
-                slashCooldownTimer = slashCooldownTime;
+                // Melee Attack
+                if (slashCooldownTimer <= 0)
+                {
+                    MeleeAttack();
+                    slashCooldownTimer = slashCooldownTime;
+                }
+            }
+            else if (weapon.id == 1)
+            {
+                // Range Attack
+                if (shootTimer <= 0)
+                {
+                    RangeAttack();
+                    shootTimer = shootTime;
+                }
             }
         }
-
-        // Range Attack
-        if (CrossPlatformInputManager.GetButton("RangeAttack"))
+        
+        if (CrossPlatformInputManager.GetButtonUp("ChangeWeapon"))
         {
-            if (shootTimer <= 0)
-            {
-                RangeAttack();
-                shootTimer = shootTime;
-            }
+            inventoryController.ChangeWeapon();
         }
-
         
         // Force Move X
         if (forceMoveXTimer > 0)
