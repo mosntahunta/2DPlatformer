@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/ResolutionTesting.unity
+    path: Assets/Scenes/MainScene.unity
+    guid: d4f0dde41ae1a6541a88c60a264311aa
+  - enabled: 1
+    path: Assets/Scenes/Level 1.unity
     guid: 3c1ca70f17809ed4faa1c335265950ca
+  - enabled: 1
+    path: Assets/Scenes/Level 2.unity
+    guid: baef40e15436d0e4db53de6549d0bb4c
   m_configObjects: {}

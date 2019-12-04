@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryItem : MonoBehaviour
+public class InventoryItem
 {
     public int id;
     public string title;

@@ -5,22 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class SceneController : MonoBehaviour
 {
-    public static SceneController SharedInstance;
-
-    void Awake()
-    {
-        if (SharedInstance == null)
-        {
-            DontDestroyOnLoad(gameObject);
-
-            SharedInstance = this;
-        }
-        else if (SharedInstance != this)
-        {
-            Destroy(gameObject);
-        }
-    }
-
     // called first
     void OnEnable()
     {
@@ -38,13 +22,13 @@ public class SceneController : MonoBehaviour
         Debug.Log("Scene Index: " + scene.buildIndex);
 
         // todo - this is temporary for now until we have proper level loading later
-        GameModel.SharedInstance.LoadData();
+        //GameModel.SharedInstance.LoadData();
 
-        GameModel.SharedInstance.gameData.currentSceneIndex = scene.buildIndex;
+        //GameModel.SharedInstance.gameData.currentSceneIndex = scene.buildIndex;
     }
 
     public void ReloadCurrentScene()
     {
-        SceneManager.LoadScene(GameModel.SharedInstance.gameData.currentSceneIndex);
+        //SceneManager.LoadScene(GameModel.SharedInstance.gameData.currentSceneIndex);
     }
 }

@@ -92,6 +92,9 @@ public class PlayerController : PhysicsObject
     private InventoryController inventoryController;
 
     MeleeAttack meleeAttack;
+
+    public PlayerModel playerModel;
+    public GameModel gameModel;
     
     protected override void Start()
     {
@@ -114,23 +117,12 @@ public class PlayerController : PhysicsObject
 
         inventoryController = GetComponent<InventoryController>();
         meleeAttack = GetComponentInChildren<MeleeAttack>();
+
+        playerModel.startingPosition = transform.position;
     }
 
     void Update()
     {
-        // Save and Load buttons for testing purposes. This will be replaced when we implement the UI.
-        if (CrossPlatformInputManager.GetButtonUp("Save"))
-        {
-            Debug.Log("save");
-            GameModel.SharedInstance.SaveData();
-        }
-
-        if (CrossPlatformInputManager.GetButtonUp("Load"))
-        {
-            Debug.Log("load");
-            GameModel.SharedInstance.LoadData();
-        }
-
         if (dashCooldownTimer > 0)
         {
             dashCooldownTimer -= Time.deltaTime;
@@ -675,9 +667,9 @@ public class PlayerController : PhysicsObject
         gameObject.layer = LayerMask.NameToLayer("PlayerHurt");
         playerHurtTimer = playerHurtTime;
 
-        GameModel.SharedInstance.playerData.currentLives--;
-
-        if (GameModel.SharedInstance.playerData.currentLives == 0)
+        playerModel.currentLives--;
+        
+        if (playerModel.currentLives == 0)
         {
             OnDeath();
         }
@@ -685,7 +677,9 @@ public class PlayerController : PhysicsObject
 
     private void OnDeath()
     {
-        SceneController.SharedInstance.ReloadCurrentScene();
+        transform.position = playerModel.startingPosition;
+        cameraController.SetHorizontalTarget(rb2d.position, facingDirection, false);
+        playerModel.currentLives = playerModel.maxLives;
     }
 
     protected override void ApplyGravity()

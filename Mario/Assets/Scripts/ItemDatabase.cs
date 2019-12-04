@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ItemDatabase : MonoBehaviour
 {
-    public List<InventoryItem> items;
+    public List<InventoryItem> items { get; set; }
     private void Awake()
     {
         BuildDatabase();
@@ -25,7 +25,7 @@ public class ItemDatabase : MonoBehaviour
                 {"Power", 10 },
                 {"Durability", 50 }
             }),
-            new InventoryItem(1, "gunb", "basic gun",
+            new InventoryItem(1, "gun", "basic gun",
             new Dictionary<string, int>()
             {
                 {"Power", 5 },

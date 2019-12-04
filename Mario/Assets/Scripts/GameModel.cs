@@ -7,82 +7,85 @@ using System;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
-public class GameModel : MonoBehaviour
+public class GameModel : PersistableObject
 {
-    public static GameModel SharedInstance;
-    public PlayerData playerData;
-    public GameData gameData;
+    [SerializeField] KeyCode saveKey = KeyCode.K;
+    [SerializeField] KeyCode loadKey = KeyCode.L;
 
-    [Serializable]
-    public struct PlayerData
-    {
-        public int currentLives;
-        public int maxLives;
-    }
+    [SerializeField] PersistentStorage storage;
+    [SerializeField] PlayerModel playerModel;
+    [SerializeField] InventoryModel inventoryModel;
 
-    [Serializable]
-    public struct GameData
-    {
-        public int currentSceneIndex;
-    }
+    private int loadedLevelBuildIndex;
 
-    void Awake()
+    private const int saveVersion = 1;
+    
+    void Start()
     {
-        if (SharedInstance == null)
+        if (Application.isEditor)
         {
-            DontDestroyOnLoad(gameObject);
-
-            SharedInstance = this;
-
-            SharedInstance.playerData.currentLives = playerData.currentLives;
-            SharedInstance.playerData.maxLives = playerData.maxLives;
-
-            SharedInstance.gameData.currentSceneIndex = gameData.currentSceneIndex;
-        }
-        else if (SharedInstance != this)
-        {
-            Destroy(gameObject);
+            for (int i = 0; i < SceneManager.sceneCount; i++)
+            {
+                Scene loadedLevel = SceneManager.GetSceneAt(i);
+                if (loadedLevel.name.Contains("Level "))
+                {
+                    SceneManager.SetActiveScene(loadedLevel);
+                    loadedLevelBuildIndex = loadedLevel.buildIndex;
+                    Debug.Log("loaded level index: " + loadedLevelBuildIndex);
+                    return;
+                }
+            }
         }
     }
 
-    // save data out to a file
-    public void SaveData()
+    void Update()
     {
-        BinaryFormatter bf = new BinaryFormatter();
-
-        CreateSaveFile<PlayerData>("/playerInfo.dat", playerData, bf);
-        CreateSaveFile<GameData>("/gameInfo.dat", gameData, bf);
+        if (Input.GetKeyDown(saveKey))
+        {
+            storage.Save(this, saveVersion);
+        }
+        else if (Input.GetKeyDown(loadKey))
+        {
+            storage.Load(this);
+        }
     }
 
-    private void CreateSaveFile<T>(string fileName, T data, BinaryFormatter bf )
+    IEnumerator LoadLevel(int levelBuildIndex)
     {
-        FileStream file = File.Create(Application.persistentDataPath + fileName);
-        bf.Serialize(file, data);
-        file.Close();
+        // you can also show loading screen at this point
+        enabled = false;
+        if (loadedLevelBuildIndex > 0)
+        {
+            yield return SceneManager.UnloadSceneAsync(loadedLevelBuildIndex);
+        }
+        yield return SceneManager.LoadSceneAsync(levelBuildIndex, LoadSceneMode.Additive);
+        SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(levelBuildIndex));
+        loadedLevelBuildIndex = levelBuildIndex;
+        enabled = true;
     }
 
-    // load data from a saved file
-    public void LoadData()
+    public override void Save(GameDataWriter writer)
     {
-        BinaryFormatter bf = new BinaryFormatter();
+        writer.Write(loadedLevelBuildIndex);
+        playerModel.Save(writer);
+        inventoryModel.Save(writer);
+    }
 
-        if (File.Exists(Application.persistentDataPath + "/playerInfo.dat"))
+    public override void Load(GameDataReader reader)
+    {
+        int version = reader.Version;
+        if (version > saveVersion)
         {
-            FileStream file = File.Open(Application.persistentDataPath + "/playerInfo.dat", FileMode.Open);
-            PlayerData data = (PlayerData)bf.Deserialize(file);
-            file.Close();
-
-            playerData.currentLives = data.currentLives;
-            playerData.maxLives = data.maxLives;
+            Debug.LogError("Unsupported future save version " + version);
+            return;
         }
+        StartCoroutine(LoadGame(reader));
+    }
 
-        if (File.Exists(Application.persistentDataPath + "/gameInfo.dat"))
-        {
-            FileStream file = File.Open(Application.persistentDataPath + "/gameInfo.dat", FileMode.Open);
-            GameData data = (GameData)bf.Deserialize(file);
-            file.Close();
-
-            gameData.currentSceneIndex = data.currentSceneIndex;
-        }
+    IEnumerator LoadGame(GameDataReader reader)
+    {
+        yield return LoadLevel(reader.ReadInt());
+        playerModel.Load(reader);
+        inventoryModel.Load(reader);
     }
 }

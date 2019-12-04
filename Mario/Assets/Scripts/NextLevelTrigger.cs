@@ -9,7 +9,7 @@ public class NextLevelTrigger : MonoBehaviour
         // todo - this is temporary for testing current level
         if (collider.gameObject.tag == "Player")
         {
-            SceneController.SharedInstance.ReloadCurrentScene();
+            //SceneController.SharedInstance.ReloadCurrentScene();
         }
     }
 }

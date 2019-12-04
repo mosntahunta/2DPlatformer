@@ -4,56 +4,24 @@ using UnityEngine;
 
 public class InventoryController : MonoBehaviour
 {
-    public ItemDatabase database;
-    private List<InventoryItem> characterItems;
-
-    private int equippedWeaponIndex;
-
-    // temporary initialization
-    private void Start()
-    {
-        characterItems = new List<InventoryItem>();
-        AddItem(0); // initialize with sword
-        equippedWeaponIndex = 0;
-    }
-
-    public void AddItem(int id)
-    {
-        InventoryItem itemToAdd = database.GetItem(id);
-        characterItems.Add(itemToAdd);
-    }
-
-    public void RemoveItem(int id)
-    {
-        InventoryItem itemToRemove = GetItem(id);
-        if (itemToRemove != null)
-        {
-            characterItems.Remove(itemToRemove);
-        }
-    }
+    public InventoryModel model;
     
-    public InventoryItem GetItem(int id)
-    {
-        InventoryItem foundItem = characterItems.Find(item => item.id == id);
-        return foundItem;
-    }
-
     public InventoryItem GetCurrentWeapon()
     {
-        return characterItems[equippedWeaponIndex];
+        return model.GetItem(model.equippedWeaponIndex);
     }
 
     public void ChangeWeapon()
     {
-        if (characterItems.Count > 1)
+        if (model.characterItems.Count > 1)
         {
-            if (equippedWeaponIndex < characterItems.Count - 1)
+            if (model.equippedWeaponIndex < model.characterItems.Count - 1)
             {
-                equippedWeaponIndex++;
+                model.equippedWeaponIndex++;
             }
             else
             {
-                equippedWeaponIndex = 0;
+                model.equippedWeaponIndex = 0;
             }
         }
     }
@@ -65,7 +33,7 @@ public class InventoryController : MonoBehaviour
             PickupItem item = collider.gameObject.GetComponent<PickupItem>();
             if (item != null)
             {
-                AddItem(item.itemId);
+                model.characterItems.Add(item.itemId);
                 collider.gameObject.SetActive(false);
             }
             else
